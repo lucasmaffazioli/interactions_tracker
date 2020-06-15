@@ -41,11 +41,11 @@ class Approach {
   factory Approach.fromJson(String _uid, Map<String, dynamic> json) {
     return Approach(
       uid: _uid,
-      dateTime: json['dateTime'],
+      dateTime: DateTime.parse(json['dateTime']),
       name: json['name'],
       description: json['description'],
       notes: json['notes'],
-      points: json['points'],
+      points: List.castFrom(['points']),
 
       // text: json['text'],
       // number: (json['number'] as num).toInt(),
@@ -68,7 +68,7 @@ class Approach {
     });
 
     return {
-      'dateTime': dateTime.toString(),
+      'dateTime': dateTime.toIso8601String(),
       'name': name,
       'description': description,
       'notes': notes,

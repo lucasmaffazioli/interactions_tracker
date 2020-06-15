@@ -56,7 +56,7 @@ void main() {
     // expect(approach.skills[2], identical(Pointer(name: 'Vocal projection', value: 3)));
   });
 
-  test('is to Json OK', () {
+  test('to Json', () {
     Object json = approach.toJson();
     String jsonString = approach.toString();
 
@@ -66,7 +66,7 @@ void main() {
     print(jsonString);
 
     expect(json, {
-      'dateTime': '2020-06-13 13:30:00.000',
+      'dateTime': '2020-06-13T13:30:00.000',
       'name': 'Teste',
       'description': 'Beautiful day',
       'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
@@ -81,6 +81,27 @@ void main() {
         '{name: Result, value: 10, pointType: PointType.result}'
       ]
     });
+  });
+
+  test('from Json', () {
+    Approach approach = Approach.fromJson('Abcd123', {
+      'dateTime': '2020-06-13T13:30:00.000',
+      'name': 'Teste From Json',
+      'description': 'Beautiful day',
+      'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      'points': [
+        '{name: Visual contact, value: 5, pointType: PointType.skill}',
+        '{name: Phisical posture, value: 8, pointType: PointType.skill}',
+        '{name: Vocal projection, value: 3, pointType: PointType.skill}',
+        '{name: Calibration, value: 0, pointType: PointType.skill}',
+        '{name: Frame, value: 10, pointType: PointType.skill}',
+        '{name: Confidence, value: 5, pointType: PointType.skill}',
+        '{name: Attraction, value: 10, pointType: PointType.attraction}',
+        '{name: Result, value: 10, pointType: PointType.result}'
+      ]
+    });
+
+    expect(approach.name, 'Teste From Json');
   });
   // test('is from Json OK', () {
   //   approach = Approach.fromJson('TestUid', 'aaaaaa');
