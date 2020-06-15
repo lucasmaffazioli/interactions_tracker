@@ -72,7 +72,7 @@ class Approach {
       'name': name,
       'description': description,
       'notes': notes,
-      'points': pointsJson.toString(),
+      'points': pointsJson,
     };
   }
 }

@@ -35,4 +35,24 @@ void main() {
       'pointType': PointType.result,
     });
   });
+
+  test('from Json', () {
+    Pointer pointer = Pointer.fromJson({
+      'name': 'Test',
+      'value': 5,
+      'pointType': PointType.result,
+    });
+
+    expect(pointer.name, 'Test');
+    expect(pointer.value, 5);
+    expect(pointer.pointType, PointType.result);
+  });
+
+  // test('to Map', () {
+  //   expect(pointer.tp, {
+  //     'name': 'Test',
+  //     'value': 5,
+  //     'pointType': PointType.result,
+  //   });
+  // });
 }

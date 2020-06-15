@@ -65,14 +65,22 @@ void main() {
     print('jsonString');
     print(jsonString);
 
-    expect(
-      json,
-      'a',
-    );
-    expect(
-      jsonString,
-      'a',
-    );
+    expect(json, {
+      'dateTime': '2020-06-13 13:30:00.000',
+      'name': 'Teste',
+      'description': 'Beautiful day',
+      'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      'points': [
+        '{name: Visual contact, value: 5, pointType: PointType.skill}',
+        '{name: Phisical posture, value: 8, pointType: PointType.skill}',
+        '{name: Vocal projection, value: 3, pointType: PointType.skill}',
+        '{name: Calibration, value: 0, pointType: PointType.skill}',
+        '{name: Frame, value: 10, pointType: PointType.skill}',
+        '{name: Confidence, value: 5, pointType: PointType.skill}',
+        '{name: Attraction, value: 10, pointType: PointType.attraction}',
+        '{name: Result, value: 10, pointType: PointType.result}'
+      ]
+    });
   });
   // test('is from Json OK', () {
   //   approach = Approach.fromJson('TestUid', 'aaaaaa');
