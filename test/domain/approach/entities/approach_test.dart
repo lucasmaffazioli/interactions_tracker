@@ -90,18 +90,14 @@ void main() {
       'description': 'Beautiful day',
       'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       'points': [
-        '{name: Visual contact, value: 5, pointType: PointType.skill}',
-        '{name: Phisical posture, value: 8, pointType: PointType.skill}',
-        '{name: Vocal projection, value: 3, pointType: PointType.skill}',
-        '{name: Calibration, value: 0, pointType: PointType.skill}',
-        '{name: Frame, value: 10, pointType: PointType.skill}',
-        '{name: Confidence, value: 5, pointType: PointType.skill}',
-        '{name: Attraction, value: 10, pointType: PointType.attraction}',
-        '{name: Result, value: 10, pointType: PointType.result}'
+        Pointer(name: 'Result', value: 10, pointType: PointType.result).toJson(),
       ]
     });
 
     expect(approach.name, 'Teste From Json');
+    expect(approach.description, 'Beautiful day');
+    expect(
+        approach.points[0], Pointer(name: 'Visual contact', value: 5, pointType: PointType.skill));
   });
   // test('is from Json OK', () {
   //   approach = Approach.fromJson('TestUid', 'aaaaaa');

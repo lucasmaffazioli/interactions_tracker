@@ -11,8 +11,6 @@ class Approach {
   final String name;
   final String description;
   final String notes;
-
-  // @JsonKey(fromJson: _dataFromJson, toJson: _dataToJson)
   final List<Pointer> points;
 
   Approach({
@@ -39,13 +37,15 @@ class Approach {
   // Map<String, dynamic> toJson() => _$ApproachToJson(this);
 
   factory Approach.fromJson(String _uid, Map<String, dynamic> json) {
+    print(json);
+    // Pointer _pointer = Pointer.fromJson(['points'][0]);
     return Approach(
       uid: _uid,
       dateTime: DateTime.parse(json['dateTime']),
       name: json['name'],
       description: json['description'],
       notes: json['notes'],
-      points: List.castFrom(['points']),
+      points: List.castFrom(json['points']).map((e) => Pointer.fromJson(e)).toList(),
 
       // text: json['text'],
       // number: (json['number'] as num).toInt(),
@@ -53,19 +53,19 @@ class Approach {
   }
 
   Map<String, dynamic> toJson() {
-    print('+-------------');
-    print(points);
+    // print('+-------------');
+    // print(points);
     List<String> pointsJson = [];
 
     points.forEach((Pointer e) {
-      print(e.name);
+      // print(e.name);
       pointsJson.add(e.toJson().toString());
     });
-    print('++++++++++++++');
-    points.map((Pointer e) {
-      print(e.name);
-      pointsJson.add(e.toJson().toString());
-    });
+    // print('++++++++++++++');
+    // points.map((Pointer e) {
+    //   print(e.name);
+    //   pointsJson.add(e.toJson().toString());
+    // });
 
     return {
       'dateTime': dateTime.toIso8601String(),
