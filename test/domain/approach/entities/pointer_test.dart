@@ -3,18 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:matcher/matcher.dart';
 
 void main() {
-  Pointer pointer = Pointer(
+  final Pointer setupPointer = Pointer(
     pointType: PointType.result,
-    name: 'Test',
+    name: 'Setup Test',
     value: 5,
   );
-  // test('isPointerArg1isRequired', () {
-  //   // aignore: missing_required_param
-  //   expect(() => Pointer(name: ''), throwsA(TypeMatcher<ArgumentError>()));
-  // });
-  // test('isPointerArg2isRequired', () {
-  //   expect(() => Pointer(value: 1), throwsA(TypeMatcher<ArgumentError>()));
-  // });
+
   test('is Pointer Limited to 0-10 Scale', () {
     expect(() => Pointer(pointType: PointType.attraction, name: 'Test', value: 11),
         throwsA(TypeMatcher<ArgumentError>()));
@@ -23,14 +17,14 @@ void main() {
   });
 
   test('do values match', () {
-    expect(pointer.pointType, PointType.result);
-    expect(pointer.name, 'Test');
-    expect(pointer.value, 5);
+    expect(setupPointer.pointType, PointType.result);
+    expect(setupPointer.name, 'Setup Test');
+    expect(setupPointer.value, 5);
   });
 
   test('to Json', () {
-    expect(pointer.toJson(), {
-      'name': 'Test',
+    expect(setupPointer.toJson(), {
+      'name': 'Setup Test',
       'value': 5,
       'pointType': PointType.result,
     });
@@ -38,21 +32,27 @@ void main() {
 
   test('from Json', () {
     Pointer pointer = Pointer.fromJson({
-      'name': 'Test',
-      'value': 5,
-      'pointType': PointType.result,
+      'name': 'Test from json',
+      'value': 7,
+      'pointType': PointType.skill,
     });
 
-    expect(pointer.name, 'Test');
-    expect(pointer.value, 5);
-    expect(pointer.pointType, PointType.result);
+    expect(pointer.name, 'Test from json');
+    expect(pointer.value, 7);
+    expect(pointer.pointType, PointType.skill);
   });
 
-  // test('to Map', () {
-  //   expect(pointer.tp, {
-  //     'name': 'Test',
-  //     'value': 5,
-  //     'pointType': PointType.result,
-  //   });
-  // });
+  test('from and to Json', () {
+    Pointer pointer = Pointer.fromJson({
+      'name': 'Test from to json',
+      'value': 7,
+      'pointType': PointType.attraction,
+    });
+
+    expect(pointer.toJson(), {
+      'name': 'Test from to json',
+      'value': 7,
+      'pointType': PointType.attraction,
+    });
+  });
 }

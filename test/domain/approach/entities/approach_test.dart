@@ -96,8 +96,9 @@ void main() {
 
     expect(approach.name, 'Teste From Json');
     expect(approach.description, 'Beautiful day');
-    expect(
-        approach.points[0], Pointer(name: 'Visual contact', value: 5, pointType: PointType.skill));
+    expect(approach.points[0].name, 'Result');
+    expect(approach.points[0].value, 10);
+    expect(approach.points[0].pointType, PointType.result);
   });
   // test('is from Json OK', () {
   //   approach = Approach.fromJson('TestUid', 'aaaaaa');
