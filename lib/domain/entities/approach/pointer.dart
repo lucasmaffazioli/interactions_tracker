@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 
 enum PointType {
@@ -30,27 +28,6 @@ class Pointer {
       'pointType': pointType,
     };
   }
-  // String toJson() {
-  //   return json.encode({
-  //     'name': name,
-  //     'value': value,
-  //     'pointType': pointType,
-  //   });
-  // }
-
-  // factory Approach.fromJson(String _uid, Map<String, dynamic> json) {
-  //   return Approach(
-  //     uid: _uid,
-  //     dateTime: json['dateTime'],
-  //     name: json['name'],
-  //     description: json['description'],
-  //     notes: json['notes'],
-  //     points: json['points'],
-
-  //     // text: json['text'],
-  //     // number: (json['number'] as num).toInt(),
-  //   );
-  // }
 
   factory Pointer.fromJson(Map<String, dynamic> json) {
     return Pointer(

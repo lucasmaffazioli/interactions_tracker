@@ -1,10 +1,6 @@
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'pointer.dart';
 
-// part 'approach.g.dart';
-
-// @JsonSerializable(nullable: false)
 class Approach {
   final String uid;
   final DateTime dateTime;
@@ -20,21 +16,13 @@ class Approach {
     @required this.description,
     @required this.notes,
     @required this.points,
-    // @required this.attraction,
-    // @required this.result,
   }) {
     if (uid == null) throw ArgumentError('Error!');
     if (dateTime == null) throw ArgumentError('Error!');
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');
     if (notes == null) throw ArgumentError('Error!');
-    // if (skills == null) throw ArgumentError('Error!');
-    // if (attraction == null) throw ArgumentError('Error!');
-    // if (result == null) throw ArgumentError('Error!');
   }
-
-  // factory Approach.fromJson(Map<String, dynamic> json) => _$ApproachFromJson(json);
-  // Map<String, dynamic> toJson() => _$ApproachToJson(this);
 
   factory Approach.fromJson(String _uid, Map<String, dynamic> json) {
     print(json);
@@ -46,26 +34,14 @@ class Approach {
       description: json['description'],
       notes: json['notes'],
       points: List.castFrom(json['points']).map((e) => Pointer.fromJson(e)).toList(),
-
-      // text: json['text'],
-      // number: (json['number'] as num).toInt(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    // print('+-------------');
-    // print(points);
     List<String> pointsJson = [];
-
     points.forEach((Pointer e) {
-      // print(e.name);
       pointsJson.add(e.toJson().toString());
     });
-    // print('++++++++++++++');
-    // points.map((Pointer e) {
-    //   print(e.name);
-    //   pointsJson.add(e.toJson().toString());
-    // });
 
     return {
       'dateTime': dateTime.toIso8601String(),
@@ -76,7 +52,3 @@ class Approach {
     };
   }
 }
-
-// T _dataFromJson<T, S, U>(Map<String, dynamic> input, [S other1, U other2]) => input['value'] as T;
-
-// Map<String, dynamic> _dataToJson<T, S, U>(T input, [S other1, U other2]) => {'value': input};

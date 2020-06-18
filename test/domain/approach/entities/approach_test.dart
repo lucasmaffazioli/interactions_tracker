@@ -31,7 +31,6 @@ void main() {
     expect(approach.points[3].pointType, PointType.skill);
     expect(approach.points[3].name, 'Calibration');
     expect(approach.points[3].value, 0);
-    // expect(approach.skills[2], identical(Pointer(name: 'Vocal projection', value: 3)));
   });
 
   test('are parms ok', () {
@@ -51,9 +50,6 @@ void main() {
       approach.notes,
       'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
     );
-    // expect(approach.skills.name, 'Attraction');
-    // expect(approach.result, );
-    // expect(approach.skills[2], identical(Pointer(name: 'Vocal projection', value: 3)));
   });
 
   test('to Json', () {
@@ -100,11 +96,4 @@ void main() {
     expect(approach.points[0].value, 10);
     expect(approach.points[0].pointType, PointType.result);
   });
-  // test('is from Json OK', () {
-  //   approach = Approach.fromJson('TestUid', 'aaaaaa');
-  //   expect(
-  //     approach.notes,
-  //     'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-  //   );
-  // });
 }
