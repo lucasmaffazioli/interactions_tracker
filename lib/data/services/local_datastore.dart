@@ -12,4 +12,10 @@ class LocalDatastore {
     var store = StoreRef.main();
     return await store.record('title').get(db) as Approach;
   }
+
+  Future<Approach> setApproach(String uid, Approach) async {
+    // Database db = await dbFactory.openDatabase(dbPath);
+    // var store = StoreRef.main();
+    // return await store.record('title').get(db) as Approach;
+  }
 }
