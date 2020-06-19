@@ -2,24 +2,10 @@ import 'package:cold_app/domain/entities/approach/approach.dart';
 import 'package:cold_app/domain/entities/approach/pointer.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../approachTestModel.dart';
+
 void main() {
-  Approach approach = Approach(
-    uid: 'a2sd1a2sA',
-    dateTime: DateTime(2020, 06, 13, 13, 30),
-    name: 'Teste',
-    description: 'Beautiful day',
-    notes: 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    points: [
-      Pointer(pointType: PointType.skill, name: 'Visual contact', value: 5),
-      Pointer(pointType: PointType.skill, name: 'Phisical posture', value: 8),
-      Pointer(pointType: PointType.skill, name: 'Vocal projection', value: 3),
-      Pointer(pointType: PointType.skill, name: 'Calibration', value: 0),
-      Pointer(pointType: PointType.skill, name: 'Frame', value: 10),
-      Pointer(pointType: PointType.skill, name: 'Confidence', value: 5),
-      Pointer(pointType: PointType.attraction, name: 'Attraction', value: 10),
-      Pointer(pointType: PointType.result, name: 'Result', value: 10),
-    ],
-  );
+  Approach approach = testGetApproach();
 
   setUpAll(() {});
 
@@ -52,16 +38,16 @@ void main() {
     );
   });
 
-  test('to Json', () {
-    Object json = approach.toJson();
-    String jsonString = approach.toString();
+  test('to Map', () {
+    Object map = approach.toMap();
+    String mapString = approach.toString();
 
-    print('json');
-    print(json);
-    print('jsonString');
-    print(jsonString);
+    // print('map');
+    // print(map);
+    // print('mapString');
+    // print(mapString);
 
-    expect(json, {
+    expect(map, {
       'dateTime': '2020-06-13T13:30:00.000',
       'name': 'Teste',
       'description': 'Beautiful day',
@@ -79,18 +65,18 @@ void main() {
     });
   });
 
-  test('from Json', () {
-    Approach approach = Approach.fromJson('Abcd123', {
+  test('from Map', () {
+    Approach approach = Approach.fromMap('Abcd123', {
       'dateTime': '2020-06-13T13:30:00.000',
-      'name': 'Teste From Json',
+      'name': 'Teste From Map',
       'description': 'Beautiful day',
       'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       'points': [
-        Pointer(name: 'Result', value: 10, pointType: PointType.result).toJson(),
+        Pointer(name: 'Result', value: 10, pointType: PointType.result).toMap(),
       ]
     });
 
-    expect(approach.name, 'Teste From Json');
+    expect(approach.name, 'Teste From Map');
     expect(approach.description, 'Beautiful day');
     expect(approach.points[0].name, 'Result');
     expect(approach.points[0].value, 10);

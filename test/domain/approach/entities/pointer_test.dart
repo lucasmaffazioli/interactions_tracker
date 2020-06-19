@@ -22,35 +22,35 @@ void main() {
     expect(setupPointer.value, 5);
   });
 
-  test('to Json', () {
-    expect(setupPointer.toJson(), {
+  test('to Map', () {
+    expect(setupPointer.toMap(), {
       'name': 'Setup Test',
       'value': 5,
       'pointType': PointType.result,
     });
   });
 
-  test('from Json', () {
-    Pointer pointer = Pointer.fromJson({
-      'name': 'Test from json',
+  test('from Map', () {
+    Pointer pointer = Pointer.fromMap({
+      'name': 'Test from map',
       'value': 7,
       'pointType': PointType.skill,
     });
 
-    expect(pointer.name, 'Test from json');
+    expect(pointer.name, 'Test from map');
     expect(pointer.value, 7);
     expect(pointer.pointType, PointType.skill);
   });
 
-  test('from and to Json', () {
-    Pointer pointer = Pointer.fromJson({
-      'name': 'Test from to json',
+  test('from and to Map', () {
+    Pointer pointer = Pointer.fromMap({
+      'name': 'Test from to map',
       'value': 7,
       'pointType': PointType.attraction,
     });
 
-    expect(pointer.toJson(), {
-      'name': 'Test from to json',
+    expect(pointer.toMap(), {
+      'name': 'Test from to map',
       'value': 7,
       'pointType': PointType.attraction,
     });

@@ -21,7 +21,7 @@ class Pointer {
     if (value < 0 || value > 10) throw ArgumentError('Error!');
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     return {
       'name': name,
       'value': value,
@@ -29,11 +29,11 @@ class Pointer {
     };
   }
 
-  factory Pointer.fromJson(Map<String, dynamic> json) {
+  factory Pointer.fromMap(Map<String, dynamic> map) {
     return Pointer(
-      name: json['name'],
-      value: json['value'],
-      pointType: json['pointType'],
+      name: map['name'],
+      value: map['value'],
+      pointType: map['pointType'],
     );
   }
 }

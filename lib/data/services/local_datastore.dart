@@ -7,15 +7,17 @@ class LocalDatastore {
   String dbPath = 'sample.db';
   DatabaseFactory dbFactory = databaseFactoryIo;
 
-  Future<Approach> getApproach(String uid) async {
+  Future<Map> getApproach(String uid) async {
     Database db = await dbFactory.openDatabase(dbPath);
     var store = StoreRef.main();
-    return await store.record('title').get(db) as Approach;
+    return await store.record(uid).get(db) as Map;
   }
 
-  Future<Approach> setApproach(String uid, Approach) async {
-    // Database db = await dbFactory.openDatabase(dbPath);
-    // var store = StoreRef.main();
-    // return await store.record('title').get(db) as Approach;
+  Future<dynamic> setApproach(String uid, Map mapApproach) async {
+    Database db = await dbFactory.openDatabase(dbPath);
+    var store = StoreRef.main();
+    return await store.record(uid).put(db, mapApproach);
   }
+
+  Future<Approach> deleteApproach(String uid) async {}
 }

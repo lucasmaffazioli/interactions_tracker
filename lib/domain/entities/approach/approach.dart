@@ -24,23 +24,23 @@ class Approach {
     if (notes == null) throw ArgumentError('Error!');
   }
 
-  factory Approach.fromJson(String _uid, Map<String, dynamic> json) {
-    print(json);
-    // Pointer _pointer = Pointer.fromJson(['points'][0]);
+  factory Approach.fromMap(String _uid, Map<String, dynamic> map) {
+    // print(map);
+    // Pointer _pointer = Pointer.fromMap(['points'][0]);
     return Approach(
       uid: _uid,
-      dateTime: DateTime.parse(json['dateTime']),
-      name: json['name'],
-      description: json['description'],
-      notes: json['notes'],
-      points: List.castFrom(json['points']).map((e) => Pointer.fromJson(e)).toList(),
+      dateTime: DateTime.parse(map['dateTime']),
+      name: map['name'],
+      description: map['description'],
+      notes: map['notes'],
+      points: List.castFrom(map['points']).map((e) => Pointer.fromMap(e)).toList(),
     );
   }
 
-  Map<String, dynamic> toJson() {
-    List<String> pointsJson = [];
+  Map<String, dynamic> toMap() {
+    List<String> pointsMap = [];
     points.forEach((Pointer e) {
-      pointsJson.add(e.toJson().toString());
+      pointsMap.add(e.toMap().toString());
     });
 
     return {
@@ -48,7 +48,7 @@ class Approach {
       'name': name,
       'description': description,
       'notes': notes,
-      'points': pointsJson,
+      'points': pointsMap,
     };
   }
 }
