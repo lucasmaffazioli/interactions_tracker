@@ -82,4 +82,30 @@ void main() {
     expect(approach.points[0].value, 10);
     expect(approach.points[0].pointType, PointType.result);
   });
+
+  test('from and to Map', () {
+    Map<String, dynamic> map = {
+      'dateTime': '2020-06-13T13:30:00.000',
+      'name': 'Teste From Map',
+      'description': 'Beautiful day',
+      'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      'points': [
+        Pointer(name: 'Result', value: 10, pointType: PointType.result).toMap(),
+      ]
+    };
+
+    Approach approach = Approach.fromMap('Abcd123', map);
+    print(map.toString());
+
+    expect(
+      approach.toMap(),
+      {
+        'dateTime': '2020-06-13T13:30:00.000',
+        'name': 'Teste From Map',
+        'description': 'Beautiful day',
+        'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        'points': ['{name: Result, value: 10, pointType: PointType.result}']
+      },
+    );
+  });
 }

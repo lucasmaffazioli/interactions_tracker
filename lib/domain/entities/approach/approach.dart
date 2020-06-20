@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'pointer.dart';
 
@@ -33,14 +35,20 @@ class Approach {
       name: map['name'],
       description: map['description'],
       notes: map['notes'],
-      points: List.castFrom(map['points']).map((e) => Pointer.fromMap(e)).toList(),
+      points: List.castFrom(map['points']).map((e) {
+        // print('e');
+        // print(e);
+        // print(e.runtimeType);
+        // print(json.decode(e));
+        return Pointer.fromMap(e);
+      }).toList(),
     );
   }
 
   Map<String, dynamic> toMap() {
     List<String> pointsMap = [];
     points.forEach((Pointer e) {
-      pointsMap.add(e.toMap().toString());
+      pointsMap.add(e.toMap().toString()); // TODO remove tostring
     });
 
     return {
