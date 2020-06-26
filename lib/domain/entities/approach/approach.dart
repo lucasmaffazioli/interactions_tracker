@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'pointer.dart';
 
@@ -24,54 +22,5 @@ class Approach {
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');
     if (notes == null) throw ArgumentError('Error!');
-  }
-
-  factory Approach.fromMap(String _uid, Map<String, dynamic> map) {
-    // print(map);
-    // Pointer _pointer = Pointer.fromMap(['points'][0]);
-    return Approach(
-      uid: _uid,
-      dateTime: DateTime.parse(map['dateTime']),
-      name: map['name'],
-      description: map['description'],
-      notes: map['notes'],
-      points: List.castFrom(map['points']).map((e) {
-        // print('e');
-        // print(e);
-        // print(e.runtimeType);
-        // print(json.decode(e));
-        return Pointer.fromMap(e);
-      }).toList(),
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    List<String> pointsMap = [];
-    points.forEach((Pointer e) {
-      pointsMap.add(e.toMap().toString()); // TODO remove tostring
-    });
-
-    return {
-      'dateTime': dateTime.toIso8601String(),
-      'name': name,
-      'description': description,
-      'notes': notes,
-      'points': pointsMap,
-    };
-  }
-
-  String toJson() {
-    List<dynamic> pointsMap = [];
-    points.forEach((Pointer e) {
-      pointsMap.add(e.toJson());
-    });
-
-    return json.encode({
-      'dateTime': dateTime.toIso8601String(),
-      'name': name,
-      'description': description,
-      'notes': notes,
-      'points': pointsMap,
-    });
   }
 }

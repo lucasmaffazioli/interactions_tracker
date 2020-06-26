@@ -22,28 +22,4 @@ class Pointer {
     if (value == null) throw ArgumentError('Error!');
     if (value < 0 || value > 10) throw ArgumentError('Error!');
   }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'name': name,
-      'value': value,
-      'pointType': pointType,
-    };
-  }
-
-  String toJson() {
-    return json.encode({
-      'name': name,
-      'value': value,
-      'pointType': pointType.toString(),
-    });
-  }
-
-  factory Pointer.fromMap(Map<String, dynamic> map) {
-    return Pointer(
-      name: map['name'],
-      value: map['value'],
-      pointType: map['pointType'],
-    );
-  }
 }

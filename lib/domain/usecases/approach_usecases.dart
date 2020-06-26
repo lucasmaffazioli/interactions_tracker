@@ -10,10 +10,7 @@ class DeleteApproach {
 
 class SetApproach {
   void call(String uid, Approach approach) async {
-    Map<String, dynamic> newApproach = approach.toMap();
-    print('newApproach.toString()');
-    print(newApproach.toString());
-    dynamic lol = await LocalDatastore().setApproach(uid, newApproach);
+    dynamic lol = await LocalDatastore().setApproach(uid, approach);
     // print('Set approach');
     // print(lol.toString());
   }
@@ -24,7 +21,7 @@ class GetApproach {
     Map map = await LocalDatastore().getApproach(uid);
     print('map.toString()');
     print(map.toString());
-    return Approach.fromMap(uid, map);
+    // return Approach.fromMap(uid, map);
   }
 }
 
