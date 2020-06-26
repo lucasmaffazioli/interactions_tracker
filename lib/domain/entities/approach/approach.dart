@@ -59,4 +59,19 @@ class Approach {
       'points': pointsMap,
     };
   }
+
+  String toJson() {
+    List<dynamic> pointsMap = [];
+    points.forEach((Pointer e) {
+      pointsMap.add(e.toJson());
+    });
+
+    return json.encode({
+      'dateTime': dateTime.toIso8601String(),
+      'name': name,
+      'description': description,
+      'notes': notes,
+      'points': pointsMap,
+    });
+  }
 }

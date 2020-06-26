@@ -64,6 +64,29 @@ void main() {
       ]
     });
   });
+  // test('to json', () {
+  //   String json = approach.toJson();
+
+  //   print('json');
+  //   print(json);
+
+  //   expect(json, {
+  //     'dateTime': '2020-06-13T13:30:00.000',
+  //     'name': 'Teste',
+  //     'description': 'Beautiful day',
+  //     'notes': 'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+  //     'points': [
+  //       '{name: Visual contact, value: 5, pointType: PointType.skill}',
+  //       '{name: Phisical posture, value: 8, pointType: PointType.skill}',
+  //       '{name: Vocal projection, value: 3, pointType: PointType.skill}',
+  //       '{name: Calibration, value: 0, pointType: PointType.skill}',
+  //       '{name: Frame, value: 10, pointType: PointType.skill}',
+  //       '{name: Confidence, value: 5, pointType: PointType.skill}',
+  //       '{name: Attraction, value: 10, pointType: PointType.attraction}',
+  //       '{name: Result, value: 10, pointType: PointType.result}'
+  //     ]
+  //   });
+  // });
 
   test('from Map', () {
     Approach approach = Approach.fromMap('Abcd123', {
