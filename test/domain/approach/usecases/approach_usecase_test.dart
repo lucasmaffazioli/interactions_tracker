@@ -1,4 +1,3 @@
-import 'package:cold_app/domain/entities/approach/approach.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:matcher/matcher.dart';
@@ -6,7 +5,7 @@ import 'package:matcher/matcher.dart';
 import '../../approachTestModel.dart';
 
 void main() {
-  Approach approach = testGetApproach();
+  // Approach approach = testGetApproach();
 
   test('set, read, delete approach', () async {
     // SetApproach().call('unit test uid', approach);

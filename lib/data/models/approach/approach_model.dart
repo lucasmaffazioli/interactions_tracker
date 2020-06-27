@@ -1,23 +1,25 @@
 import 'package:flutter/foundation.dart';
-import 'pointer.dart';
+import 'package:floor/floor.dart';
 
-class Approach {
-  final String uid;
-  final DateTime dateTime;
+@Entity(
+  tableName: 'approach',
+)
+class ApproachModel {
+  @PrimaryKey(autoGenerate: true)
+  final int id;
+  final String dateTime;
   final String name;
   final String description;
   final String notes;
-  final List<Pointer> points;
 
-  Approach({
-    @required this.uid,
+  ApproachModel({
+    @required this.id,
     @required this.dateTime,
     @required this.name,
     @required this.description,
     @required this.notes,
-    @required this.points,
   }) {
-    if (uid == null) throw ArgumentError('Error!');
+    if (id == null) throw ArgumentError('Error!');
     if (dateTime == null) throw ArgumentError('Error!');
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');

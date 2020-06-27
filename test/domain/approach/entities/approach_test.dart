@@ -1,11 +1,11 @@
-import 'package:cold_app/domain/entities/approach/approach.dart';
-import 'package:cold_app/domain/entities/approach/pointer.dart';
+import 'package:cold_app/core/enums/PointType.dart';
+import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../approachTestModel.dart';
 
 void main() {
-  Approach approach = testGetApproach();
+  ApproachEntity approach = testGetApproach();
 
   setUpAll(() {});
 
