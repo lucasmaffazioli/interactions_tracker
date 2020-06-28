@@ -16,3 +16,12 @@ abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
   PointModelDao get pointModelDao;
 }
+
+final callback = Callback(
+  onCreate: (database, version) {
+    print('created db');
+    // FloorGateway().onCreateDatabase(database);
+  },
+  onOpen: (database) {/* database has been opened */},
+  onUpgrade: (database, startVersion, endVersion) {/* database has been upgraded */},
+);

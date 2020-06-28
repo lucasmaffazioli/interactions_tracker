@@ -12,32 +12,59 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   FloorGateway floorGateway = FloorGateway();
 
-  setUp(() {
-    print('setting up locator');
+  setUpAll(() {
+    locator.reset();
     setupLocator();
-    print('finished setting up locator');
-    // database = await LocatorDatabase().getDatabase();
-    // pointModelDao = database.pointModelDao;
+    // floorGateway.onCreateDatabase();
   });
 
   tearDown(() async {
     // await database.close();
   });
 
-  // test('find person by id', () async {
-  //   final point = PointModel(id: null, name: 'Beleza', pointType: PointTypeDataLayer.attraction);
-  //   await pointModelDao.insertPoint(point);
-
-  //   final actual = await pointModelDao.findPointModelById(point.id);
-
-  //   expect(actual, equals(point));
-  // });
-
   test('set, read, delete point', () async {
-    await floorGateway.setPoint(testPointModel);
+    await floorGateway.insertPoint(testPointModel);
     PointModel point = await floorGateway.getPointById(1);
-    expect(testPointModel.name, point.name);
-    expect(testPointModel.pointType, point.pointType);
+    expect(point.id, 1);
+    expect(point.name, testPointModel.name);
+    expect(point.pointType, testPointModel.pointType);
+    //
+    await floorGateway.deletePointById(1);
+    point = await floorGateway.getPointById(1);
+    expect(point, null);
   });
-  // test('get all approaches', () {});
+
+  test('list points', () async {
+    floorGateway.onCreateDatabase();
+    List<PointModel> list = await floorGateway.getAllPoint();
+
+    list.forEach((element) {
+      print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
+    });
+
+    expect(list[0].name, floorGateway.listPointOnCreate[0].name);
+    expect(list[1].id, 3);
+    expect(list[2].pointType, floorGateway.listPointOnCreate[0].pointType);
+  });
+
+  test('Change point', () async {
+    List<PointModel> list = await floorGateway.getAllPoint();
+
+    list.forEach((element) {
+      print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
+    });
+
+    // await floorGateway.insertPoint(testPointModel);
+    PointModel oldPoint = await floorGateway.getPointById(2);
+    print(oldPoint.id);
+    print(oldPoint.name);
+    PointModel point =
+        PointModel(id: oldPoint.id, name: 'Updated name', pointType: oldPoint.pointType);
+    await floorGateway.updatePoint(point);
+    //
+    PointModel updatedPoint = await floorGateway.getPointById(2);
+    expect(updatedPoint.id, oldPoint.id);
+    expect(updatedPoint.name, 'Updated name');
+    expect(updatedPoint.pointType, oldPoint.pointType);
+  });
 }

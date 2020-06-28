@@ -84,11 +84,11 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `approach` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` TEXT, `name` TEXT, `description` TEXT, `notes` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `id` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach_points` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `pointmodel` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`))');
+            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `id` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach_points` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `pointmodel` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
         await database.execute(
-            'CREATE UNIQUE INDEX `index_pointmodel_name` ON `pointmodel` (`name`)');
+            'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -162,36 +162,33 @@ class _$ApproachModelDao extends ApproachModelDao {
 
 class _$PointModelDao extends PointModelDao {
   _$PointModelDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+      : _queryAdapter = QueryAdapter(database),
         _pointModelInsertionAdapter = InsertionAdapter(
             database,
-            'pointmodel',
+            'point',
             (PointModel item) => <String, dynamic>{
                   'id': item.id,
                   'name': item.name,
                   'pointType': item.pointType
-                },
-            changeListener),
+                }),
         _pointModelUpdateAdapter = UpdateAdapter(
             database,
-            'pointmodel',
+            'point',
             ['id'],
             (PointModel item) => <String, dynamic>{
                   'id': item.id,
                   'name': item.name,
                   'pointType': item.pointType
-                },
-            changeListener),
+                }),
         _pointModelDeletionAdapter = DeletionAdapter(
             database,
-            'pointmodel',
+            'point',
             ['id'],
             (PointModel item) => <String, dynamic>{
                   'id': item.id,
                   'name': item.name,
                   'pointType': item.pointType
-                },
-            changeListener);
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -199,7 +196,7 @@ class _$PointModelDao extends PointModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _pointmodelMapper = (Map<String, dynamic> row) => PointModel(
+  static final _pointMapper = (Map<String, dynamic> row) => PointModel(
       id: row['id'] as int,
       name: row['name'] as String,
       pointType: row['pointType'] as String);
@@ -212,17 +209,19 @@ class _$PointModelDao extends PointModelDao {
 
   @override
   Future<List<PointModel>> findAllPointModels() async {
-    return _queryAdapter.queryList('SELECT * FROM PointModel',
-        mapper: _pointmodelMapper);
+    return _queryAdapter.queryList('SELECT * FROM point', mapper: _pointMapper);
   }
 
   @override
-  Stream<PointModel> findPointModelById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM PointModel WHERE id = ?',
-        arguments: <dynamic>[id],
-        queryableName: 'pointmodel',
-        isView: false,
-        mapper: _pointmodelMapper);
+  Future<PointModel> findPointModelById(int id) async {
+    return _queryAdapter.query('SELECT * FROM point WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _pointMapper);
+  }
+
+  @override
+  Future<void> deletePointById(int id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM point WHERE id = ?',
+        arguments: <dynamic>[id]);
   }
 
   @override

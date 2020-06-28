@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:floor/floor.dart';
 
-@Entity(tableName: 'pointmodel', indices: [
+@Entity(tableName: 'point', indices: [
   Index(
     value: ['name'],
     unique: true,

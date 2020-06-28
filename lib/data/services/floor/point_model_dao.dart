@@ -3,11 +3,11 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class PointModelDao {
-  @Query('SELECT * FROM PointModel')
+  @Query('SELECT * FROM point')
   Future<List<PointModel>> findAllPointModels();
 
-  @Query('SELECT * FROM PointModel WHERE id = :id')
-  Stream<PointModel> findPointModelById(int id);
+  @Query('SELECT * FROM point WHERE id = :id')
+  Future<PointModel> findPointModelById(int id);
 
   @insert
   Future<void> insertPoint(PointModel point);
@@ -17,4 +17,7 @@ abstract class PointModelDao {
 
   @delete
   Future<void> deletePoint(PointModel point);
+
+  @Query('DELETE FROM point WHERE id = :id')
+  Future<void> deletePointById(int id);
 }
