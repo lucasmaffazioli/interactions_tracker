@@ -110,7 +110,7 @@ class _$AppDatabase extends AppDatabase {
 
 class _$ApproachModelDao extends ApproachModelDao {
   _$ApproachModelDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+      : _queryAdapter = QueryAdapter(database),
         _approachModelInsertionAdapter = InsertionAdapter(
             database,
             'approach',
@@ -120,8 +120,29 @@ class _$ApproachModelDao extends ApproachModelDao {
                   'name': item.name,
                   'description': item.description,
                   'notes': item.notes
-                },
-            changeListener);
+                }),
+        _approachModelUpdateAdapter = UpdateAdapter(
+            database,
+            'approach',
+            ['id'],
+            (ApproachModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'dateTime': item.dateTime,
+                  'name': item.name,
+                  'description': item.description,
+                  'notes': item.notes
+                }),
+        _approachModelDeletionAdapter = DeletionAdapter(
+            database,
+            'approach',
+            ['id'],
+            (ApproachModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'dateTime': item.dateTime,
+                  'name': item.name,
+                  'description': item.description,
+                  'notes': item.notes
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -138,25 +159,43 @@ class _$ApproachModelDao extends ApproachModelDao {
 
   final InsertionAdapter<ApproachModel> _approachModelInsertionAdapter;
 
+  final UpdateAdapter<ApproachModel> _approachModelUpdateAdapter;
+
+  final DeletionAdapter<ApproachModel> _approachModelDeletionAdapter;
+
   @override
   Future<List<ApproachModel>> findAllApproachModels() async {
-    return _queryAdapter.queryList('SELECT * FROM ApproachModel',
+    return _queryAdapter.queryList('SELECT * FROM approach',
         mapper: _approachMapper);
   }
 
   @override
-  Stream<ApproachModel> findApproachModelById(int id) {
-    return _queryAdapter.queryStream('SELECT * FROM ApproachModel WHERE id = ?',
-        arguments: <dynamic>[id],
-        queryableName: 'approach',
-        isView: false,
-        mapper: _approachMapper);
+  Future<ApproachModel> findApproachModelById(int id) async {
+    return _queryAdapter.query('SELECT * FROM approach WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _approachMapper);
   }
 
   @override
-  Future<void> insertApproachModel(ApproachModel approach) async {
+  Future<void> deleteApproachById(int id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM approach WHERE id = ?',
+        arguments: <dynamic>[id]);
+  }
+
+  @override
+  Future<void> insertApproach(ApproachModel approach) async {
     await _approachModelInsertionAdapter.insert(
         approach, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateApproach(ApproachModel approach) async {
+    await _approachModelUpdateAdapter.update(
+        approach, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteApproach(ApproachModel approach) async {
+    await _approachModelDeletionAdapter.delete(approach);
   }
 }
 

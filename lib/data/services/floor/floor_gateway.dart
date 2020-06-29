@@ -1,14 +1,30 @@
-import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/data/models/approach/point_model.dart';
-import 'package:cold_app/data/services/floor/floor_database.dart';
-import 'package:cold_app/locator.dart';
+import '../../../core/enums/PointType.dart';
+import '../../../locator.dart';
+import '../../models/approach/approach_model.dart';
+import '../../models/approach/point_model.dart';
+import 'floor_database.dart';
+import 'dao.dart';
 
 class FloorGateway {
   AppDatabase database;
+  PointModelDao pointDao;
+  ApproachModelDao approachDao;
 
+  // FloorGateway() async {
+  //   database = await locator.get<LocatorDatabase>().getDatabase();
+  // }
+
+  _setUp() async {
+    database = await locator.get<LocatorDatabase>().getDatabase();
+    pointDao = database.pointModelDao;
+    approachDao = database.approachModelDao;
+  }
+}
+
+class PointFloorGateway extends FloorGateway {
   List<PointModel> listPointOnCreate = [
     PointModel(id: null, name: 'Contato visual', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Postura física', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Postura  física', pointType: PointTypeDataLayer.skill),
     PointModel(id: null, name: 'Projeção vocal', pointType: PointTypeDataLayer.skill),
     PointModel(id: null, name: 'Calibragem', pointType: PointTypeDataLayer.skill),
     PointModel(id: null, name: 'Frame', pointType: PointTypeDataLayer.skill),
@@ -17,45 +33,35 @@ class FloorGateway {
     PointModel(id: null, name: 'Resultado', pointType: PointTypeDataLayer.result)
   ];
 
-  _setUp() async {
-    database = await locator.get<LocatorDatabase>().getDatabase();
-  }
-
   void insertPoint(PointModel point) async {
     await _setUp();
-    final pointDao = database.pointModelDao;
+    //
     await pointDao.insertPoint(point);
   }
 
   void updatePoint(PointModel point) async {
     await _setUp();
-    final pointDao = database.pointModelDao;
+    //
     await pointDao.updatePoint(point);
   }
 
   Future<List<PointModel>> getAllPoint() async {
     await _setUp();
-    final pointDao = database.pointModelDao;
+    //
 
     return await pointDao.findAllPointModels();
   }
 
   Future<PointModel> getPointById(int id) async {
     await _setUp();
-    final pointDao = database.pointModelDao;
+    //
     PointModel point = await pointDao.findPointModelById(id);
     return point;
   }
 
-  // void deletePoint(PointModel point) async {
-  //   await _setUp();
-  //   final pointDao = database.pointModelDao;
-  //   pointDao.deletePoint(point);
-  // }
-
   void deletePointById(int id) async {
     await _setUp();
-    final pointDao = database.pointModelDao;
+    //
     pointDao.deletePointById(id);
   }
 
@@ -65,9 +71,38 @@ class FloorGateway {
       insertPoint(element);
     });
   }
+}
 
-  //
-  // - Approach
-  //
+class ApproachFloorGateway extends FloorGateway {
+  void insertApproach(ApproachModel approach) async {
+    await _setUp();
+    //
+    await approachDao.insertApproach(approach);
+  }
 
+  void updateApproach(ApproachModel approach) async {
+    await _setUp();
+    //
+    await approachDao.updateApproach(approach);
+  }
+
+  Future<List<ApproachModel>> getAllApproach() async {
+    await _setUp();
+    //
+
+    return await approachDao.findAllApproachModels();
+  }
+
+  Future<ApproachModel> getApproachById(int id) async {
+    await _setUp();
+    //
+    ApproachModel approach = await approachDao.findApproachModelById(id);
+    return approach;
+  }
+
+  void deleteApproachById(int id) async {
+    await _setUp();
+    //
+    approachDao.deleteApproachById(id);
+  }
 }

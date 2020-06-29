@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:floor/floor.dart';
 
@@ -13,16 +15,25 @@ class ApproachModel {
   final String notes;
 
   ApproachModel({
-    @required this.id,
+    this.id,
     @required this.dateTime,
     @required this.name,
     @required this.description,
     @required this.notes,
   }) {
-    if (id == null) throw ArgumentError('Error!');
     if (dateTime == null) throw ArgumentError('Error!');
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');
     if (notes == null) throw ArgumentError('Error!');
+  }
+
+  String toJson() {
+    return json.encode({
+      'id': id.toString(),
+      'dateTime': dateTime,
+      'name': name,
+      'description': description,
+      'notes': notes,
+    });
   }
 }
