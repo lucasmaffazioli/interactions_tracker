@@ -28,15 +28,6 @@ void _resetTable(database, String tableName) async {
 }
 
 void _resetTableWithAutoIncrement(database, String tableName) async {
-  await database.database
-      .rawQuery('delete from $tableName; delete from sqlite_sequence where name=$tableName;');
+  await database.database.rawQuery('DELETE FROM $tableName');
+  await database.database.rawQuery("DELETE FROM sqlite_sequence where name='$tableName'");
 }
-
-final callback = Callback(
-  onCreate: (database, version) {
-    print('created db callback');
-    // FloorGateway().onCreateDatabase(database);
-  },
-  onOpen: (database) {/* database has been opened */},
-  onUpgrade: (database, startVersion, endVersion) {/* database has been upgraded */},
-);

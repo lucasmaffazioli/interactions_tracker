@@ -15,7 +15,7 @@ void main() {
 
     // AppDatabase database;
     TestWidgetsFlutterBinding.ensureInitialized();
-    PointFloorGateway floorGateway = PointFloorGateway();
+    PointFloorGateway pointFloorGateway = PointFloorGateway();
 
     setUp(() {
       setupLocator();
@@ -26,37 +26,45 @@ void main() {
     });
 
     test('set, read, delete point', () async {
-      await floorGateway.insertPoint(testPointModel);
-      PointModel point = await floorGateway.getPointById(1);
+      await pointFloorGateway.insertPoint(testPointModel);
+
+      List<PointModel> list = await pointFloorGateway.getAllPoint();
+
+      list.forEach((element) {
+        print('Id ${element.id}, name ${element.name}');
+      });
+
+      PointModel point = await pointFloorGateway.getPointById(1);
       expect(point.id, 1);
       expect(point.name, testPointModel.name);
       expect(point.pointType, testPointModel.pointType);
       //
-      await floorGateway.deletePointById(1);
-      point = await floorGateway.getPointById(1);
+      await pointFloorGateway.deletePointById(1);
+      point = await pointFloorGateway.getPointById(1);
       expect(point, null);
     });
 
     test('list points', () async {
-      floorGateway.onCreateDatabase();
-      List<PointModel> list = await floorGateway.getAllPoint();
+      pointFloorGateway.onCreateDatabase();
+      List<PointModel> list = await pointFloorGateway.getAllPoint();
 
       list.forEach((element) {
         print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
       });
 
-      expect(list[0].name, floorGateway.listPointOnCreate[0].name);
-      expect(list[1].id, 3);
-      expect(list[2].pointType, floorGateway.listPointOnCreate[0].pointType);
+      expect(list[0].name, pointFloorGateway.listPointOnCreate[0].name);
+      expect(list[1].id, 2);
+      expect(list[7].pointType, pointFloorGateway.listPointOnCreate[7].pointType);
     });
 
     test('Change point', () async {
-      PointModel oldPoint = await floorGateway.getPointById(2);
+      await pointFloorGateway.insertPoint(testPointModel);
+      PointModel oldPoint = await pointFloorGateway.getPointById(1);
       PointModel modifiedPoint =
           PointModel(id: oldPoint.id, name: 'Updated name', pointType: oldPoint.pointType);
-      await floorGateway.updatePoint(modifiedPoint);
+      await pointFloorGateway.updatePoint(modifiedPoint);
       //
-      PointModel updatedPoint = await floorGateway.getPointById(2);
+      PointModel updatedPoint = await pointFloorGateway.getPointById(1);
       //
       expect(updatedPoint.id, oldPoint.id);
       expect(updatedPoint.name, 'Updated name');
@@ -93,11 +101,11 @@ void main() {
     test('set, read, delete approach', () async {
       await floorGateway.insertApproach(testApproachModel);
 
-      List<ApproachModel> list = await floorGateway.approachDao.findAllApproachModels();
+      // List<ApproachModel> list = await floorGateway.approachDao.findAllApproachModels();
 
-      list.forEach((element) {
-        print('Id ${element.id}, name ${element.name}');
-      });
+      // list.forEach((element) {
+      //   print('Id ${element.id}, name ${element.name}');
+      // });
 
       ApproachModel approach = await floorGateway.getApproachById(1);
       expect(approach.id, 1);
@@ -132,7 +140,7 @@ void main() {
         print(element.toJson());
       });
 
-      expect(list[0].id, 2);
+      expect(list[0].id, 1);
       expect(list[0].dateTime, DateTime(2020, 01, 15).toIso8601String());
       expect(list[1].name, 'Joana Dark');
       expect(list[1].description, 'Lady o nite');
@@ -140,9 +148,10 @@ void main() {
     });
 
     test('Change approach', () async {
-      ApproachModel oldApproach = await floorGateway.getApproachById(2);
+      await floorGateway.insertApproach(testApproachModel);
+      ApproachModel oldApproach = await floorGateway.getApproachById(1);
       ApproachModel modifiedApproach = ApproachModel(
-          id: 2,
+          id: 1,
           dateTime: DateTime(2020, 02, 15).toIso8601String(),
           name: 'Updated name',
           description: 'Updated description',
@@ -150,7 +159,7 @@ void main() {
 
       await floorGateway.updateApproach(modifiedApproach);
       //
-      ApproachModel updatedApproach = await floorGateway.getApproachById(2);
+      ApproachModel updatedApproach = await floorGateway.getApproachById(1);
       //
       expect(updatedApproach.id, oldApproach.id);
       expect(updatedApproach.name, 'Updated name');

@@ -23,37 +23,20 @@ class LocatorDatabase {
   AppDatabase _database;
 
   Future<AppDatabase> getDatabase() async {
-    print('_isInstanciated');
-    print(_isInstanciated.toString());
     if (!_isInstanciated) {
       if (USE_TEST_IMPLEMENTATION) {
-        _database = await $FloorAppDatabase.inMemoryDatabaseBuilder().addCallback(callback).build();
+        _database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
         await resetDatabase(_database);
-        List<dynamic> a = await _database.database.rawQuery('SELECT * FROM approach');
-        // List<dynamic> a = await _database.database.rawQuery('SELECT * FROM approach');
         //
-        print('db created');
-        a.forEach((e) {
-          print(e);
-        });
-        print('end print');
-        // _database.dr;
-        //   print('Created DB');
-        //  ApproachFloorGateway floorGateway = ApproachFloorGateway();
-        //   List<ApproachModel> list = await floorGateway.getAllApproach();
-        //   list.forEach((element) {
-        //     print(element.toJson());
-        //   });
+        List<dynamic> a = await _database.database.rawQuery('SELECT * FROM approach');
+        print('reseted DB');
+        a != null ?? print('some error in resetting db');
+        //
       } else {
-        _database = await $FloorAppDatabase
-            .databaseBuilder('app_database.db')
-            .addCallback(callback)
-            .build();
+        _database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
       }
-
       _isInstanciated = true;
     }
-
     return _database;
   }
 }
