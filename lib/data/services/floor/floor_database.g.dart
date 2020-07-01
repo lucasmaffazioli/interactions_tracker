@@ -64,6 +64,8 @@ class _$AppDatabase extends AppDatabase {
 
   PointModelDao _pointModelDaoInstance;
 
+  ApproachPointsModelDao _approachPointsModelDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -84,7 +86,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `approach` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` TEXT, `name` TEXT, `description` TEXT, `notes` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `id` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach_points` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`id`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`))');
+            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
         await database.execute(
@@ -105,6 +107,12 @@ class _$AppDatabase extends AppDatabase {
   @override
   PointModelDao get pointModelDao {
     return _pointModelDaoInstance ??= _$PointModelDao(database, changeListener);
+  }
+
+  @override
+  ApproachPointsModelDao get approachPointsModelDao {
+    return _approachPointsModelDaoInstance ??=
+        _$ApproachPointsModelDao(database, changeListener);
   }
 }
 
@@ -276,5 +284,86 @@ class _$PointModelDao extends PointModelDao {
   @override
   Future<void> deletePoint(PointModel point) async {
     await _pointModelDeletionAdapter.delete(point);
+  }
+}
+
+class _$ApproachPointsModelDao extends ApproachPointsModelDao {
+  _$ApproachPointsModelDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _approachPointsModelInsertionAdapter = InsertionAdapter(
+            database,
+            'approach_points',
+            (ApproachPointsModel item) => <String, dynamic>{
+                  'approachId': item.approachId,
+                  'pointId': item.pointId,
+                  'value': item.value
+                }),
+        _approachPointsModelUpdateAdapter = UpdateAdapter(
+            database,
+            'approach_points',
+            ['approachId'],
+            (ApproachPointsModel item) => <String, dynamic>{
+                  'approachId': item.approachId,
+                  'pointId': item.pointId,
+                  'value': item.value
+                }),
+        _approachPointsModelDeletionAdapter = DeletionAdapter(
+            database,
+            'approach_points',
+            ['approachId'],
+            (ApproachPointsModel item) => <String, dynamic>{
+                  'approachId': item.approachId,
+                  'pointId': item.pointId,
+                  'value': item.value
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _approach_pointsMapper = (Map<String, dynamic> row) =>
+      ApproachPointsModel(
+          approachId: row['approachId'] as int,
+          pointId: row['pointId'] as int,
+          value: row['value'] as int);
+
+  final InsertionAdapter<ApproachPointsModel>
+      _approachPointsModelInsertionAdapter;
+
+  final UpdateAdapter<ApproachPointsModel> _approachPointsModelUpdateAdapter;
+
+  final DeletionAdapter<ApproachPointsModel>
+      _approachPointsModelDeletionAdapter;
+
+  @override
+  Future<ApproachPointsModel> findApproachPointsModelByApproachId(
+      int id) async {
+    return _queryAdapter.query('SELECT * FROM approach WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _approach_pointsMapper);
+  }
+
+  @override
+  Future<void> deleteApproachPointsByApproachId(int id) async {
+    await _queryAdapter.queryNoReturn('DELETE FROM approach WHERE id = ?',
+        arguments: <dynamic>[id]);
+  }
+
+  @override
+  Future<void> insertApproachPoints(ApproachPointsModel approachPoints) async {
+    await _approachPointsModelInsertionAdapter.insert(
+        approachPoints, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateApproachPoints(ApproachPointsModel approachPoints) async {
+    await _approachPointsModelUpdateAdapter.update(
+        approachPoints, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteApproachPoints(ApproachPointsModel approachPoints) async {
+    await _approachPointsModelDeletionAdapter.delete(approachPoints);
   }
 }

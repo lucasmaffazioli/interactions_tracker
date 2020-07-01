@@ -1,4 +1,5 @@
 import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:floor/floor.dart';
 
@@ -42,4 +43,25 @@ abstract class ApproachModelDao {
 
   @Query('DELETE FROM approach WHERE id = :id')
   Future<void> deleteApproachById(int id);
+}
+
+@dao
+abstract class ApproachPointsModelDao {
+  // @Query('SELECT * FROM approach')
+  // Future<List<ApproachPointsModel>> findAllApproachPointsModel();
+
+  @Query('SELECT * FROM approach WHERE id = :id')
+  Future<ApproachPointsModel> findApproachPointsModelByApproachId(int id);
+
+  @insert
+  Future<void> insertApproachPoints(ApproachPointsModel approachPoints);
+
+  @update
+  Future<void> updateApproachPoints(ApproachPointsModel approachPoints);
+
+  @delete
+  Future<void> deleteApproachPoints(ApproachPointsModel approachPoints);
+
+  @Query('DELETE FROM approach WHERE id = :id')
+  Future<void> deleteApproachPointsByApproachId(int id);
 }

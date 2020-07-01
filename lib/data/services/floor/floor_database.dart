@@ -14,11 +14,27 @@ part 'floor_database.g.dart';
 abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
   PointModelDao get pointModelDao;
+  ApproachPointsModelDao get approachPointsModelDao;
+}
+
+void resetDatabase(database) async {
+  await _resetTable(database, 'approach_points');
+  await _resetTableWithAutoIncrement(database, 'approach');
+  await _resetTableWithAutoIncrement(database, 'point');
+}
+
+void _resetTable(database, String tableName) async {
+  await database.database.rawQuery('delete from $tableName');
+}
+
+void _resetTableWithAutoIncrement(database, String tableName) async {
+  await database.database
+      .rawQuery('delete from $tableName; delete from sqlite_sequence where name=$tableName;');
 }
 
 final callback = Callback(
   onCreate: (database, version) {
-    print('created db');
+    print('created db callback');
     // FloorGateway().onCreateDatabase(database);
   },
   onOpen: (database) {/* database has been opened */},
