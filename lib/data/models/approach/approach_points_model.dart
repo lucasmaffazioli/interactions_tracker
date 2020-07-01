@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
@@ -35,5 +37,13 @@ class ApproachPointsModel {
     if (pointId == null) throw ArgumentError('Error!');
     if (value == null) throw ArgumentError('Error!');
     if (value < 0 || value > 10) throw ArgumentError('Error!');
+  }
+
+  String toJson() {
+    return json.encode({
+      'approachId': approachId.toString(),
+      'pointId': pointId.toString(),
+      'value': value.toString(),
+    });
   }
 }

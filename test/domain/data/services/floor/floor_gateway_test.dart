@@ -1,5 +1,7 @@
+import 'package:matcher/matcher.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/locator.dart';
@@ -9,21 +11,31 @@ import 'package:flutter_test/flutter_test.dart';
 // tracker: https://github.com/vitusortner/floor/issues/367
 
 void main() {
+  setUp(() {
+    setupLocator();
+    print('setupLocator');
+  });
+
+  tearDown(() {
+    locator.reset();
+    print('locator.reset();');
+  });
+
+  TestWidgetsFlutterBinding.ensureInitialized();
+  PointFloorGateway pointFloorGateway = PointFloorGateway();
+  ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
+  ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
+
+  PointModel testPointModel =
+      PointModel(id: null, name: 'Beleza', pointType: PointTypeDataLayer.attraction);
+  ApproachModel testApproachModel = ApproachModel(
+      dateTime: DateTime(2020, 01, 15).toIso8601String(),
+      name: 'Harry Potter',
+      description: 'Nice scar, homie',
+      notes: 'Did sum wizard type of shit mane');
+
   group('PointModel', () {
-    PointModel testPointModel =
-        PointModel(id: null, name: 'Beleza', pointType: PointTypeDataLayer.attraction);
-
     // AppDatabase database;
-    TestWidgetsFlutterBinding.ensureInitialized();
-    PointFloorGateway pointFloorGateway = PointFloorGateway();
-
-    setUp(() {
-      setupLocator();
-    });
-
-    tearDown(() {
-      locator.reset();
-    });
 
     test('set, read, delete point', () async {
       await pointFloorGateway.insertPoint(testPointModel);
@@ -45,8 +57,11 @@ void main() {
     });
 
     test('list points', () async {
-      pointFloorGateway.onCreateDatabase();
+      print('aa');
+      await pointFloorGateway.onCreateDatabase();
+      print('bbbbb');
       List<PointModel> list = await pointFloorGateway.getAllPoint();
+      print('ccccc');
 
       list.forEach((element) {
         print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
@@ -76,58 +91,30 @@ void main() {
   /// - Approaches
   ///
   group('ApproachModel', () {
-    ApproachModel testApproachModel = ApproachModel(
-        dateTime: DateTime(2020, 01, 15).toIso8601String(),
-        name: 'Harry Potter',
-        description: 'Nice scar, homie',
-        notes: 'Did sum wizard type of shit mane');
-
-    ApproachFloorGateway floorGateway = ApproachFloorGateway();
-
-    setUp(() async {
-      print('Setup All do ApproachModel');
-      // await resetLocator();
-      // locator.reset();
-      locator.reset();
-      setupLocator();
-      // resetLocator();
-    });
-
-    // tearDown(() async {
-    //   locator.reset();
-    //   // await database.close();
-    // });
-
     test('set, read, delete approach', () async {
-      await floorGateway.insertApproach(testApproachModel);
+      await approachFloorGateway.insertApproach(testApproachModel);
 
-      // List<ApproachModel> list = await floorGateway.approachDao.findAllApproachModels();
-
-      // list.forEach((element) {
-      //   print('Id ${element.id}, name ${element.name}');
-      // });
-
-      ApproachModel approach = await floorGateway.getApproachById(1);
+      ApproachModel approach = await approachFloorGateway.getApproachById(1);
       expect(approach.id, 1);
       expect(approach.dateTime, testApproachModel.dateTime);
       expect(approach.name, testApproachModel.name);
       expect(approach.description, testApproachModel.description);
       expect(approach.notes, testApproachModel.notes);
       //
-      await floorGateway.deleteApproachById(1);
-      approach = await floorGateway.getApproachById(1);
+      await approachFloorGateway.deleteApproachById(1);
+      approach = await approachFloorGateway.getApproachById(1);
       expect(approach, null);
     });
 
     test('list approaches', () async {
-      await floorGateway.insertApproach(
+      await approachFloorGateway.insertApproach(
         ApproachModel(
             dateTime: DateTime(2020, 01, 15).toIso8601String(),
             name: 'Harry Potter',
             description: 'Nice scar, homie',
             notes: 'Did sum wizard type of shit mane'),
       );
-      await floorGateway.insertApproach(
+      await approachFloorGateway.insertApproach(
         ApproachModel(
             dateTime: DateTime(2020, 02, 15).toIso8601String(),
             name: 'Joana Dark',
@@ -135,7 +122,7 @@ void main() {
             notes: 'Shining'),
       );
       //
-      List<ApproachModel> list = await floorGateway.getAllApproach();
+      List<ApproachModel> list = await approachFloorGateway.getAllApproach();
       list.forEach((element) {
         print(element.toJson());
       });
@@ -148,8 +135,8 @@ void main() {
     });
 
     test('Change approach', () async {
-      await floorGateway.insertApproach(testApproachModel);
-      ApproachModel oldApproach = await floorGateway.getApproachById(1);
+      await approachFloorGateway.insertApproach(testApproachModel);
+      ApproachModel oldApproach = await approachFloorGateway.getApproachById(1);
       ApproachModel modifiedApproach = ApproachModel(
           id: 1,
           dateTime: DateTime(2020, 02, 15).toIso8601String(),
@@ -157,9 +144,9 @@ void main() {
           description: 'Updated description',
           notes: 'Updated note');
 
-      await floorGateway.updateApproach(modifiedApproach);
+      await approachFloorGateway.updateApproach(modifiedApproach);
       //
-      ApproachModel updatedApproach = await floorGateway.getApproachById(1);
+      ApproachModel updatedApproach = await approachFloorGateway.getApproachById(1);
       //
       expect(updatedApproach.id, oldApproach.id);
       expect(updatedApproach.name, 'Updated name');
@@ -168,94 +155,76 @@ void main() {
     });
   });
 
-  // group('ApproachPointsModel', () {
-  //   ApproachModel testApproachModel = ApproachModel(
-  //       dateTime: DateTime(2020, 01, 15).toIso8601String(),
-  //       name: 'Harry Potter',
-  //       description: 'Nice scar, homie',
-  //       notes: 'Did sum wizard type of shit mane');
+  group('ApproachPointsModel', () {
+    setUp(() {
+      // pointFloorGateway.onCreateDatabase();
+      print('setup create dB');
+    });
 
-  //   ApproachFloorGateway floorGateway = ApproachFloorGateway();
+    test('Throws if wrong value', () async {
+      expect(() => ApproachPointsModel(approachId: 1, pointId: 1, value: 15),
+          throwsA(TypeMatcher<ArgumentError>()));
+      expect(() => ApproachPointsModel(approachId: 1, pointId: 1, value: -1),
+          throwsA(TypeMatcher<ArgumentError>()));
+    });
 
-  //   setUp(() async {
-  //     print('Setup All do ApproachModel');
-  //     // await resetLocator();
-  //     // locator.reset();
-  //     locator.reset();
-  //     setupLocator();
-  //     // resetLocator();
-  //   });
+    test('Insert, get, delete', () async {
+      await approachFloorGateway.insertApproach(testApproachModel);
+      int approachId = await approachFloorGateway.findLastInsertedApproach();
+      ApproachModel approach = await approachFloorGateway.getApproachById(approachId);
+      //
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: approachId, pointId: 1, value: 5));
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: approachId, pointId: 2, value: 7));
+      //
+      List<ApproachPointsModel> list =
+          await approachPointsFloorGateway.findApproachPointsByApproachId(approachId);
 
-  //   // tearDown(() async {
-  //   //   locator.reset();
-  //   //   // await database.close();
-  //   // });
+      list.forEach((element) {
+        print(element.toJson());
+      });
 
-  //   test('list approaches', () async {
-  //     await floorGateway.insertApproach(
-  //       ApproachModel(
-  //           dateTime: DateTime(2020, 01, 15).toIso8601String(),
-  //           name: 'Harry Potter',
-  //           description: 'Nice scar, homie',
-  //           notes: 'Did sum wizard type of shit mane'),
-  //     );
-  //     await floorGateway.insertApproach(
-  //       ApproachModel(
-  //           dateTime: DateTime(2020, 02, 15).toIso8601String(),
-  //           name: 'Joana Dark',
-  //           description: 'Lady o nite',
-  //           notes: 'Shining'),
-  //     );
-  //     //
-  //     List<ApproachModel> list = await floorGateway.getAllApproach();
-  //     list.forEach((element) {
-  //       print(element.toJson());
-  //     });
+      // expect(list[0].id, 1);
+      // expect(list[0].dateTime, DateTime(2020, 01, 15).toIso8601String());
+      // expect(list[1].id, 2);
+      // expect(list[1].name, 'Joana Dark');
+      // expect(list[1].description, 'Lady o nite');
+      // expect(list[1].notes, 'Shining');
+    });
 
-  //     expect(list[0].id, 2);
-  //     expect(list[0].dateTime, DateTime(2020, 01, 15).toIso8601String());
-  //     expect(list[1].name, 'Joana Dark');
-  //     expect(list[1].description, 'Lady o nite');
-  //     expect(list[1].notes, 'Shining');
-  //   });
+    //   test('set, read, delete approach', () async {
+    //     await approachFloorGateway.insertApproach(testApproachModel);
+    //     ApproachModel approach = await approachFloorGateway.getApproachById(1);
+    //     expect(approach.id, 1);
+    //     expect(approach.dateTime, testApproachModel.dateTime);
+    //     expect(approach.name, testApproachModel.name);
+    //     expect(approach.description, testApproachModel.description);
+    //     expect(approach.notes, testApproachModel.notes);
+    //     //
+    //     await approachFloorGateway.deleteApproachById(1);
+    //     approach = await approachFloorGateway.getApproachById(1);
+    //     expect(approach, null);
+    //   });
 
-  //   test('set, read, delete approach', () async {
-  //     List<PointModel> list = await PointFloorGateway().getAllPoint();
+    //   test('Change approach', () async {
+    //     await approachFloorGateway.insertApproach(testApproachModel);
+    //     ApproachModel oldApproach = await approachFloorGateway.getApproachById(1);
+    //     ApproachModel modifiedApproach = ApproachModel(
+    //         id: 1,
+    //         dateTime: DateTime(2020, 02, 15).toIso8601String(),
+    //         name: 'Updated name',
+    //         description: 'Updated description',
+    //         notes: 'Updated note');
 
-  //     list.forEach((element) {
-  //       print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
-  //     });
-
-  //     await floorGateway.insertApproach(testApproachModel);
-  //     ApproachModel approach = await floorGateway.getApproachById(1);
-  //     expect(approach.id, 1);
-  //     expect(approach.dateTime, testApproachModel.dateTime);
-  //     expect(approach.name, testApproachModel.name);
-  //     expect(approach.description, testApproachModel.description);
-  //     expect(approach.notes, testApproachModel.notes);
-  //     //
-  //     await floorGateway.deleteApproachById(1);
-  //     approach = await floorGateway.getApproachById(1);
-  //     expect(approach, null);
-  //   });
-
-  //   test('Change approach', () async {
-  //     ApproachModel oldApproach = await floorGateway.getApproachById(2);
-  //     ApproachModel modifiedApproach = ApproachModel(
-  //         id: 2,
-  //         dateTime: DateTime(2020, 02, 15).toIso8601String(),
-  //         name: 'Updated name',
-  //         description: 'Updated description',
-  //         notes: 'Updated note');
-
-  //     await floorGateway.updateApproach(modifiedApproach);
-  //     //
-  //     ApproachModel updatedApproach = await floorGateway.getApproachById(2);
-  //     //
-  //     expect(updatedApproach.id, oldApproach.id);
-  //     expect(updatedApproach.name, 'Updated name');
-  //     expect(updatedApproach.description, 'Updated description');
-  //     expect(updatedApproach.notes, 'Updated note');
-  //   });
-  // });
+    //     await approachFloorGateway.updateApproach(modifiedApproach);
+    //     //
+    //     ApproachModel updatedApproach = await approachFloorGateway.getApproachById(1);
+    //     //
+    //     expect(updatedApproach.id, oldApproach.id);
+    //     expect(updatedApproach.name, 'Updated name');
+    //     expect(updatedApproach.description, 'Updated description');
+    //     expect(updatedApproach.notes, 'Updated note');
+    //   });
+  });
 }

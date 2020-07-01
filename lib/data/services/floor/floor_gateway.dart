@@ -1,3 +1,5 @@
+import 'package:cold_app/data/models/approach/approach_points_model.dart';
+
 import '../../../core/enums/PointType.dart';
 import '../../../locator.dart';
 import '../../models/approach/approach_model.dart';
@@ -9,12 +11,14 @@ class FloorGateway {
   AppDatabase database;
   PointModelDao pointDao;
   ApproachModelDao approachDao;
+  ApproachPointsModelDao approachPointsDao;
 
   // FloorGateway() async {
   //   database = await locator.get<LocatorDatabase>().getDatabase();
   // }
 
   _setUp() async {
+    // database = await locator.get<LocatorDatabase>().getDatabase();
     database = await locator.get<LocatorDatabase>().getDatabase();
     pointDao = database.pointModelDao;
     approachDao = database.approachModelDao;
@@ -48,7 +52,6 @@ class PointFloorGateway extends FloorGateway {
   Future<List<PointModel>> getAllPoint() async {
     await _setUp();
     //
-
     return await pointDao.findAllPointModels();
   }
 
@@ -67,8 +70,8 @@ class PointFloorGateway extends FloorGateway {
 
   void onCreateDatabase() async {
     // final pointDao = databaseOnCreate.pointModelDao;
-    listPointOnCreate.forEach((element) {
-      insertPoint(element);
+    listPointOnCreate.forEach((element) async {
+      await insertPoint(element);
     });
   }
 }
@@ -104,5 +107,39 @@ class ApproachFloorGateway extends FloorGateway {
     await _setUp();
     //
     approachDao.deleteApproachById(id);
+  }
+
+  Future<int> findLastInsertedApproach() async {
+    await _setUp();
+    //
+    List<Map<String, dynamic>> a = await database.database.rawQuery('SELECT last_insert_rowid()');
+
+    return a[0]["last_insert_rowid()"];
+  }
+}
+
+class ApproachPointsFloorGateway extends FloorGateway {
+  void insertApproachPoints(ApproachPointsModel approach) async {
+    await _setUp();
+    //
+    await approachPointsDao.insertApproachPoints(approach);
+  }
+
+  void updateApproachPoints(ApproachPointsModel approach) async {
+    await _setUp();
+    //
+    await approachPointsDao.updateApproachPoints(approach);
+  }
+
+  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int id) async {
+    await _setUp();
+    //
+    return await approachPointsDao.findApproachPointsByApproachId(id);
+  }
+
+  void deleteApproachPointsById(int id) async {
+    await _setUp();
+    //
+    approachPointsDao.deleteApproachPointsByApproachId(id);
   }
 }

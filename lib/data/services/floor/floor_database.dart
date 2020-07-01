@@ -30,4 +30,15 @@ void _resetTable(database, String tableName) async {
 void _resetTableWithAutoIncrement(database, String tableName) async {
   await database.database.rawQuery('DELETE FROM $tableName');
   await database.database.rawQuery("DELETE FROM sqlite_sequence where name='$tableName'");
+
+  List<dynamic> a = await database.database.rawQuery("SELECT * FROM sqlite_sequence");
+  print('Resetting table $tableName');
+  a.forEach((element) {
+    print(element);
+  });
+  a = await database.database.rawQuery("SELECT * FROM $tableName");
+  print('Resetting table $tableName');
+  a.forEach((element) {
+    print(element);
+  });
 }

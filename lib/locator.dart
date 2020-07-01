@@ -6,8 +6,8 @@ GetIt locator = GetIt.instance;
 const bool USE_TEST_IMPLEMENTATION = true;
 
 void setupLocator() {
-  // locator.registerSingleton<LocatorDatabase>(LocatorDatabase());
-  locator.registerLazySingleton<LocatorDatabase>(() => LocatorDatabase());
+  locator.registerSingleton<LocatorDatabase>(LocatorDatabase());
+  // locator.registerLazySingleton<LocatorDatabase>(() => LocatorDatabase());
   // locator.registerFactory<LocatorDatabase>(() => LocatorDatabase());
 }
 
@@ -23,13 +23,16 @@ class LocatorDatabase {
   AppDatabase _database;
 
   Future<AppDatabase> getDatabase() async {
+    print('_isInstanciated');
+    print(_isInstanciated);
+
     if (!_isInstanciated) {
       if (USE_TEST_IMPLEMENTATION) {
         _database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
         await resetDatabase(_database);
-        //
-        List<dynamic> a = await _database.database.rawQuery('SELECT * FROM approach');
         print('reseted DB');
+        //
+        List<dynamic> a = await _database.database.rawQuery('SELECT * FROM point');
         a != null ?? print('some error in resetting db');
         //
       } else {
@@ -37,6 +40,7 @@ class LocatorDatabase {
       }
       _isInstanciated = true;
     }
+    print(_isInstanciated);
     return _database;
   }
 }

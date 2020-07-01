@@ -306,15 +306,6 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
                   'approachId': item.approachId,
                   'pointId': item.pointId,
                   'value': item.value
-                }),
-        _approachPointsModelDeletionAdapter = DeletionAdapter(
-            database,
-            'approach_points',
-            ['approachId'],
-            (ApproachPointsModel item) => <String, dynamic>{
-                  'approachId': item.approachId,
-                  'pointId': item.pointId,
-                  'value': item.value
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -334,20 +325,35 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
 
   final UpdateAdapter<ApproachPointsModel> _approachPointsModelUpdateAdapter;
 
-  final DeletionAdapter<ApproachPointsModel>
-      _approachPointsModelDeletionAdapter;
-
   @override
-  Future<ApproachPointsModel> findApproachPointsModelByApproachId(
-      int id) async {
-    return _queryAdapter.query('SELECT * FROM approach WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _approach_pointsMapper);
+  Future<ApproachPointsModel> findApproachPointByApproachAndPointId(
+      int approachId, int pointId) async {
+    return _queryAdapter.query(
+        'SELECT * FROM approach_points WHERE approachId = ? AND pointId = ?',
+        arguments: <dynamic>[approachId, pointId],
+        mapper: _approach_pointsMapper);
   }
 
   @override
-  Future<void> deleteApproachPointsByApproachId(int id) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM approach WHERE id = ?',
-        arguments: <dynamic>[id]);
+  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(
+      int approachId) async {
+    return _queryAdapter.queryList('SELECT * FROM approach_points WHERE id = ?',
+        arguments: <dynamic>[approachId], mapper: _approach_pointsMapper);
+  }
+
+  @override
+  Future<void> deleteApproachPointsByApproachId(int approachId) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM approach_points WHERE id = ?',
+        arguments: <dynamic>[approachId]);
+  }
+
+  @override
+  Future<void> deleteApproachPointsByApproachAndPointId(
+      int approachId, int pointId) async {
+    await _queryAdapter.queryNoReturn(
+        'DELETE FROM approach_points WHERE approachId = ? AND pointId = ?',
+        arguments: <dynamic>[approachId, pointId]);
   }
 
   @override
@@ -360,10 +366,5 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
   Future<void> updateApproachPoints(ApproachPointsModel approachPoints) async {
     await _approachPointsModelUpdateAdapter.update(
         approachPoints, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteApproachPoints(ApproachPointsModel approachPoints) async {
-    await _approachPointsModelDeletionAdapter.delete(approachPoints);
   }
 }

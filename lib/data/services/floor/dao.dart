@@ -43,15 +43,18 @@ abstract class ApproachModelDao {
 
   @Query('DELETE FROM approach WHERE id = :id')
   Future<void> deleteApproachById(int id);
+
+  // @Query('SELECT last_insert_rowid()')
+  // Future<int> findLastInsertedApproach();
 }
 
 @dao
 abstract class ApproachPointsModelDao {
-  // @Query('SELECT * FROM approach')
-  // Future<List<ApproachPointsModel>> findAllApproachPointsModel();
+  @Query('SELECT * FROM approach_points WHERE approachId = :approachId AND pointId = :pointId')
+  Future<ApproachPointsModel> findApproachPointByApproachAndPointId(int approachId, int pointId);
 
-  @Query('SELECT * FROM approach WHERE id = :id')
-  Future<ApproachPointsModel> findApproachPointsModelByApproachId(int id);
+  @Query('SELECT * FROM approach_points WHERE id = :id')
+  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int approachId);
 
   @insert
   Future<void> insertApproachPoints(ApproachPointsModel approachPoints);
@@ -59,9 +62,9 @@ abstract class ApproachPointsModelDao {
   @update
   Future<void> updateApproachPoints(ApproachPointsModel approachPoints);
 
-  @delete
-  Future<void> deleteApproachPoints(ApproachPointsModel approachPoints);
+  @Query('DELETE FROM approach_points WHERE id = :id')
+  Future<void> deleteApproachPointsByApproachId(int approachId);
 
-  @Query('DELETE FROM approach WHERE id = :id')
-  Future<void> deleteApproachPointsByApproachId(int id);
+  @Query('DELETE FROM approach_points WHERE approachId = :approachId AND pointId = :pointId')
+  Future<void> deleteApproachPointsByApproachAndPointId(int approachId, int pointId);
 }
