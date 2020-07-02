@@ -66,6 +66,8 @@ class _$AppDatabase extends AppDatabase {
 
   ApproachPointsModelDao _approachPointsModelDaoInstance;
 
+  ApproachSummaryDao _approachSummaryDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -91,6 +93,14 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
         await database.execute(
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
+        await database.execute(
+            '''CREATE VIEW IF NOT EXISTS `approachSummaryView` AS SELECT a.id, a.name, a.dateTime, a.description, 
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 's') as skill,
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'a') as attraction,
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'r') as result
+FROM approach a
+ORDER BY a.dateTime
+''');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -113,6 +123,12 @@ class _$AppDatabase extends AppDatabase {
   ApproachPointsModelDao get approachPointsModelDao {
     return _approachPointsModelDaoInstance ??=
         _$ApproachPointsModelDao(database, changeListener);
+  }
+
+  @override
+  ApproachSummaryDao get approachSummaryDao {
+    return _approachSummaryDaoInstance ??=
+        _$ApproachSummaryDao(database, changeListener);
   }
 }
 
@@ -368,5 +384,32 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
   Future<void> updateApproachPoints(ApproachPointsModel approachPoints) async {
     await _approachPointsModelUpdateAdapter.update(
         approachPoints, OnConflictStrategy.abort);
+  }
+}
+
+class _$ApproachSummaryDao extends ApproachSummaryDao {
+  _$ApproachSummaryDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _approachSummaryViewMapper = (Map<String, dynamic> row) =>
+      ApproachSummaryView(
+          row['id'] as int,
+          row['name'] as String,
+          row['dateTime'] as String,
+          row['description'] as String,
+          row['skill'] as double,
+          row['attraction'] as double,
+          row['result'] as double);
+
+  @override
+  Future<List<ApproachSummaryView>> findApproachesSummary() async {
+    return _queryAdapter.queryList('SELECT * FROM approachSummaryView',
+        mapper: _approachSummaryViewMapper);
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/services/floor/dao.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -10,13 +11,20 @@ import '../../models/approach/point_model.dart';
 import 'dao.dart';
 part 'floor_database.g.dart';
 
-@Database(version: 1, entities: [ApproachModel, ApproachPointsModel, PointModel])
+@Database(
+    version: 1,
+    entities: [ApproachModel, ApproachPointsModel, PointModel],
+    views: [ApproachSummaryView])
 abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
   PointModelDao get pointModelDao;
   ApproachPointsModelDao get approachPointsModelDao;
+  ApproachSummaryDao get approachSummaryDao;
 }
 
+//
+// - Some helpers
+//
 void resetDatabase(database) async {
   await _resetTable(database, 'approach_points');
   await _resetTableWithAutoIncrement(database, 'approach');

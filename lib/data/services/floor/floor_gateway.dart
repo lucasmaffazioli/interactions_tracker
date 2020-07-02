@@ -1,4 +1,5 @@
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
+import 'package:cold_app/data/models/approach/approach_views.dart';
 
 import '../../../core/enums/PointType.dart';
 import '../../../locator.dart';
@@ -12,6 +13,7 @@ class FloorGateway {
   PointModelDao pointDao;
   ApproachModelDao approachDao;
   ApproachPointsModelDao approachPointsDao;
+  ApproachSummaryDao approachSummaryDao;
 
   // FloorGateway() async {
   //   database = await locator.get<LocatorDatabase>().getDatabase();
@@ -23,6 +25,7 @@ class FloorGateway {
     pointDao = database.pointModelDao;
     approachDao = database.approachModelDao;
     approachPointsDao = database.approachPointsModelDao;
+    approachSummaryDao = database.approachSummaryDao;
   }
 }
 
@@ -142,5 +145,13 @@ class ApproachPointsFloorGateway extends FloorGateway {
     await _setUp();
     //
     approachPointsDao.deleteApproachPointsByApproachId(id);
+  }
+}
+
+class ApproachSummaryViewFloorGateway extends FloorGateway {
+  Future<List<ApproachSummaryView>> findApproachesSummary() async {
+    await _setUp();
+    //
+    return await approachSummaryDao.findApproachesSummary();
   }
 }

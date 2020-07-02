@@ -1,3 +1,4 @@
+import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:matcher/matcher.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_model.dart';
@@ -23,6 +24,7 @@ void main() {
   PointFloorGateway pointFloorGateway = PointFloorGateway();
   ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
   ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
+  ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
 
   PointModel testPointModel =
       PointModel(id: null, name: 'Beleza', pointType: PointTypeDataLayer.attraction);
@@ -171,7 +173,6 @@ void main() {
 
       await approachFloorGateway.insertApproach(testApproachModel);
       int approachId = await approachFloorGateway.findLastInsertedApproach();
-      ApproachModel approach = await approachFloorGateway.getApproachById(approachId);
       //
       approachPointsFloorGateway
           .insertApproachPoints(ApproachPointsModel(approachId: approachId, pointId: 1, value: 5));
@@ -184,28 +185,44 @@ void main() {
       list.forEach((element) {
         print(element.toJson());
       });
-
-      // expect(list[0].id, 1);
-      // expect(list[0].dateTime, DateTime(2020, 01, 15).toIso8601String());
-      // expect(list[1].id, 2);
-      // expect(list[1].name, 'Joana Dark');
-      // expect(list[1].description, 'Lady o nite');
-      // expect(list[1].notes, 'Shining');
     });
+  });
 
-    //   test('set, read, delete approach', () async {
-    //     await approachFloorGateway.insertApproach(testApproachModel);
-    //     ApproachModel approach = await approachFloorGateway.getApproachById(1);
-    //     expect(approach.id, 1);
-    //     expect(approach.dateTime, testApproachModel.dateTime);
-    //     expect(approach.name, testApproachModel.name);
-    //     expect(approach.description, testApproachModel.description);
-    //     expect(approach.notes, testApproachModel.notes);
-    //     //
-    //     await approachFloorGateway.deleteApproachById(1);
-    //     approach = await approachFloorGateway.getApproachById(1);
-    //     expect(approach, null);
-    //   });
+  group('Approach Views', () {
+    test('Get average points', () async {
+      await pointFloorGateway.onCreateDatabase();
+      await approachFloorGateway.insertApproach(
+        ApproachModel(
+            dateTime: DateTime(2020, 02, 15).toIso8601String(),
+            name: 'Joana Dark',
+            description: 'Lady o nite',
+            notes: 'Shining'),
+      );
+      await approachFloorGateway.insertApproach(
+        ApproachModel(
+            dateTime: DateTime(2020, 02, 15).toIso8601String(),
+            name: 'Harry Potter',
+            description: 'Nice wizard',
+            notes: 'Shining'),
+      );
+
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 1, value: 10));
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 2, value: 5));
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 7, value: 7));
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 8, value: 8));
+      //
+
+      List<ApproachSummaryView> list = await approachViewsFloorGateway.findApproachesSummary();
+      list.forEach((element) {
+        print(element.toJson());
+      });
+      //
+      expect(null, 1);
+    });
 
     //   test('Change approach', () async {
     //     await approachFloorGateway.insertApproach(testApproachModel);
