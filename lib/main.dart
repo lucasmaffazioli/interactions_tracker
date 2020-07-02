@@ -1,4 +1,5 @@
 import 'package:cold_app/presentation/approaches_page.dart';
+import 'package:cold_app/presentation/constants.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Noto Sans',
+        scaffoldBackgroundColor: Constants.background,
+        // primaryColor: Constants.background,
       ),
       home: HomePage(),
     );

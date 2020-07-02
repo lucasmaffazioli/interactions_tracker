@@ -1,49 +1,75 @@
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
-import 'package:flutter/material.dart';
 
 class ApproachesController {
-  List<ListItem> getAllApproaches() {
-    final items = List<ListItem>.generate(
+  List<ApproachListItem> getAllApproaches() {
+    final items = List<ApproachListItem>.generate(
       1200,
-      (i) => i % 6 == 0 ? HeadingItem("Heading $i") : MessageItem("Sender $i", "Message body $i"),
+      (i) => i % 6 == 0
+          ? ApproachListItem(isMonth: true, title: 'January')
+          : ApproachListItem(isMonth: false, title: 'Kim Kardashian', day: '03', month: 'agosto'),
     );
     return items;
   }
 }
 
-abstract class ListItem {
-  /// The title line to show in a list item.
-  Widget buildTitle(BuildContext context);
+class ApproachListItem {
+  final bool isMonth;
+  final String title;
+  final String description;
+  final String day;
+  final String month;
+  final int skill;
+  final int attraction;
+  final int result;
 
-  /// The subtitle line, if any, to show in a list item.
-  Widget buildSubtitle(BuildContext context);
+  ApproachListItem({
+    this.isMonth,
+    this.title,
+    this.description,
+    this.day,
+    this.month,
+    this.skill,
+    this.attraction,
+    this.result,
+  });
 }
 
-/// A ListItem that contains data to display a heading.
-class HeadingItem implements ListItem {
-  final String heading;
+// abstract class ListItem {
+//   Widget buildTitle(BuildContext context);
+//   Widget buildSubtitle(BuildContext context);
+//   bool isMonth();
+// }
 
-  HeadingItem(this.heading);
+// /// A ListItem that contains data to display a heading.
+// class HeadingItem implements ListItem {
+//   final String heading;
+//   final String type = 'month';
 
-  Widget buildTitle(BuildContext context) {
-    return Text(
-      heading,
-      style: Theme.of(context).textTheme.headline5,
-    );
-  }
+//   isMonth() => true;
 
-  // Widget buildSubtitle(BuildContext context) => null;
-  Widget buildSubtitle(BuildContext context) => Text('aaaaa');
-}
+//   HeadingItem(this.heading);
 
-/// A ListItem that contains data to display a message.
-class MessageItem implements ListItem {
-  final String sender;
-  final String body;
+//   Widget buildTitle(BuildContext context) {
+//     return Text(
+//       heading,
+//       style: Theme.of(context).textTheme.headline5,
+//     );
+//   }
 
-  MessageItem(this.sender, this.body);
+//   // Widget buildSubtitle(BuildContext context) => null;
+//   Widget buildSubtitle(BuildContext context) => Text('body');
+// }
 
-  Widget buildTitle(BuildContext context) => Text(sender);
+// /// A ListItem that contains data to display a message.
+// class MessageItem implements ListItem {
+//   final String sender;
+//   final String body;
 
-  Widget buildSubtitle(BuildContext context) => Text(body);
-}
+//   isMonth() => false;
+
+//   MessageItem(this.sender, this.body);
+
+//   Widget buildTitle(BuildContext context) => Text(sender);
+
+//   Widget buildSubtitle(BuildContext context) => Text(body);
+// }
