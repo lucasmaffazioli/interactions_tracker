@@ -86,7 +86,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `approach` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` TEXT, `name` TEXT, `description` TEXT, `notes` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`))');
+            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`, `pointId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
         await database.execute(
@@ -301,7 +301,7 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
         _approachPointsModelUpdateAdapter = UpdateAdapter(
             database,
             'approach_points',
-            ['approachId'],
+            ['approachId', 'pointId'],
             (ApproachPointsModel item) => <String, dynamic>{
                   'approachId': item.approachId,
                   'pointId': item.pointId,
@@ -337,14 +337,16 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
   @override
   Future<List<ApproachPointsModel>> findApproachPointsByApproachId(
       int approachId) async {
-    return _queryAdapter.queryList('SELECT * FROM approach_points WHERE id = ?',
-        arguments: <dynamic>[approachId], mapper: _approach_pointsMapper);
+    return _queryAdapter.queryList(
+        'SELECT * FROM approach_points WHERE approachId = ?',
+        arguments: <dynamic>[approachId],
+        mapper: _approach_pointsMapper);
   }
 
   @override
   Future<void> deleteApproachPointsByApproachId(int approachId) async {
     await _queryAdapter.queryNoReturn(
-        'DELETE FROM approach_points WHERE id = ?',
+        'DELETE FROM approach_points WHERE approachId = ?',
         arguments: <dynamic>[approachId]);
   }
 

@@ -22,6 +22,7 @@ class FloorGateway {
     database = await locator.get<LocatorDatabase>().getDatabase();
     pointDao = database.pointModelDao;
     approachDao = database.approachModelDao;
+    approachPointsDao = database.approachPointsModelDao;
   }
 }
 

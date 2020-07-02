@@ -7,18 +7,16 @@ import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/locator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-// TODO - Fix these tests. I couldn't reset the in-memory floor database, so I did this
-// tracker: https://github.com/vitusortner/floor/issues/367
-
 void main() {
   setUp(() {
-    setupLocator();
     print('setupLocator');
+    setupLocator();
   });
 
   tearDown(() {
+    print('tearDown;');
+    closeDb();
     locator.reset();
-    print('locator.reset();');
   });
 
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -156,9 +154,9 @@ void main() {
   });
 
   group('ApproachPointsModel', () {
-    setUp(() {
+    setUp(() async {
       // pointFloorGateway.onCreateDatabase();
-      print('setup create dB');
+      print('Setup group approach points');
     });
 
     test('Throws if wrong value', () async {
@@ -169,6 +167,8 @@ void main() {
     });
 
     test('Insert, get, delete', () async {
+      await pointFloorGateway.onCreateDatabase();
+
       await approachFloorGateway.insertApproach(testApproachModel);
       int approachId = await approachFloorGateway.findLastInsertedApproach();
       ApproachModel approach = await approachFloorGateway.getApproachById(approachId);

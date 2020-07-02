@@ -11,6 +11,10 @@ void setupLocator() {
   // locator.registerFactory<LocatorDatabase>(() => LocatorDatabase());
 }
 
+void closeDb() {
+  locator.get<LocatorDatabase>().closeDb();
+}
+
 // void resetLocator() async {
 //   // locator.registerLazySingleton<LocatorDatabase>(() => new LocatorDatabase());
 //   locator.resetLazySingleton<LocatorDatabase>(
@@ -22,6 +26,10 @@ class LocatorDatabase {
   bool _isInstanciated = false;
   AppDatabase _database;
 
+  void closeDb() {
+    if (_database != null) _database.close();
+  }
+
   Future<AppDatabase> getDatabase() async {
     print('_isInstanciated');
     print(_isInstanciated);
@@ -29,8 +37,8 @@ class LocatorDatabase {
     if (!_isInstanciated) {
       if (USE_TEST_IMPLEMENTATION) {
         _database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
-        await resetDatabase(_database);
-        print('reseted DB');
+        // await resetDatabase(_database);
+        // print('reseted DB');
         //
         List<dynamic> a = await _database.database.rawQuery('SELECT * FROM point');
         a != null ?? print('some error in resetting db');

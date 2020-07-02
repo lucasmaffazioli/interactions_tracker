@@ -53,7 +53,7 @@ abstract class ApproachPointsModelDao {
   @Query('SELECT * FROM approach_points WHERE approachId = :approachId AND pointId = :pointId')
   Future<ApproachPointsModel> findApproachPointByApproachAndPointId(int approachId, int pointId);
 
-  @Query('SELECT * FROM approach_points WHERE id = :id')
+  @Query('SELECT * FROM approach_points WHERE approachId = :approachId')
   Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int approachId);
 
   @insert
@@ -62,7 +62,7 @@ abstract class ApproachPointsModelDao {
   @update
   Future<void> updateApproachPoints(ApproachPointsModel approachPoints);
 
-  @Query('DELETE FROM approach_points WHERE id = :id')
+  @Query('DELETE FROM approach_points WHERE approachId = :approachId')
   Future<void> deleteApproachPointsByApproachId(int approachId);
 
   @Query('DELETE FROM approach_points WHERE approachId = :approachId AND pointId = :pointId')

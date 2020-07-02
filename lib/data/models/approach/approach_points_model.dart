@@ -8,6 +8,7 @@ import 'point_model.dart';
 
 @Entity(
   tableName: 'approach_points',
+  primaryKeys: ['approachId', 'pointId'],
   foreignKeys: [
     ForeignKey(
       childColumns: ['approachId'],
@@ -22,9 +23,7 @@ import 'point_model.dart';
   ],
 )
 class ApproachPointsModel {
-  @primaryKey
   final int approachId;
-  @primaryKey
   final int pointId;
   final int value;
 
