@@ -135,16 +135,16 @@ class ApproachPointsFloorGateway extends FloorGateway {
     await approachPointsDao.updateApproachPoints(approach);
   }
 
-  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int id) async {
+  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int approachId) async {
     await _setUp();
     //
-    return await approachPointsDao.findApproachPointsByApproachId(id);
+    return await approachPointsDao.findApproachPointsByApproachId(approachId);
   }
 
-  void deleteApproachPointsById(int id) async {
+  void deleteApproachPointsByApproachId(int approachId) async {
     await _setUp();
     //
-    approachPointsDao.deleteApproachPointsByApproachId(id);
+    approachPointsDao.deleteApproachPointsByApproachId(approachId);
   }
 }
 

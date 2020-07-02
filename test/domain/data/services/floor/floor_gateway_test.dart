@@ -35,16 +35,13 @@ void main() {
       notes: 'Did sum wizard type of shit mane');
 
   group('PointModel', () {
-    // AppDatabase database;
-
     test('set, read, delete point', () async {
       await pointFloorGateway.insertPoint(testPointModel);
 
-      List<PointModel> list = await pointFloorGateway.getAllPoint();
-
-      list.forEach((element) {
-        print('Id ${element.id}, name ${element.name}');
-      });
+      // List<PointModel> list = await pointFloorGateway.getAllPoint();
+      // list.forEach((element) {
+      //   print('Id ${element.id}, name ${element.name}');
+      // });
 
       PointModel point = await pointFloorGateway.getPointById(1);
       expect(point.id, 1);
@@ -57,15 +54,12 @@ void main() {
     });
 
     test('list points', () async {
-      print('aa');
       await pointFloorGateway.onCreateDatabase();
-      print('bbbbb');
       List<PointModel> list = await pointFloorGateway.getAllPoint();
-      print('ccccc');
 
-      list.forEach((element) {
-        print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
-      });
+      // list.forEach((element) {
+      //   print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
+      // });
 
       expect(list[0].name, pointFloorGateway.listPointOnCreate[0].name);
       expect(list[1].id, 2);
@@ -123,9 +117,9 @@ void main() {
       );
       //
       List<ApproachModel> list = await approachFloorGateway.getAllApproach();
-      list.forEach((element) {
-        print(element.toJson());
-      });
+      // list.forEach((element) {
+      //   print(element.toJson());
+      // });
 
       expect(list[0].id, 1);
       expect(list[0].dateTime, DateTime(2020, 01, 15).toIso8601String());
@@ -157,8 +151,7 @@ void main() {
 
   group('ApproachPointsModel', () {
     setUp(() async {
-      // pointFloorGateway.onCreateDatabase();
-      print('Setup group approach points');
+      // print('Setup group approach points');
     });
 
     test('Throws if wrong value', () async {
@@ -181,10 +174,20 @@ void main() {
       //
       List<ApproachPointsModel> list =
           await approachPointsFloorGateway.findApproachPointsByApproachId(approachId);
-
       list.forEach((element) {
         print(element.toJson());
       });
+
+      expect(list[0].approachId, approachId);
+      expect(list[1].approachId, approachId);
+      expect(list[0].pointId, 1);
+      expect(list[1].pointId, 2);
+      expect(list[0].value, 5);
+      expect(list[1].value, 7);
+
+      approachPointsFloorGateway.deleteApproachPointsByApproachId(approachId);
+      list = await approachPointsFloorGateway.findApproachPointsByApproachId(approachId);
+      expect(list, []);
     });
   });
 
