@@ -214,6 +214,8 @@ void main() {
           .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 7, value: 7));
       approachPointsFloorGateway
           .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 8, value: 8));
+      approachPointsFloorGateway
+          .insertApproachPoints(ApproachPointsModel(approachId: 2, pointId: 3, value: 8));
       //
 
       List<ApproachSummaryView> list = await approachViewsFloorGateway.findApproachesSummary();
@@ -221,27 +223,17 @@ void main() {
         print(element.toJson());
       });
       //
-      expect(null, 1);
+      expect(list[0].id, 1);
+      expect(list[0].name, 'Joana Dark');
+      expect(list[0].dateTime, DateTime(2020, 02, 15).toIso8601String());
+      expect(list[0].description, 'Lady o nite');
+      expect(list[0].skill, 7.5);
+      expect(list[0].attraction, 7);
+      expect(list[0].result, 8);
+      expect(list[1].id, 2);
+      expect(list[1].skill, 8);
+      expect(list[1].attraction, null);
+      expect(list[1].result, null);
     });
-
-    //   test('Change approach', () async {
-    //     await approachFloorGateway.insertApproach(testApproachModel);
-    //     ApproachModel oldApproach = await approachFloorGateway.getApproachById(1);
-    //     ApproachModel modifiedApproach = ApproachModel(
-    //         id: 1,
-    //         dateTime: DateTime(2020, 02, 15).toIso8601String(),
-    //         name: 'Updated name',
-    //         description: 'Updated description',
-    //         notes: 'Updated note');
-
-    //     await approachFloorGateway.updateApproach(modifiedApproach);
-    //     //
-    //     ApproachModel updatedApproach = await approachFloorGateway.getApproachById(1);
-    //     //
-    //     expect(updatedApproach.id, oldApproach.id);
-    //     expect(updatedApproach.name, 'Updated name');
-    //     expect(updatedApproach.description, 'Updated description');
-    //     expect(updatedApproach.notes, 'Updated note');
-    //   });
   });
 }
