@@ -8,21 +8,21 @@ enum PointType {
 }
 
 class PointTypeDataLayer {
-  static final String skill = 's';
-  static final String attraction = 'a';
-  static final String result = 'r';
+  static final String skill = 'skill';
+  static final String attraction = 'attraction';
+  static final String result = 'result';
 }
 
 PointType getPointTypeWithString(String str) {
   PointType pointType;
   switch (str) {
-    case 's':
+    case 'skill':
       pointType = PointType.skill;
       break;
-    case 'a':
+    case 'attraction':
       pointType = PointType.attraction;
       break;
-    case 'r':
+    case 'result':
       pointType = PointType.result;
       break;
   }

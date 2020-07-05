@@ -36,7 +36,8 @@ class LocatorDatabase {
 
     if (!_isInstanciated) {
       if (USE_TEST_IMPLEMENTATION) {
-        _database = await $FloorAppDatabase.inMemoryDatabaseBuilder().build();
+        _database =
+            await $FloorAppDatabase.inMemoryDatabaseBuilder().addCallback(dbCallback).build();
         // await resetDatabase(_database);
         // print('reseted DB');
         //

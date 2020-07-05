@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/services/floor/dao.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
@@ -56,8 +57,16 @@ void _resetTableWithAutoIncrement(database, String tableName) async {
 final dbCallback = Callback(
   onCreate: (database, version) async {
     print('database has been created');
-    PointFloorGateway pointFloorGateway = PointFloorGateway();
-    await pointFloorGateway.onCreateDatabase();
+
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Contato visual', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Postura física', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Projeção vocal', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Calibragem', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Frame', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Confiança', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Atração', 'attraction');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Resultado', 'result');");
+
     print('First dB use configured');
   },
   onOpen: (database) {/* database has been opened */},

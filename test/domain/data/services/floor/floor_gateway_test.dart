@@ -38,13 +38,13 @@ void main() {
     test('set, read, delete point', () async {
       await pointFloorGateway.insertPoint(testPointModel);
 
-      // List<PointModel> list = await pointFloorGateway.getAllPoint();
-      // list.forEach((element) {
-      //   print('Id ${element.id}, name ${element.name}');
-      // });
+      List<PointModel> list = await pointFloorGateway.getAllPoint();
+      list.forEach((element) {
+        print('Id ${element.id}, name ${element.name}');
+      });
 
-      PointModel point = await pointFloorGateway.getPointById(1);
-      expect(point.id, 1);
+      PointModel point = await pointFloorGateway.getPointById(9);
+      expect(point.id, 9);
       expect(point.name, testPointModel.name);
       expect(point.pointType, testPointModel.pointType);
       //
@@ -54,7 +54,6 @@ void main() {
     });
 
     test('list points', () async {
-      await pointFloorGateway.onCreateDatabase();
       List<PointModel> list = await pointFloorGateway.getAllPoint();
 
       // list.forEach((element) {
@@ -162,8 +161,6 @@ void main() {
     });
 
     test('Insert, get, delete', () async {
-      await pointFloorGateway.onCreateDatabase();
-
       await approachFloorGateway.insertApproach(testApproachModel);
       int approachId = await approachFloorGateway.findLastInsertedApproach();
       //
@@ -193,7 +190,6 @@ void main() {
 
   group('Approach Views', () {
     test('Get average points', () async {
-      await pointFloorGateway.onCreateDatabase();
       await approachFloorGateway.insertApproach(
         ApproachModel(
             dateTime: DateTime(2020, 02, 15).toIso8601String(),

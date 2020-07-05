@@ -73,12 +73,12 @@ class PointFloorGateway extends FloorGateway {
     pointDao.deletePointById(id);
   }
 
-  void onCreateDatabase() async {
-    // final pointDao = databaseOnCreate.pointModelDao;
-    listPointOnCreate.forEach((element) async {
-      await insertPoint(element);
-    });
-  }
+  // void onCreateDatabase() async {
+  //   // final pointDao = databaseOnCreate.pointModelDao;
+  //   listPointOnCreate.forEach((element) async {
+  //     await insertPoint(element);
+  //   });
+  // }
 }
 
 class ApproachFloorGateway extends FloorGateway {

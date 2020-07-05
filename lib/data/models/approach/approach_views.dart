@@ -4,9 +4,9 @@ import 'package:floor/floor.dart';
 
 @DatabaseView('''
 SELECT a.id, a.name, a.dateTime, a.description, 
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 's') as skill,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'a') as attraction,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'r') as result
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'skill') as skill,
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'attraction') as attraction,
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'result') as result
 FROM approach a
 ORDER BY a.dateTime
 ''', viewName: 'approachSummaryView')
