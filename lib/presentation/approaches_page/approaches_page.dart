@@ -1,3 +1,4 @@
+import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -212,9 +213,9 @@ class MyCard extends StatelessWidget {
                 ),
                 Row(
                   children: <Widget>[
-                    ScoreIcon(iconData: FontAwesomeIcons.pollH, points: skill),
-                    ScoreIcon(iconData: FontAwesomeIcons.solidHeart, points: attraction),
-                    ScoreIcon(iconData: FontAwesomeIcons.medal, points: result),
+                    ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
+                    ScoreIcon(iconData: getPointTypeIcon(PointType.attraction), points: attraction),
+                    ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),
                   ],
                 )
               ],

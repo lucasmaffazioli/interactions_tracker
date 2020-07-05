@@ -33,7 +33,7 @@ class FloorGateway {
 class PointFloorGateway extends FloorGateway {
   List<PointModel> listPointOnCreate = [
     PointModel(id: null, name: 'Contato visual', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Postura  física', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Postura física', pointType: PointTypeDataLayer.skill),
     PointModel(id: null, name: 'Projeção vocal', pointType: PointTypeDataLayer.skill),
     PointModel(id: null, name: 'Calibragem', pointType: PointTypeDataLayer.skill),
     PointModel(id: null, name: 'Frame', pointType: PointTypeDataLayer.skill),

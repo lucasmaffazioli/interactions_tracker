@@ -27,7 +27,7 @@ class AddApproachPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ApproachPresentation approachPresentation = controller.getApproach();
+    Future<ApproachPresentation> approachPresentationFuture = controller.getApproach();
 
     return Scaffold(
       appBar: BaseAppBar(
@@ -35,123 +35,123 @@ class AddApproachPage extends StatelessWidget {
         appBar: AppBar(),
         hasBackButton: true,
       ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-          // child: _Points(),
-          // child: Column(
-          //   children: <Widget>[
-          //     Row(
-          //       mainAxisSize: MainAxisSize.max,
-          //       children: <Widget>[
-          //         Expanded(
-          //           child: DateFormInput(
-          //             title: 'Data *',
-          //             validator: _requiredValidator,
-          //             onSave: ((value) {
-          //               approachData.date = value;
-          //             }),
-          //           ),
-          //         ),
-          //         SizedBox(
-          //           width: 25,
-          //         ),
-          //         Expanded(
-          //           child: TimeFormInput(
-          //             title: 'Hora *',
-          //             onSave: ((value) {
-          //               approachData.time = value;
-          //             }),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //     TextFormInput(
-          //       title: 'Nome *',
-          //       validator: _requiredValidator,
-          //       onSave: ((value) {
-          //         approachData.name = value;
-          //       }),
-          //     ),
-          //     TextFormInput(
-          //       title: 'Resumo *',
-          //       validator: _requiredValidator,
-          //       onSave: ((value) {
-          //         approachData.description = value;
-          //       }),
-          //     ),
-          //     TextFormInput(
-          //       title: 'Notas',
-          //       maxLines: 5,
-          //       minLines: 3,
-          //       onSave: ((value) {
-          //         approachData.notes = value;
-          //       }),
-          //     ),
-          //     _PointWithSlider('Habilidades',
-          //         iconData: FontAwesomeIcons.pollH, children: skillItems),
-          //     _PointWithSlider('Atração',
-          //         iconData: FontAwesomeIcons.solidHeart, children: attractionItems),
-          //     _PointWithSlider('Resultado',
-          //         iconData: FontAwesomeIcons.medal, children: resultItems),
-          //     RaisedButton(
-          //       onPressed: () {
-          //         // Validate returns true if the form is valid, otherwise false.
-          //         if (_formKey.currentState.validate()) {
-          //           _formKey.currentState.save();
-          //           print('approachData.date');
-          //           print(approachData.date);
-          //           print(approachData.time);
-          //           print(approachData.name);
-          //           // If the form is valid, display a snackbar. In the real world,
-          //           // you'd often call a server or save the information in a database.
+      body: FutureBuilder<ApproachPresentation>(
+          future: approachPresentationFuture,
+          builder: (context, AsyncSnapshot snapshot) {
+            print('projectconnection state is: ${snapshot.connectionState}');
+            print('project snapshot data is: ${snapshot.data}');
+            print('project has data is: ${snapshot.hasData.toString()}');
 
-          //         }
-          //       },
-          //       child: Text('Submit'),
-          //     ),
-          //   ],
-          // ),
-        ),
-      ),
+            if (snapshot.connectionState != ConnectionState.done) {
+              print('project snapshot data is: ${snapshot.data}');
+              return Container(child: Text('Loading data....'));
+            }
+            ApproachPresentation approachPresentation = snapshot.data;
+            return SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: <Widget>[
+                          Expanded(
+                            child: DateFormInput(
+                              title: 'Data *',
+                              validator: _requiredValidator,
+                              onSave: ((value) {
+                                approachPresentation.date = value;
+                              }),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 25,
+                          ),
+                          Expanded(
+                            child: TimeFormInput(
+                              title: 'Hora *',
+                              onSave: ((value) {
+                                approachPresentation.time = value;
+                              }),
+                            ),
+                          ),
+                        ],
+                      ),
+                      TextFormInput(
+                        title: 'Nome *',
+                        validator: _requiredValidator,
+                        onSave: ((value) {
+                          approachPresentation.name = value;
+                        }),
+                      ),
+                      TextFormInput(
+                        title: 'Resumo *',
+                        validator: _requiredValidator,
+                        onSave: ((value) {
+                          approachPresentation.description = value;
+                        }),
+                      ),
+                      TextFormInput(
+                        title: 'Notas',
+                        maxLines: 5,
+                        minLines: 3,
+                        onSave: ((value) {
+                          approachPresentation.notes = value;
+                        }),
+                      ),
+                      _Points(approachPresentation.points),
+                      RaisedButton(
+                        onPressed: () {
+                          // Validate returns true if the form is valid, otherwise false.
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            print('approachPresentation.date');
+                            // print(approachData.date);
+                            // print(approachData.time);
+                            // print(approachData.name);
+                            // If the form is valid, display a snackbar. In the real world,
+                            // you'd often call a server or save the information in a database.
+
+                          }
+                        },
+                        child: Text('Submit'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
     );
   }
 }
 
-// class _Points extends StatelessWidget {
-//   final AddApproachController controller = AddApproachController();
+class _Points extends StatelessWidget {
+  final List<PointPresentation> pointPresentation;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//       // Let the ListView know how many items it needs to build.
-//       itemCount: items.length,
+  const _Points(this.pointPresentation, {Key key}) : super(key: key);
 
-//       itemBuilder: (context, index) {
-//         final item = items[index];
-//         // final List<Widget> approaches = [];
-//         if (item.isMonth) {
-//           return Center(
-//               child: Text(
-//             item.month,
-//             style: Constants.textH1,
-//           ));
-//         } else {
-//           return MyCard(
-//             title: item.title,
-//             description: item.description,
-//             month: item.month,
-//             day: item.day,
-//             skill: item.skill,
-//             attraction: item.attraction,
-//             result: item.result,
-//           );
-//         }
-//       },
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> listWidgets = [];
+
+    pointPresentation.forEach((item) {
+      if (item.isHeader) {
+        listWidgets.add(TitleWithIcon(
+          item.headerTitle,
+          iconData: item.headerIcon,
+        ));
+      } else {
+        listWidgets.add(Text(item.name));
+      }
+    });
+    return Column(
+      children: listWidgets,
+    );
+  }
+}
 
 class _TitleWithSlider extends StatelessWidget {
   final int id;
@@ -182,10 +182,6 @@ class _PointWithSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        TitleWithIcon(
-          'Habilidades',
-          iconData: FontAwesomeIcons.pollH,
-        ),
         Column(
           children: children,
         ),

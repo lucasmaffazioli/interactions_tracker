@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 enum PointType {
   skill,
   attraction,
@@ -25,4 +28,21 @@ PointType getPointTypeWithString(String str) {
   }
 
   return pointType;
+}
+
+IconData getPointTypeIcon(PointType pointType) {
+  IconData iconData;
+  switch (pointType) {
+    case PointType.skill:
+      iconData = FontAwesomeIcons.pollH;
+      break;
+    case PointType.attraction:
+      iconData = FontAwesomeIcons.solidHeart;
+      break;
+    case PointType.result:
+      iconData = FontAwesomeIcons.medal;
+      break;
+  }
+
+  return iconData;
 }

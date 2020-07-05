@@ -15,6 +15,7 @@ class AddApproachController {
         pointPresentationList.add(PointPresentation(
           isHeader: true,
           headerTitle: element.pointType.toString(),
+          headerIcon: getPointTypeIcon(element.pointType),
         ));
       }
       //
@@ -25,6 +26,8 @@ class AddApproachController {
         pointType: element.pointType,
         value: element.value,
       ));
+      //
+      lastPointType = element.pointType;
     });
 
     ApproachPresentation approachPresentation = ApproachPresentation(
@@ -48,20 +51,6 @@ class AddApproachController {
 
     return approachPresentation;
   }
-
-  // List<Categories> getAllCategories() {
-  //   List<Categories> list = [];
-
-  //   list.add(Categories(PointType.skill, [
-  //     PointItem(id: null, name: null, ish),
-  //     PointItem(id: 3, name: 'Contato Visual'),
-  //     PointItem(id: 4, name: 'Postura física'),
-  //   ]));
-  //   list.add(Categories(PointType.attraction, [PointItem(id: 1, name: 'Atração')]));
-  //   list.add(Categories(PointType.result, [PointItem(id: 2, name: 'Resultado')]));
-
-  //   return list;
-  // }
 }
 
 class ApproachPresentation {
@@ -80,11 +69,19 @@ class ApproachPresentation {
 class PointPresentation {
   final bool isHeader;
   final String headerTitle;
+  final IconData headerIcon;
   final PointType pointType;
   final int id;
   final String name;
   int value;
 
-  PointPresentation(
-      {this.id, this.name, this.value, this.pointType, this.isHeader, this.headerTitle});
+  PointPresentation({
+    this.id,
+    this.name,
+    this.value,
+    this.pointType,
+    @required this.isHeader,
+    this.headerTitle,
+    this.headerIcon,
+  });
 }
