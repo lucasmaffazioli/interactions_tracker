@@ -1,4 +1,3 @@
-import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:flutter/foundation.dart';
 
 class ApproachesController {

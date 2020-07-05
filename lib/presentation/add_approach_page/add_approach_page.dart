@@ -1,6 +1,4 @@
-import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
-import 'package:cold_app/presentation/add_approach_page/form_input/base_form_input.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

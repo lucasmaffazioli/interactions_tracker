@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/services/floor/dao.dart';
-import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
