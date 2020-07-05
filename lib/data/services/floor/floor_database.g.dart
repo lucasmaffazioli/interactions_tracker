@@ -97,6 +97,7 @@ class _$AppDatabase extends AppDatabase {
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
         await database.execute(
             '''CREATE VIEW IF NOT EXISTS `approachSummaryView` AS SELECT a.id, a.name, a.dateTime, a.description, 
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'difficulty') as difficulty,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'skill') as skill,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'attraction') as attraction,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'result') as result
@@ -416,6 +417,7 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
           row['name'] as String,
           row['dateTime'] as String,
           row['description'] as String,
+          row['difficulty'] as double,
           row['skill'] as double,
           row['attraction'] as double,
           row['result'] as double);

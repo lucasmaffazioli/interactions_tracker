@@ -12,4 +12,6 @@ class Constants {
     fontSize: 26,
     color: Constants.mainTextColor,
   );
+  static const double borderRadiusCards = 20;
+  static const double borderRadiusSmall = 4;
 }

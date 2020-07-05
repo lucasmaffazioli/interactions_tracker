@@ -62,6 +62,7 @@ final dbCallback = Callback(
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Calibragem', 'skill');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Frame', 'skill');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Confiança', 'skill');");
+    database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Dificuldade', 'difficulty');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Atração', 'attraction');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Resultado', 'result');");
 

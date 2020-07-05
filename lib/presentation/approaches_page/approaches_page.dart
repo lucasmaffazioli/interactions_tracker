@@ -103,6 +103,7 @@ class _Approaches extends StatelessWidget {
                   description: item.description,
                   month: item.month,
                   day: item.day,
+                  difficulty: item.difficulty,
                   skill: item.skill,
                   attraction: item.attraction,
                   result: item.result,
@@ -147,6 +148,7 @@ class MyCard extends StatelessWidget {
     @required this.description,
     @required this.month,
     @required this.day,
+    @required this.difficulty,
     @required this.skill,
     @required this.attraction,
     @required this.result,
@@ -155,6 +157,7 @@ class MyCard extends StatelessWidget {
   final String description;
   final String month;
   final String day;
+  final int difficulty;
   final int skill;
   final int attraction;
   final int result;
@@ -183,7 +186,7 @@ class MyCard extends StatelessWidget {
                   ),
                   Text(
                     description,
-                    maxLines: 3,
+                    maxLines: 4,
                   ),
                 ],
               ),
@@ -213,6 +216,7 @@ class MyCard extends StatelessWidget {
                 ),
                 Row(
                   children: <Widget>[
+                    ScoreIcon(iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
                     ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
                     ScoreIcon(iconData: getPointTypeIcon(PointType.attraction), points: attraction),
                     ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),

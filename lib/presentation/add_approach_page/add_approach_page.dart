@@ -48,65 +48,87 @@ class AddApproachPage extends StatelessWidget {
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                      child: Column(
                         children: <Widget>[
-                          Expanded(
-                            child: DateFormInput(
-                              title: 'Data *',
-                              validator: _requiredValidator,
-                              onSave: ((value) {
-                                approachPresentation.date = value;
-                              }),
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Expanded(
+                                child: DateFormInput(
+                                  title: 'Data *',
+                                  validator: _requiredValidator,
+                                  onSave: ((value) {
+                                    approachPresentation.date = value;
+                                  }),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 25,
+                              ),
+                              Expanded(
+                                child: TimeFormInput(
+                                  title: 'Hora *',
+                                  onSave: ((value) {
+                                    approachPresentation.time = value;
+                                  }),
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            width: 25,
+                          TextFormInput(
+                            title: 'Nome *',
+                            validator: _requiredValidator,
+                            onSave: ((value) {
+                              approachPresentation.name = value;
+                            }),
                           ),
-                          Expanded(
-                            child: TimeFormInput(
-                              title: 'Hora *',
-                              onSave: ((value) {
-                                approachPresentation.time = value;
-                              }),
-                            ),
+                          TextFormInput(
+                            title: 'Resumo *',
+                            validator: _requiredValidator,
+                            onSave: ((value) {
+                              approachPresentation.description = value;
+                            }),
+                          ),
+                          TextFormInput(
+                            title: 'Notas',
+                            maxLines: 5,
+                            minLines: 3,
+                            onSave: ((value) {
+                              approachPresentation.notes = value;
+                            }),
+                          ),
+                          _Points(
+                            pointPresentation: approachPresentation.points,
+                            onSave: ((value) {
+                              // approachPresentation.description = value;
+                              print('value on call');
+                              print(value);
+                            }),
                           ),
                         ],
                       ),
-                      TextFormInput(
-                        title: 'Nome *',
-                        validator: _requiredValidator,
-                        onSave: ((value) {
-                          approachPresentation.name = value;
-                        }),
-                      ),
-                      TextFormInput(
-                        title: 'Resumo *',
-                        validator: _requiredValidator,
-                        onSave: ((value) {
-                          approachPresentation.description = value;
-                        }),
-                      ),
-                      TextFormInput(
-                        title: 'Notas',
-                        maxLines: 5,
-                        minLines: 3,
-                        onSave: ((value) {
-                          approachPresentation.notes = value;
-                        }),
-                      ),
-                      _Points(approachPresentation.points),
-                      RaisedButton(
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: RawMaterialButton(
+                        fillColor: Constants.accent,
                         onPressed: () {
                           // Validate returns true if the form is valid, otherwise false.
+                          print('aaaaaaaaaaa');
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             print('approachPresentation.date');
-                            // print(approachData.date);
+                            print(approachPresentation.date);
+
+                            approachPresentation.points.forEach((element) {
+                              print(element.name);
+                              print(element.value);
+                            });
                             // print(approachData.time);
                             // print(approachData.name);
                             // If the form is valid, display a snackbar. In the real world,
@@ -114,10 +136,17 @@ class AddApproachPage extends StatelessWidget {
 
                           }
                         },
-                        child: Text('Submit'),
+                        child: Text(
+                          'Salvar',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             );
@@ -126,23 +155,45 @@ class AddApproachPage extends StatelessWidget {
   }
 }
 
-class _Points extends StatelessWidget {
+class _Points extends StatefulWidget {
   final List<PointPresentation> pointPresentation;
+  final Function onSave;
 
-  const _Points(this.pointPresentation, {Key key}) : super(key: key);
+  const _Points({@required this.pointPresentation, @required this.onSave, Key key})
+      : super(key: key);
 
+  @override
+  __PointsState createState() => __PointsState();
+}
+
+class __PointsState extends State<_Points> {
   @override
   Widget build(BuildContext context) {
     List<Widget> listWidgets = [];
 
-    pointPresentation.forEach((item) {
+    // int index = 0;
+    widget.pointPresentation.forEach((item) {
+      // index++;
       if (item.isHeader) {
         listWidgets.add(TitleWithIcon(
           item.headerTitle,
           iconData: item.headerIcon,
         ));
+        listWidgets.add(SizedBox(height: 10));
       } else {
-        listWidgets.add(Text(item.name));
+        listWidgets.add(_TitleWithSlider(
+          id: item.id,
+          name: item.name,
+          value: item.value,
+          showTitle: item.showTitle,
+          onChanged: ((double value) {
+            print('New Value ' + value.toString());
+            setState(() {
+              item.value = value.toInt();
+            });
+            widget.onSave(item);
+          }),
+        ));
       }
     });
     return Column(
@@ -154,34 +205,61 @@ class _Points extends StatelessWidget {
 class _TitleWithSlider extends StatelessWidget {
   final int id;
   final String name;
-  final Function onSave;
+  final int value;
+  final Function onChanged;
+  final bool showTitle;
 
   const _TitleWithSlider({
     Key key,
     @required this.id,
     @required this.name,
-    @required this.onSave,
+    @required this.value,
+    @required this.onChanged,
+    @required this.showTitle,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Text(name);
-  }
-}
+    double _value = value.toDouble();
 
-class _PointWithSlider extends StatelessWidget {
-  final String title;
-  final IconData iconData;
-  final List<Widget> children;
-
-  const _PointWithSlider(this.title, {Key key, this.iconData, this.children}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Column(
-          children: children,
+        Visibility(
+          visible: showTitle,
+          child: Text(
+            name,
+            style: TextStyle(fontSize: 18),
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Expanded(
+              child: Slider(
+                value: _value,
+                divisions: 10,
+                min: 0,
+                max: 10,
+                onChanged: onChanged,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                    // color: Constants.accent2,
+                    color: Colors.transparent),
+                borderRadius: BorderRadius.all(Radius.circular(Constants.borderRadiusSmall)),
+                color: Colors.white,
+              ),
+              child: Center(child: Text(_value.toInt().toString())),
+            )
+          ],
         ),
       ],
     );

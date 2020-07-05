@@ -25,6 +25,7 @@ class AddApproachController {
         name: element.name,
         pointType: element.pointType,
         value: element.value,
+        showTitle: element.pointType == PointType.skill ? true : false,
       ));
       //
       lastPointType = element.pointType;
@@ -73,15 +74,16 @@ class PointPresentation {
   final PointType pointType;
   final int id;
   final String name;
+  final bool showTitle;
   int value;
 
-  PointPresentation({
-    this.id,
-    this.name,
-    this.value,
-    this.pointType,
-    @required this.isHeader,
-    this.headerTitle,
-    this.headerIcon,
-  });
+  PointPresentation(
+      {this.id,
+      this.name,
+      this.value,
+      this.pointType,
+      @required this.isHeader,
+      this.headerTitle,
+      this.headerIcon,
+      this.showTitle});
 }

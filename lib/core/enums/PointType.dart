@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 enum PointType {
   skill,
   attraction,
+  difficulty,
   result,
 }
 
@@ -21,6 +22,9 @@ PointType getPointTypeWithString(String str) {
       break;
     case 'attraction':
       pointType = PointType.attraction;
+      break;
+    case 'difficulty':
+      pointType = PointType.difficulty;
       break;
     case 'result':
       pointType = PointType.result;
@@ -41,6 +45,9 @@ IconData getPointTypeIcon(PointType pointType) {
       break;
     case PointType.result:
       iconData = FontAwesomeIcons.medal;
+      break;
+    case PointType.difficulty:
+      iconData = FontAwesomeIcons.snowflake;
       break;
   }
 

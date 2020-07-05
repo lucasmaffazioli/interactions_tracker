@@ -4,6 +4,7 @@ import 'package:floor/floor.dart';
 
 @DatabaseView('''
 SELECT a.id, a.name, a.dateTime, a.description, 
+(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'difficulty') as difficulty,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'skill') as skill,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'attraction') as attraction,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'result') as result
@@ -16,6 +17,7 @@ class ApproachSummaryView {
   final String name;
   final String dateTime;
   final String description;
+  final double difficulty;
   final double skill;
   final double attraction;
   final double result;
@@ -25,6 +27,7 @@ class ApproachSummaryView {
     this.name,
     this.dateTime,
     this.description,
+    this.difficulty,
     this.skill,
     this.attraction,
     this.result,
@@ -36,6 +39,7 @@ class ApproachSummaryView {
       'name': name,
       'dateTime': dateTime,
       'description': description,
+      'difficulty': skill.toString(),
       'skill': skill.toString(),
       'attraction': attraction.toString(),
       'result': result.toString(),
