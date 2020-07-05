@@ -1,8 +1,18 @@
 // Isto aqui NÃO CONHECE o banco de dados
 
 import 'package:cold_app/core/enums/PointType.dart';
+import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/point_model.dart';
+import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
+
+PointFloorGateway pointFloorGateway = PointFloorGateway();
+ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
+ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
+ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
+ApproachPointsViewFloorGateway approachPointsViewFloorGateway = ApproachPointsViewFloorGateway();
 
 // class DeleteApproach {
 //   void call(String uid) async {
@@ -18,14 +28,68 @@ import 'package:cold_app/domain/entities/approach/point_entity.dart';
 //   }
 // }
 
-// class GetApproach {
-//   Future<Approach> call(String uid) async {
-//     Map map = await LocalDatastore().getApproach(uid);
-//     print('map.toString()');
-//     print(map.toString());
-//     // return Approach.fromMap(uid, map);
-//   }
-// }
+class GetApproach {
+  Future<ApproachEntity> call(int id) async {
+    ApproachModel approachModel;
+    //
+    ApproachEntity approach;
+    List<PointEntity> points = [];
+    //
+    print('call');
+    print(id);
+    //
+    if (id == null) {
+      List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();
+      allPointsModel.forEach((element) {
+        points.add(PointEntity(
+          id: element.id,
+          name: element.name,
+          pointType: getPointTypeWithString(element.pointType),
+          value: 0,
+        ));
+        approach = ApproachEntity(
+          id: 0,
+          name: '',
+          description: '',
+          dateTime: DateTime.now(),
+          points: points,
+        );
+      });
+    } else {
+      approachModel = await approachFloorGateway.getApproachById(id);
+      List<ApproachPointsView> approachPointsView =
+          await approachPointsViewFloorGateway.findApproachesPointsByApproachId(id);
+      //
+      //
+      approachPointsView.forEach((element) {
+        points.add(PointEntity(
+          id: element.pointId,
+          name: element.pointName,
+          pointType: getPointTypeWithString(element.pointType),
+          value: element.pointValue,
+        ));
+        approach = ApproachEntity(
+          id: approachModel.id,
+          name: approachModel.name,
+          description: approachModel.description,
+          dateTime: DateTime.parse(approachModel.dateTime),
+          points: points,
+        );
+      });
+    }
+    //
+    //
+    //
+    print('Approach_usecases');
+    print('approach.toJson()');
+    print(approach.toJson());
+    approach.points.forEach((element) {
+      print(element.toJson());
+    });
+    //
+    return approach;
+  }
+}
 
 class GetAllApproaches {
   // Future<List<ApproachEntity>> call() async {

@@ -75,3 +75,9 @@ abstract class ApproachSummaryDao {
   @Query('SELECT * FROM approachSummaryView')
   Future<List<ApproachSummaryView>> findApproachesSummary();
 }
+
+@dao
+abstract class ApproachPointsViewDao {
+  @Query('SELECT * FROM approachPointsView WHERE approachId = :approachId')
+  Future<List<ApproachPointsView>> findApproachesPointsByApproachId(int approachId);
+}

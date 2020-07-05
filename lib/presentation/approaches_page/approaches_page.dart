@@ -6,7 +6,6 @@ import '../add_approach_page/add_approach_page.dart';
 import '../common/base_app_bar.dart';
 import '../common/constants.dart';
 
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class HomePage extends StatelessWidget {
         child: FaIcon(FontAwesomeIcons.plus),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: SafeArea(child: Approaches()),
+      body: _Approaches(),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Constants.accent,
         unselectedItemColor: Constants.accentDisabled,
@@ -64,41 +63,53 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class Approaches extends StatelessWidget {
+class _Approaches extends StatelessWidget {
   final ApproachesController controller = ApproachesController();
 
   @override
   Widget build(BuildContext context) {
-    List<ApproachListItem> items = controller.getAllApproaches();
+    Future<List<ApproachListItem>> itemsFuture = controller.getAllApproaches();
+    List<ApproachListItem> items;
 
-    return NotificationListener(
-      child: ListView.builder(
-        // Let the ListView know how many items it needs to build.
-        itemCount: items.length,
+    return FutureBuilder<List<ApproachListItem>>(
+        future: itemsFuture,
+        builder: (context, AsyncSnapshot snapshot) {
+          print('projectconnection state is: ${snapshot.connectionState}');
+          print('project snapshot data is: ${snapshot.data}');
+          print('project has data is: ${snapshot.hasData.toString()}');
 
-        itemBuilder: (context, index) {
-          final item = items[index];
-          // final List<Widget> approaches = [];
-          if (item.isMonth) {
-            return Center(
-                child: Text(
-              item.month,
-              style: Constants.textH1,
-            ));
-          } else {
-            return MyCard(
-              title: item.title,
-              description: item.description,
-              month: item.month,
-              day: item.day,
-              skill: item.skill,
-              attraction: item.attraction,
-              result: item.result,
-            );
+          if (snapshot.connectionState != ConnectionState.done) {
+            print('project snapshot data is: ${snapshot.data}');
+            return Container(child: Text('Loading data....'));
           }
-        },
-      ),
-    );
+          items = snapshot.data ?? [];
+          return ListView.builder(
+            // Let the ListView know how many items it needs to build.
+            itemCount: items.length,
+
+            itemBuilder: (context, index) {
+              final item = items[index];
+              // final List<Widget> approaches = [];
+              if (item.isMonth) {
+                return Center(
+                    child: Text(
+                  item.month,
+                  style: Constants.textH1,
+                ));
+              } else {
+                return MyCard(
+                  title: item.title,
+                  description: item.description,
+                  month: item.month,
+                  day: item.day,
+                  skill: item.skill,
+                  attraction: item.attraction,
+                  result: item.result,
+                );
+              }
+            },
+          );
+        });
   }
 }
 

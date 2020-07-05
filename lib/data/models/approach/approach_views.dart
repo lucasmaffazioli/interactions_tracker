@@ -42,3 +42,37 @@ class ApproachSummaryView {
     });
   }
 }
+
+@DatabaseView('''
+SELECT ap.approachId, ap.pointId, p.name, ap.value, p.pointType from approach_points ap
+INNER JOIN point p ON p.id = ap.pointId 
+ORDER BY p.pointType
+''', viewName: 'approachPointsView')
+//
+class ApproachPointsView {
+  final int approachId;
+  final int pointId;
+  final String pointName;
+  final int pointValue;
+  final String pointType;
+
+  ApproachPointsView({
+    this.approachId,
+    this.pointId,
+    this.pointName,
+    this.pointValue,
+    this.pointType,
+  });
+
+  // String toJson() {
+  //   return json.encode({
+  //     'id': id.toString(),
+  //     'name': name,
+  //     'dateTime': dateTime,
+  //     'description': description,
+  //     'skill': skill.toString(),
+  //     'attraction': attraction.toString(),
+  //     'result': result.toString(),
+  //   });
+  // }
+}

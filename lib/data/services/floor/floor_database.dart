@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/services/floor/dao.dart';
+import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
@@ -14,12 +15,13 @@ part 'floor_database.g.dart';
 @Database(
     version: 1,
     entities: [ApproachModel, ApproachPointsModel, PointModel],
-    views: [ApproachSummaryView])
+    views: [ApproachSummaryView, ApproachPointsView])
 abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
   PointModelDao get pointModelDao;
   ApproachPointsModelDao get approachPointsModelDao;
   ApproachSummaryDao get approachSummaryDao;
+  ApproachPointsViewDao get approachPointsDao;
 }
 
 //
@@ -50,3 +52,14 @@ void _resetTableWithAutoIncrement(database, String tableName) async {
     print(element);
   });
 }
+
+final dbCallback = Callback(
+  onCreate: (database, version) async {
+    print('database has been created');
+    PointFloorGateway pointFloorGateway = PointFloorGateway();
+    await pointFloorGateway.onCreateDatabase();
+    print('First dB use configured');
+  },
+  onOpen: (database) {/* database has been opened */},
+  onUpgrade: (database, startVersion, endVersion) {/* database has been upgraded */},
+);

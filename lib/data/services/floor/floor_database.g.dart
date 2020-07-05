@@ -68,6 +68,8 @@ class _$AppDatabase extends AppDatabase {
 
   ApproachSummaryDao _approachSummaryDaoInstance;
 
+  ApproachPointsViewDao _approachPointsDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -101,6 +103,11 @@ class _$AppDatabase extends AppDatabase {
 FROM approach a
 ORDER BY a.dateTime
 ''');
+        await database.execute(
+            '''CREATE VIEW IF NOT EXISTS `approachPointsView` AS SELECT ap.approachId, ap.pointId, p.name, ap.value, p.pointType from approach_points ap
+INNER JOIN point p ON p.id = ap.pointId 
+ORDER BY p.pointType
+''');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -129,6 +136,12 @@ ORDER BY a.dateTime
   ApproachSummaryDao get approachSummaryDao {
     return _approachSummaryDaoInstance ??=
         _$ApproachSummaryDao(database, changeListener);
+  }
+
+  @override
+  ApproachPointsViewDao get approachPointsDao {
+    return _approachPointsDaoInstance ??=
+        _$ApproachPointsViewDao(database, changeListener);
   }
 }
 
@@ -411,5 +424,33 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
   Future<List<ApproachSummaryView>> findApproachesSummary() async {
     return _queryAdapter.queryList('SELECT * FROM approachSummaryView',
         mapper: _approachSummaryViewMapper);
+  }
+}
+
+class _$ApproachPointsViewDao extends ApproachPointsViewDao {
+  _$ApproachPointsViewDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _approachPointsViewMapper = (Map<String, dynamic> row) =>
+      ApproachPointsView(
+          approachId: row['approachId'] as int,
+          pointId: row['pointId'] as int,
+          pointName: row['pointName'] as String,
+          pointValue: row['pointValue'] as int,
+          pointType: row['pointType'] as String);
+
+  @override
+  Future<List<ApproachPointsView>> findApproachesPointsByApproachId(
+      int approachId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM approachPointsView WHERE approachId = ?',
+        arguments: <dynamic>[approachId],
+        mapper: _approachPointsViewMapper);
   }
 }

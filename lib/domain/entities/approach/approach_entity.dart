@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
 import 'package:flutter/foundation.dart';
 
@@ -14,13 +16,23 @@ class ApproachEntity {
     @required this.dateTime,
     @required this.name,
     @required this.description,
-    @required this.notes,
+    this.notes,
     @required this.points,
   }) {
     if (id == null) throw ArgumentError('Error!');
     if (dateTime == null) throw ArgumentError('Error!');
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');
-    if (notes == null) throw ArgumentError('Error!');
+  }
+
+  String toJson() {
+    return json.encode({
+      'id': id.toString(),
+      'dateTime': dateTime.toIso8601String(),
+      'name': name,
+      'description': description,
+      'notes': notes,
+      'points': points.toString(),
+    });
   }
 }

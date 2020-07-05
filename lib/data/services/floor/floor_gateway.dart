@@ -14,6 +14,7 @@ class FloorGateway {
   ApproachModelDao approachDao;
   ApproachPointsModelDao approachPointsDao;
   ApproachSummaryDao approachSummaryDao;
+  ApproachPointsViewDao approachPointsViewDao;
 
   // FloorGateway() async {
   //   database = await locator.get<LocatorDatabase>().getDatabase();
@@ -153,5 +154,13 @@ class ApproachSummaryViewFloorGateway extends FloorGateway {
     await _setUp();
     //
     return await approachSummaryDao.findApproachesSummary();
+  }
+}
+
+class ApproachPointsViewFloorGateway extends FloorGateway {
+  Future<List<ApproachPointsView>> findApproachesPointsByApproachId(int approachId) async {
+    await _setUp();
+    //
+    return await approachPointsViewDao.findApproachesPointsByApproachId(approachId);
   }
 }

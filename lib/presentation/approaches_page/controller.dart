@@ -2,14 +2,7 @@ import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:flutter/foundation.dart';
 
 class ApproachesController {
-  List<ApproachListItem> getAllApproaches() {
-    // final items = List<ApproachListItem>.generate(
-    //   15,
-    //   (i) => i % 6 == 0
-    //       ? ApproachListItem(isMonth: true, month: i.toString())
-    //       : ApproachListItem(
-    //           isMonth: false, title: 'Kim Kardashian', day: i.toString(), month: 'Dezembro'),
-    // );
+  Future<List<ApproachListItem>> getAllApproaches() async {
     List<ApproachListItem> items = [];
     items.add(
       ApproachListItem(
@@ -217,94 +210,11 @@ class ApproachesController {
           attraction: 8,
           result: 7),
     );
-    // items.add(
-    //   MonthApproaches('Julho', <ApproachListItem>[
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '27',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '24',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '13',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '10',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '2',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //   ]),
-    // );
-    // items.add(
-    //   MonthApproaches('Julho', <ApproachListItem>[
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '27',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '24',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '13',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '10',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //     ApproachListItem(
-    //         title: 'Joana Dark',
-    //         description: 'Long hair',
-    //         day: '2',
-    //         month: 'agosto',
-    //         skill: 10,
-    //         attraction: 8,
-    //         result: 7),
-    //   ]),
-    // );
+
+    await Future.delayed(Duration(seconds: 3), () {
+      print('returnung..... ');
+      print(items);
+    });
 
     return items;
   }

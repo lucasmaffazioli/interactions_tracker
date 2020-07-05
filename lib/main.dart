@@ -1,15 +1,19 @@
+import 'package:cold_app/locator.dart';
 import 'package:flutter/material.dart';
 
 import 'presentation/approaches_page/approaches_page.dart';
 import 'presentation/common/constants.dart';
 
 void main() {
+  setupLocator();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    USE_TEST_IMPLEMENTATION = false;
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(

@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 
 GetIt locator = GetIt.instance;
 
-const bool USE_TEST_IMPLEMENTATION = true;
+bool USE_TEST_IMPLEMENTATION = true;
 
 void setupLocator() {
   locator.registerSingleton<LocatorDatabase>(LocatorDatabase());
@@ -44,7 +44,10 @@ class LocatorDatabase {
         a != null ?? print('some error in resetting db');
         //
       } else {
-        _database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+        _database = await $FloorAppDatabase
+            .databaseBuilder('app_database.db')
+            .addCallback(dbCallback)
+            .build();
       }
       _isInstanciated = true;
     }
