@@ -1,3 +1,4 @@
+import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        'Abordagens',
+        AppLocalizations.of(context).translate('approaches'),
         appBar: AppBar(),
       ),
       floatingActionButton: FloatingActionButton(
@@ -37,7 +38,7 @@ class HomePage extends StatelessWidget {
               color: Constants.accent,
             ),
             title: Text(
-              'Dashboard',
+              AppLocalizations.of(context).translate('dashboard'),
             ),
           ),
           BottomNavigationBarItem(
@@ -50,7 +51,7 @@ class HomePage extends StatelessWidget {
               // color: Constants.accent,
             ),
             title: Text(
-              'Abordagens',
+              AppLocalizations.of(context).translate('approaches'),
             ),
           ),
         ],

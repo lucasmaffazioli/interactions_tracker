@@ -1,3 +1,4 @@
+import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:flutter/material.dart';
@@ -14,22 +15,26 @@ class AddApproachPage extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
+  String _required_value_text;
+
   String _requiredValidator(value) {
     print('value');
     print(value);
     if (value == null || value == '') {
-      return 'Valor obrigaório!';
+      return _required_value_text;
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    _required_value_text = AppLocalizations.of(context).translate('required_value');
+
     Future<ApproachPresentation> approachPresentationFuture = controller.getApproach();
 
     return Scaffold(
       appBar: BaseAppBar(
-        'Nova Abordagem',
+        AppLocalizations.of(context).translate('new_approach'),
         appBar: AppBar(),
         hasBackButton: true,
       ),
@@ -59,7 +64,7 @@ class AddApproachPage extends StatelessWidget {
                             children: <Widget>[
                               Expanded(
                                 child: DateFormInput(
-                                  title: 'Data *',
+                                  title: AppLocalizations.of(context).translate('date') + ' *',
                                   validator: _requiredValidator,
                                   onSave: ((value) {
                                     approachPresentation.date = value;
@@ -71,7 +76,7 @@ class AddApproachPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: TimeFormInput(
-                                  title: 'Hora *',
+                                  title: AppLocalizations.of(context).translate('time') + ' *',
                                   onSave: ((value) {
                                     approachPresentation.time = value;
                                   }),
@@ -80,21 +85,21 @@ class AddApproachPage extends StatelessWidget {
                             ],
                           ),
                           TextFormInput(
-                            title: 'Nome *',
+                            title: AppLocalizations.of(context).translate('name') + ' *',
                             validator: _requiredValidator,
                             onSave: ((value) {
                               approachPresentation.name = value;
                             }),
                           ),
                           TextFormInput(
-                            title: 'Resumo *',
+                            title: AppLocalizations.of(context).translate('summary') + ' *',
                             validator: _requiredValidator,
                             onSave: ((value) {
                               approachPresentation.description = value;
                             }),
                           ),
                           TextFormInput(
-                            title: 'Notas',
+                            title: AppLocalizations.of(context).translate('notes'),
                             maxLines: 5,
                             minLines: 3,
                             onSave: ((value) {
@@ -137,7 +142,7 @@ class AddApproachPage extends StatelessWidget {
                           }
                         },
                         child: Text(
-                          'Salvar',
+                          AppLocalizations.of(context).translate('save'),
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 18,

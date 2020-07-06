@@ -47,7 +47,8 @@ IconData getPointTypeIcon(PointType pointType) {
       iconData = FontAwesomeIcons.medal;
       break;
     case PointType.difficulty:
-      iconData = FontAwesomeIcons.snowflake;
+      iconData = FontAwesomeIcons.solidDizzy;
+      // iconData = FontAwesomeIcons.snowflake;
       break;
   }
 
