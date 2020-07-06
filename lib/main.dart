@@ -80,9 +80,26 @@ class MyApp extends StatelessWidget {
           activeTickMarkColor: Constants.accent2,
           inactiveTickMarkColor: Constants.accent2.withOpacity(0.2),
           overlappingShapeStrokeColor: Colors.red,
+          trackShape: _CustomTrackShape(),
         ),
       ),
       home: HomePage(),
     );
+  }
+}
+
+class _CustomTrackShape extends RoundedRectSliderTrackShape {
+  Rect getPreferredRect({
+    @required RenderBox parentBox,
+    Offset offset = Offset.zero,
+    @required SliderThemeData sliderTheme,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double trackHeight = sliderTheme.trackHeight;
+    final double trackLeft = offset.dx + 15;
+    final double trackTop = offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width - 35;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
   }
 }

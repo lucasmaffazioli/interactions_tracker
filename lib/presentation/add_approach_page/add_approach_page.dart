@@ -30,7 +30,7 @@ class AddApproachPage extends StatelessWidget {
   Widget build(BuildContext context) {
     _required_value_text = AppLocalizations.of(context).translate('required_field');
 
-    Future<ApproachPresentation> approachPresentationFuture = controller.getApproach();
+    Future<ApproachPresentation> approachPresentationFuture = controller.getApproach(context);
 
     return Scaffold(
       appBar: BaseAppBar(
@@ -192,7 +192,8 @@ class __PointsState extends State<_Points> {
           id: item.id,
           name: item.name,
           value: item.value,
-          showTitle: item.showTitle,
+          fullTitle: item.fullTitle,
+          icon: item.headerIcon,
           onChanged: ((double value) {
             print('New Value ' + value.toString());
             setState(() {
@@ -214,7 +215,8 @@ class _TitleWithSlider extends StatelessWidget {
   final String name;
   final int value;
   final Function onChanged;
-  final bool showTitle;
+  final bool fullTitle;
+  final IconData icon;
 
   const _TitleWithSlider({
     Key key,
@@ -222,7 +224,8 @@ class _TitleWithSlider extends StatelessWidget {
     @required this.name,
     @required this.value,
     @required this.onChanged,
-    @required this.showTitle,
+    @required this.fullTitle,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -232,12 +235,23 @@ class _TitleWithSlider extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Visibility(
-          visible: showTitle,
-          child: Text(
-            name,
-            style: TextStyle(fontSize: 18),
-          ),
+        Row(
+          children: <Widget>[
+            Visibility(
+              visible: fullTitle,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 7),
+                child: FaIcon(
+                  icon,
+                  color: Constants.accent2,
+                ),
+              ),
+            ),
+            Text(
+              name,
+              style: TextStyle(fontSize: 18),
+            ),
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -288,10 +302,12 @@ class TitleWithIcon extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        FaIcon(
-          iconData,
-          color: Constants.mainTextColor,
-        ),
+        iconData == null
+            ? SizedBox.shrink()
+            : FaIcon(
+                iconData,
+                color: Constants.mainTextColor,
+              ),
         SizedBox(
           width: 8,
         ),

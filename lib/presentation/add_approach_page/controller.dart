@@ -1,21 +1,32 @@
+import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/material.dart';
 
 class AddApproachController {
-  Future<ApproachPresentation> getApproach() async {
+  Future<ApproachPresentation> getApproach(context) async {
     ApproachEntity approachEntity = await GetApproach().call(null);
     //
     List<PointPresentation> pointPresentationList = [];
     //
     PointType lastPointType;
+    bool addedOthers = false;
+    //
     approachEntity.points.forEach((element) {
-      if (lastPointType != element.pointType) {
+      // if (lastPointType != element.pointType) {
+      if (PointType.skill == element.pointType && lastPointType != element.pointType) {
         pointPresentationList.add(PointPresentation(
           isHeader: true,
           headerTitle: element.pointType.toString(),
           headerIcon: getPointTypeIcon(element.pointType),
+        ));
+      }
+      if (PointType.skill == lastPointType && PointType.skill != element.pointType) {
+        pointPresentationList.add(PointPresentation(
+          isHeader: true,
+          headerTitle: AppLocalizations.of(context).translate('other_point_type'),
+          headerIcon: null,
         ));
       }
       //
@@ -25,7 +36,8 @@ class AddApproachController {
         name: element.name,
         pointType: element.pointType,
         value: element.value,
-        showTitle: element.pointType == PointType.skill ? true : false,
+        headerIcon: getPointTypeIcon(element.pointType),
+        fullTitle: element.pointType == PointType.skill ? false : true,
       ));
       //
       lastPointType = element.pointType;
@@ -74,7 +86,7 @@ class PointPresentation {
   final PointType pointType;
   final int id;
   final String name;
-  final bool showTitle;
+  final bool fullTitle;
   int value;
 
   PointPresentation(
@@ -85,5 +97,5 @@ class PointPresentation {
       @required this.isHeader,
       this.headerTitle,
       this.headerIcon,
-      this.showTitle});
+      this.fullTitle});
 }
