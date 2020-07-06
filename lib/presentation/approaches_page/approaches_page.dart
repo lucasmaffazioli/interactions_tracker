@@ -19,6 +19,13 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 0,
+        // shape: CircleBorder(
+        //   side: BorderSide(
+        //     width: 4,
+        //     color: Colors.white,
+        //     style: BorderStyle.solid,
+        //   ),
+        // ),
         onPressed: (() {
           Navigator.push(
             context,
@@ -29,33 +36,38 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _Approaches(),
-      bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Constants.accent,
-        unselectedItemColor: Constants.accentDisabled,
-        items: [
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.chartPie,
-              color: Constants.accent,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.black.withAlpha(28), blurRadius: 20)]),
+        child: BottomNavigationBar(
+          elevation: 50,
+          selectedItemColor: Constants.accent,
+          unselectedItemColor: Constants.accentDisabled,
+          items: [
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.chartPie,
+                color: Constants.accent,
+              ),
+              title: Text(
+                AppLocalizations.of(context).translate('dashboard'),
+              ),
             ),
-            title: Text(
-              AppLocalizations.of(context).translate('dashboard'),
+            BottomNavigationBarItem(
+              icon: FaIcon(
+                FontAwesomeIcons.list,
+                // color: Constants.accentDisabled,
+              ),
+              activeIcon: FaIcon(
+                FontAwesomeIcons.list,
+                // color: Constants.accent,
+              ),
+              title: Text(
+                AppLocalizations.of(context).translate('approaches'),
+              ),
             ),
-          ),
-          BottomNavigationBarItem(
-            icon: FaIcon(
-              FontAwesomeIcons.list,
-              // color: Constants.accentDisabled,
-            ),
-            activeIcon: FaIcon(
-              FontAwesomeIcons.list,
-              // color: Constants.accent,
-            ),
-            title: Text(
-              AppLocalizations.of(context).translate('approaches'),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       // ],
       // ),
