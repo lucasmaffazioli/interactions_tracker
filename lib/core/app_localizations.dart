@@ -35,7 +35,7 @@ class AppLocalizations {
   String translate(String key) {
     // String returnString = key;
     // _localizedStrings[key]
-
+    if (_localizedStrings[key] == null) print("WARNING - key $key doens't exist");
     return _localizedStrings[key] ?? key;
   }
 }
@@ -50,7 +50,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   @override
   bool isSupported(Locale locale) {
     // Include all of your supported language codes here
-    return ['en', 'br'].contains(locale.languageCode);
+    return ['en', 'pt'].contains(locale.languageCode);
   }
 
   @override

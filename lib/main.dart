@@ -26,14 +26,18 @@ class MyApp extends StatelessWidget {
       ],
       supportedLocales: [
         const Locale('en', ''), // English, no country code
-        const Locale('pt', ''), // Hebrew, no country code
+        const Locale('pt', ''), // PT
         // ... other locales the app supports
       ],
       localeResolutionCallback: (locale, supportedLocales) {
+        print('language ' + locale.toString());
+        print('languages ' + supportedLocales.toString());
         // Check if the current device locale is supported
         for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode &&
-              supportedLocale.countryCode == locale.countryCode) {
+          if (supportedLocale.languageCode == locale.languageCode
+              //  && supportedLocale.countryCode == locale.countryCode
+              ) {
+            print('lol');
             return supportedLocale;
           }
         }

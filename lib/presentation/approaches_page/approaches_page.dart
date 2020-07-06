@@ -13,6 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
+        // 'Approaches',
         AppLocalizations.of(context).translate('approaches'),
         appBar: AppBar(),
       ),

@@ -1,4 +1,8 @@
 {
+	"PointType.skill": "Habilidades",
+	"PointType.difficulty": "Dificuldade",
+	"PointType.attraction": "Atração",
+	"PointType.result": "Resultado",
 	"dashboard": "Dashboard",
 	"approaches": "Abordagens",
 	"skills": "Habilidades",
@@ -12,5 +16,6 @@
 	"save": "Salvar",
 	"new_approach": "Nova abordagem",
 	"approachs": "Abordagens",
+	"required_field": "Campo obrigatório",
 	"date": "Data"
 }

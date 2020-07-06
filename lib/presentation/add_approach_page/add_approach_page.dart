@@ -28,7 +28,7 @@ class AddApproachPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _required_value_text = AppLocalizations.of(context).translate('required_value');
+    _required_value_text = AppLocalizations.of(context).translate('required_field');
 
     Future<ApproachPresentation> approachPresentationFuture = controller.getApproach();
 
@@ -181,7 +181,9 @@ class __PointsState extends State<_Points> {
       // index++;
       if (item.isHeader) {
         listWidgets.add(TitleWithIcon(
-          item.headerTitle,
+          AppLocalizations.of(context).translate(item.headerTitle),
+
+          // item.headerTitle,
           iconData: item.headerIcon,
         ));
         listWidgets.add(SizedBox(height: 10));
