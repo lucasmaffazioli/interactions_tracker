@@ -32,7 +32,6 @@ class AddApproachPage extends StatelessWidget {
     _required_value_text = AppLocalizations.of(context).translate('required_field');
 
     Future<ApproachPresentation> approachPresentationFuture = controller.getApproach(context);
-    ApproachPresentation approachPresentation;
 
     return Scaffold(
       appBar: BaseAppBar(
@@ -152,13 +151,14 @@ class AddApproachPage extends StatelessWidget {
 
       controller.saveApproach(approachPresentation);
 
-      print('approachPresentation.date');
-      print(approachPresentation.date);
+      // print('approachPresentation.date');
+      // print(approachPresentation.date);
 
-      approachPresentation.points.forEach((element) {
-        print(element.name);
-        print(element.value);
-      });
+      // approachPresentation.points.forEach((element) {
+      //   print(element.isHeader.toString());
+      //   print(element.name);
+      //   print(element.value);
+      // });
       // print(approachData.time);
       // print(approachData.name);
       // If the form is valid, display a snackbar. In the real world,

@@ -20,13 +20,13 @@ ApproachPointsViewFloorGateway approachPointsViewFloorGateway = ApproachPointsVi
 //   }
 // }
 
-// class SetApproach {
-//   void call(String uid, Approach approach) async {
-//     dynamic lol = await LocalDatastore().setApproach(uid, approach);
-//     // print('Set approach');
-//     // print(lol.toString());
-//   }
-// }
+class SaveApproach {
+  void call(ApproachEntity approach) async {
+    // dynamic lol = await LocalDatastore().setApproach(uid, approach);
+    print('Save approach');
+    print(approach.toJson());
+  }
+}
 
 class GetApproach {
   Future<ApproachEntity> call(int id) async {

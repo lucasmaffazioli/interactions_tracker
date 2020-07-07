@@ -32,7 +32,8 @@ class ApproachEntity {
       'name': name,
       'description': description,
       'notes': notes,
-      'points': points.toString(),
+      'points': points.map((e) => e.toJson()).toList(),
+      // 'points': points,
     });
   }
 }

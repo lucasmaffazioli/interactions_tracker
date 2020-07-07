@@ -3,6 +3,7 @@ import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/material.dart';
+import 'package:cold_app/domain/entities/approach/point_entity.dart';
 
 class AddApproachController {
   Future<ApproachPresentation> getApproach(context) async {
@@ -66,12 +67,44 @@ class AddApproachController {
   }
 
   void saveApproach(ApproachPresentation approachPresentation) async {
+    final DateTime dateTime = DateTime(
+        approachPresentation.date.year,
+        approachPresentation.date.month,
+        approachPresentation.date.second,
+        approachPresentation.time.hour,
+        approachPresentation.time.minute);
+    List<PointEntity> points = [];
+
     print('Saving approach');
     print(approachPresentation.date);
     print(approachPresentation.time);
-    print(DateTime.parse(
-            approachPresentation.date.toString() + ' ' + approachPresentation.time.toString())
-        .toString());
+    print(dateTime.toString());
+    approachPresentation.points.forEach((element) {
+      print(element.isHeader.toString());
+      print(element.name);
+      print(element.value);
+      //
+      if (!element.isHeader)
+        points.add(PointEntity(
+            id: element.id,
+            name: element.name,
+            pointType: element.pointType,
+            value: element.value));
+    });
+    //
+    //
+    //
+    ApproachEntity approachEntity = ApproachEntity(
+      id: approachPresentation.id,
+      dateTime: dateTime,
+      name: approachPresentation.name,
+      description: approachPresentation.description,
+      notes: approachPresentation.notes,
+      points: points,
+    );
+
+    //
+    await SaveApproach().call(approachEntity);
   }
 }
 
