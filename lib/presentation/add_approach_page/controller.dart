@@ -12,7 +12,6 @@ class AddApproachController {
     List<PointPresentation> pointPresentationList = [];
     //
     PointType lastPointType;
-    bool addedOthers = false;
     //
     approachEntity.points.forEach((element) {
       // if (lastPointType != element.pointType) {
@@ -102,7 +101,6 @@ class AddApproachController {
       notes: approachPresentation.notes,
       points: points,
     );
-
     //
     await SaveApproach().call(approachEntity);
   }

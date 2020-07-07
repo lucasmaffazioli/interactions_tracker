@@ -1,7 +1,6 @@
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 
-import '../../../core/enums/PointType.dart';
 import '../../../locator.dart';
 import '../../models/approach/approach_model.dart';
 import '../../models/approach/point_model.dart';
@@ -27,6 +26,7 @@ class FloorGateway {
     approachDao = database.approachModelDao;
     approachPointsDao = database.approachPointsModelDao;
     approachSummaryDao = database.approachSummaryDao;
+    approachPointsViewDao = database.approachPointsViewDao;
   }
 }
 

@@ -6,7 +6,7 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class PointModelDao {
-  @Query('SELECT * FROM point')
+  @Query('SELECT * FROM point ORDER BY pointType DESC, name')
   Future<List<PointModel>> findAllPointModels();
 
   @Query('SELECT * FROM point WHERE id = :id')
@@ -72,12 +72,12 @@ abstract class ApproachPointsModelDao {
 
 @dao
 abstract class ApproachSummaryDao {
-  @Query('SELECT * FROM approachSummaryView')
+  @Query('SELECT * FROM approach_summary_view')
   Future<List<ApproachSummaryView>> findApproachesSummary();
 }
 
 @dao
 abstract class ApproachPointsViewDao {
-  @Query('SELECT * FROM approachPointsView WHERE approachId = :approachId')
+  @Query('SELECT * FROM approach_points_view WHERE approachId = :approachId')
   Future<List<ApproachPointsView>> findApproachesPointsByApproachId(int approachId);
 }

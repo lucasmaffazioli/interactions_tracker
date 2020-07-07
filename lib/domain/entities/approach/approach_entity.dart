@@ -19,7 +19,7 @@ class ApproachEntity {
     this.notes,
     @required this.points,
   }) {
-    if (id == null) throw ArgumentError('Error!');
+    // if (id == null) throw ArgumentError('Error!');
     if (dateTime == null) throw ArgumentError('Error!');
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');

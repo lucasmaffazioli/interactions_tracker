@@ -2,9 +2,9 @@
 
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
-import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
@@ -14,6 +14,7 @@ ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
 ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
 ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
 ApproachPointsViewFloorGateway approachPointsViewFloorGateway = ApproachPointsViewFloorGateway();
+ApproachSummaryViewFloorGateway approachSummaryViewFloorGateway = ApproachSummaryViewFloorGateway();
 
 // class DeleteApproach {
 //   void call(String uid) async {
@@ -34,9 +35,28 @@ class SaveApproach {
       description: approach.description,
       notes: approach.notes,
     ));
-    
-    
-    ERROR HANDLING
+
+    // TODO - ERROR HANDLING
+    if (approachId != null && approachId != 0) {
+      approach.points.forEach((element) async {
+        try {
+          await approachPointsFloorGateway.insertApproachPoints(ApproachPointsModel(
+            approachId: approachId,
+            pointId: element.id,
+            value: element.id,
+          ));
+        } catch (e) {
+          print('Erro ao inserir pontos! ' + e.toString());
+        }
+      });
+    }
+
+    //
+    //
+
+    ApproachEntity ap = await GetApproach().call(approachId);
+    print('Inserted approach:');
+    print(ap.toJson());
   }
 }
 
@@ -60,7 +80,7 @@ class GetApproach {
           value: 0,
         ));
         approach = ApproachEntity(
-          id: 0,
+          id: null,
           name: '',
           description: '',
           dateTime: DateTime.now(),
@@ -69,11 +89,18 @@ class GetApproach {
       });
     } else {
       approachModel = await approachFloorGateway.getApproachById(id);
+
       List<ApproachPointsView> approachPointsView =
           await approachPointsViewFloorGateway.findApproachesPointsByApproachId(id);
+
+      List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();
+      allPointsModel.forEach((element) {
+        print(element.toJson());
+      });
       //
       //
       approachPointsView.forEach((element) {
+        print(element.toJson());
         points.add(PointEntity(
           id: element.pointId,
           name: element.pointName,
@@ -103,24 +130,21 @@ class GetApproach {
   }
 }
 
-class GetAllApproaches {
-  // Future<List<ApproachEntity>> call() async {
-  //   List<ApproachEntity> list = [
-  //     ApproachEntity(
-  //       id: 1,
-  //       dateTime: DateTime(2020, 01, 17),
-  //       name: 'Bruna',
-  //       description: 'The Brunette',
-  //       notes: 'A high staking girl',
-  //       points: [
-  //         PointEntity(id: 1, name: 'Contato visual', pointType: PointType.skill, value: 7),
-  //         PointEntity(id: 2, name: 'Postura física', pointType: PointType.skill, value: 10),
-  //         PointEntity(id: 3, name: 'Atração', pointType: PointType.attraction, value: 7),
-  //         PointEntity(id: 4, name: 'Resultado', pointType: PointType.result, value: 9),
-  //       ],
-  //     )
-  //   ];
+class GetAllSummaryApproaches {
+  Future<List<ApproachSummaryView>> call() async {
+    //
+    List<ApproachSummaryView> approachesView =
+        await approachSummaryViewFloorGateway.findApproachesSummary();
 
-  //   return list;
-  // }
+    return approachesView;
+  }
+}
+
+class GetAllApproaches {
+  Future<List<ApproachModel>> call() async {
+    //
+    List<ApproachModel> approaches = await approachFloorGateway.getAllApproach();
+
+    return approaches;
+  }
 }

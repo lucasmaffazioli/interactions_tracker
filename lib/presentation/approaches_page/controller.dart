@@ -1,242 +1,87 @@
+import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/domain/entities/approach/approach_entity.dart';
+import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/foundation.dart';
 
 class ApproachesController {
-  Future<List<ApproachListItem>> getAllApproaches() async {
-    List<ApproachListItem> items = [];
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description:
-              'Long hair, nice back, good looking nose, nice person, od looking nose, nice person, od looking nose, nice person, od looking nose, nice person, od looking nose, nice person, od looking nose, nice person, od looking nose, nice person, very happy, nice overral',
-          day: '27',
-          month: 'agosto',
-          attraction: 8,
-          difficulty: 10,
-          skill: 10,
-          isMonth: true,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description:
-              'Long hair, nice back, good looking nose, good looking nose, good looking nose, good looking nose, good looking nose, good looking nose, good looking nose, nice person, very happy, nice overral',
-          day: '27',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          isMonth: false,
-          attraction: 7,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long asdasdasdasdas',
-          day: '24',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '13',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '10',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '2',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '24',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '13',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '10',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '2',
-          month: 'setembro',
-          isMonth: true,
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '24',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '13',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '10',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '2',
-          month: 'dezembro',
-          isMonth: true,
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '13',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '10',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '13',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '10',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '13',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
-    items.add(
-      ApproachListItem(
-          title: 'Joana Dark',
-          description: 'Long hair',
-          day: '10',
-          month: 'agosto',
-          difficulty: 10,
-          skill: 10,
-          attraction: 8,
-          result: 7),
-    );
+  callEditScreen(int id) async {
+    // List<ApproachModel> approaches = await GetAllApproaches().call();
 
-    await Future.delayed(Duration(seconds: 3), () {
-      print('returnung..... ');
-      print(items);
+    // print('callEditScreen');
+    // approaches.forEach((element) {
+    //   print(element.toJson());
+    // });
+
+    ApproachEntity approach = await GetApproach().call(id);
+    print('approach.toString()');
+    print(approach.toJson());
+  }
+
+  Future<List<ApproachSummaryPresentation>> getAllApproaches() async {
+    List<ApproachSummaryPresentation> returnItems = [];
+    List<ApproachSummaryView> items = await GetAllSummaryApproaches().call();
+
+    print('getAllApproaches method called');
+
+    int _lastMonth = 0;
+    items.forEach((element) {
+      int _currentMonth = DateTime.parse(element.dateTime).month;
+      if (_currentMonth != _lastMonth)
+        returnItems.add(ApproachSummaryPresentation(
+          isMonth: true,
+          month: _currentMonth.toString(),
+        ));
+
+      returnItems.add(ApproachSummaryPresentation(
+        isMonth: false,
+        month: _currentMonth.toString(),
+        day: DateTime.parse(element.dateTime).day.toString(),
+        id: element.id,
+        name: element.name,
+        dateTime: element.dateTime,
+        description: element.description,
+        difficulty: 1,
+        skill: 1,
+        attraction: 1,
+        result: 1,
+        // difficulty: element.difficulty.toInt(),
+        // skill: element.skill.toInt(),
+        // attraction: element.attraction.toInt(),
+        // result: element.result.toInt(),
+      ));
     });
 
-    return items;
+    return returnItems;
   }
+}
+
+class ApproachSummaryPresentation {
+  final bool isMonth;
+  final String month;
+  final String day;
+  final int id;
+  final String name;
+  final String dateTime;
+  final String description;
+  final int difficulty;
+  final int skill;
+  final int attraction;
+  final int result;
+
+  ApproachSummaryPresentation({
+    @required this.isMonth,
+    this.month,
+    this.day,
+    this.id,
+    this.name,
+    this.dateTime,
+    this.description,
+    this.difficulty,
+    this.skill,
+    this.attraction,
+    this.result,
+  });
 }
 
 // class MonthApproaches {

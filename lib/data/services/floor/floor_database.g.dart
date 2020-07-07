@@ -68,7 +68,7 @@ class _$AppDatabase extends AppDatabase {
 
   ApproachSummaryDao _approachSummaryDaoInstance;
 
-  ApproachPointsViewDao _approachPointsDaoInstance;
+  ApproachPointsViewDao _approachPointsViewDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
@@ -96,16 +96,17 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
         await database.execute(
-            '''CREATE VIEW IF NOT EXISTS `approachSummaryView` AS SELECT a.id, a.name, a.dateTime, a.description, 
+            '''CREATE VIEW IF NOT EXISTS `approach_summary_view` AS SELECT a.id, a.name, a.dateTime, a.description, 
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'difficulty') as difficulty,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'skill') as skill,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'attraction') as attraction,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'result') as result
 FROM approach a
-ORDER BY a.dateTime
+ORDER BY a.dateTime DESC
 ''');
         await database.execute(
-            '''CREATE VIEW IF NOT EXISTS `approachPointsView` AS SELECT ap.approachId, ap.pointId, p.name, ap.value, p.pointType from approach_points ap
+            '''CREATE VIEW IF NOT EXISTS `approach_points_view` AS SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType
+FROM approach_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
 ''');
@@ -140,8 +141,8 @@ ORDER BY p.pointType
   }
 
   @override
-  ApproachPointsViewDao get approachPointsDao {
-    return _approachPointsDaoInstance ??=
+  ApproachPointsViewDao get approachPointsViewDao {
+    return _approachPointsViewDaoInstance ??=
         _$ApproachPointsViewDao(database, changeListener);
   }
 }
@@ -286,7 +287,9 @@ class _$PointModelDao extends PointModelDao {
 
   @override
   Future<List<PointModel>> findAllPointModels() async {
-    return _queryAdapter.queryList('SELECT * FROM point', mapper: _pointMapper);
+    return _queryAdapter.queryList(
+        'SELECT * FROM point ORDER BY pointType DESC, name',
+        mapper: _pointMapper);
   }
 
   @override
@@ -411,7 +414,7 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _approachSummaryViewMapper = (Map<String, dynamic> row) =>
+  static final _approach_summary_viewMapper = (Map<String, dynamic> row) =>
       ApproachSummaryView(
           row['id'] as int,
           row['name'] as String,
@@ -424,8 +427,8 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
 
   @override
   Future<List<ApproachSummaryView>> findApproachesSummary() async {
-    return _queryAdapter.queryList('SELECT * FROM approachSummaryView',
-        mapper: _approachSummaryViewMapper);
+    return _queryAdapter.queryList('SELECT * FROM approach_summary_view',
+        mapper: _approach_summary_viewMapper);
   }
 }
 
@@ -439,7 +442,7 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _approachPointsViewMapper = (Map<String, dynamic> row) =>
+  static final _approach_points_viewMapper = (Map<String, dynamic> row) =>
       ApproachPointsView(
           approachId: row['approachId'] as int,
           pointId: row['pointId'] as int,
@@ -451,8 +454,8 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
   Future<List<ApproachPointsView>> findApproachesPointsByApproachId(
       int approachId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM approachPointsView WHERE approachId = ?',
+        'SELECT * FROM approach_points_view WHERE approachId = ?',
         arguments: <dynamic>[approachId],
-        mapper: _approachPointsViewMapper);
+        mapper: _approach_points_viewMapper);
   }
 }

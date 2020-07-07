@@ -20,7 +20,7 @@ abstract class AppDatabase extends FloorDatabase {
   PointModelDao get pointModelDao;
   ApproachPointsModelDao get approachPointsModelDao;
   ApproachSummaryDao get approachSummaryDao;
-  ApproachPointsViewDao get approachPointsDao;
+  ApproachPointsViewDao get approachPointsViewDao;
 }
 
 //
@@ -66,7 +66,7 @@ final dbCallback = Callback(
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Atração', 'attraction');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Resultado', 'result');");
 
-    print('First dB use configured');
+    print('First DB use configured');
   },
   onOpen: (database) {/* database has been opened */},
   onUpgrade: (database, startVersion, endVersion) {/* database has been upgraded */},

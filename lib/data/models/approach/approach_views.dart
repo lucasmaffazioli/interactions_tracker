@@ -9,8 +9,8 @@ SELECT a.id, a.name, a.dateTime, a.description,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'attraction') as attraction,
 (SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'result') as result
 FROM approach a
-ORDER BY a.dateTime
-''', viewName: 'approachSummaryView')
+ORDER BY a.dateTime DESC
+''', viewName: 'approach_summary_view')
 //
 class ApproachSummaryView {
   final int id;
@@ -48,10 +48,11 @@ class ApproachSummaryView {
 }
 
 @DatabaseView('''
-SELECT ap.approachId, ap.pointId, p.name, ap.value, p.pointType from approach_points ap
+SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType
+FROM approach_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
-''', viewName: 'approachPointsView')
+''', viewName: 'approach_points_view')
 //
 class ApproachPointsView {
   final int approachId;
@@ -68,15 +69,13 @@ class ApproachPointsView {
     this.pointType,
   });
 
-  // String toJson() {
-  //   return json.encode({
-  //     'id': id.toString(),
-  //     'name': name,
-  //     'dateTime': dateTime,
-  //     'description': description,
-  //     'skill': skill.toString(),
-  //     'attraction': attraction.toString(),
-  //     'result': result.toString(),
-  //   });
-  // }
+  String toJson() {
+    return json.encode({
+      'approachId': approachId.toString(),
+      'pointId': pointId.toString(),
+      'pointName': pointName,
+      'pointValue': pointValue.toString(),
+      'pointType': pointType,
+    });
+  }
 }

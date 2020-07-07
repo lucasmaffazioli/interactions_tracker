@@ -15,10 +15,10 @@ class PointEntity {
     @required this.value,
     @required this.pointType,
   }) {
-    if (id == null) throw ArgumentError('Error!');
-    if (name == null) throw ArgumentError('Error!');
-    if (value == null) throw ArgumentError('Error!');
-    if (value < 0 || value > 10) throw ArgumentError('Error!');
+    if (id == null) throw ArgumentError('Error, id must not be null!');
+    if (name == null) throw ArgumentError('Error, name must not be null!');
+    if (value == null) throw ArgumentError('Error, valuemust not be null!');
+    if (value < 0 || value > 10) throw ArgumentError('Error!, value must be 0-10');
   }
 
   String toJson() {

@@ -20,16 +20,16 @@ void main() {
     locator.reset();
   });
 
-  List<PointModel> listPointOnCreate = [
-    PointModel(id: null, name: 'Contato visual', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Postura física', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Projeção vocal', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Calibragem', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Frame', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Confiança', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Atração', pointType: PointTypeDataLayer.attraction),
-    PointModel(id: null, name: 'Resultado', pointType: PointTypeDataLayer.result)
-  ];
+  // List<PointModel> listPointOnCreate = [
+  //   PointModel(id: null, name: 'Contato visual', pointType: PointTypeDataLayer.skill),
+  //   PointModel(id: null, name: 'Postura física', pointType: PointTypeDataLayer.skill),
+  //   PointModel(id: null, name: 'Projeção vocal', pointType: PointTypeDataLayer.skill),
+  //   PointModel(id: null, name: 'Calibragem', pointType: PointTypeDataLayer.skill),
+  //   PointModel(id: null, name: 'Frame', pointType: PointTypeDataLayer.skill),
+  //   PointModel(id: null, name: 'Confiança', pointType: PointTypeDataLayer.skill),
+  //   PointModel(id: null, name: 'Atração', pointType: PointTypeDataLayer.attraction),
+  //   PointModel(id: null, name: 'Resultado', pointType: PointTypeDataLayer.result)
+  // ];
 
   TestWidgetsFlutterBinding.ensureInitialized();
   PointFloorGateway pointFloorGateway = PointFloorGateway();

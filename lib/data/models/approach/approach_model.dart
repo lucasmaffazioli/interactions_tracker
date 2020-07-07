@@ -19,12 +19,12 @@ class ApproachModel {
     @required this.dateTime,
     @required this.name,
     @required this.description,
-    @required this.notes,
+    this.notes,
   }) {
     if (dateTime == null) throw ArgumentError('Error!');
     if (name == null) throw ArgumentError('Error!');
     if (description == null) throw ArgumentError('Error!');
-    if (notes == null) throw ArgumentError('Error!');
+    // if (notes == null) throw ArgumentError('Error!');
   }
 
   String toJson() {

@@ -80,21 +80,22 @@ class HomePage extends StatelessWidget {
 
 class _Approaches extends StatelessWidget {
   final ApproachesController controller = ApproachesController();
+  List<ApproachSummaryPresentation> items;
 
   @override
   Widget build(BuildContext context) {
-    Future<List<ApproachListItem>> itemsFuture = controller.getAllApproaches();
-    List<ApproachListItem> items;
+    Future<List<ApproachSummaryPresentation>> itemsFuture = controller.getAllApproaches();
 
-    return FutureBuilder<List<ApproachListItem>>(
-        future: itemsFuture,
+    return FutureBuilder<List<ApproachSummaryPresentation>>(
+        future: controller.getAllApproaches(),
         builder: (context, AsyncSnapshot snapshot) {
           print('projectconnection state is: ${snapshot.connectionState}');
           print('project snapshot data is: ${snapshot.data}');
           print('project has data is: ${snapshot.hasData.toString()}');
 
-          if (snapshot.connectionState != ConnectionState.done) {
+          if (snapshot.connectionState != ConnectionState.done && snapshot.hasData) {
             print('project snapshot data is: ${snapshot.data}');
+            print('project snapshot error is: ${snapshot.error}');
             return Container(child: Text('Loading data....'));
           }
           items = snapshot.data ?? [];
@@ -104,7 +105,6 @@ class _Approaches extends StatelessWidget {
 
             itemBuilder: (context, index) {
               final item = items[index];
-              // final List<Widget> approaches = [];
               if (item.isMonth) {
                 return Center(
                     child: Text(
@@ -113,7 +113,10 @@ class _Approaches extends StatelessWidget {
                 ));
               } else {
                 return MyCard(
-                  title: item.title,
+                  onTap: (() {
+                    controller.callEditScreen(item.id);
+                  }),
+                  title: item.name,
                   description: item.description,
                   month: item.month,
                   day: item.day,
@@ -158,6 +161,7 @@ class ScoreIcon extends StatelessWidget {
 class MyCard extends StatelessWidget {
   const MyCard({
     Key key,
+    @required this.onTap,
     @required this.title,
     @required this.description,
     @required this.month,
@@ -167,6 +171,8 @@ class MyCard extends StatelessWidget {
     @required this.attraction,
     @required this.result,
   }) : super(key: key);
+
+  final Function onTap;
   final String title;
   final String description;
   final String month;
@@ -177,68 +183,73 @@ class MyCard extends StatelessWidget {
   final int result;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    description,
-                    maxLines: 4,
-                  ),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Column(
+    return InkWell(
+      onTap: onTap,
+      child: Card(
+        margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      day,
+                      title,
                       style: TextStyle(
-                        fontSize: 26,
+                        fontSize: 20,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
-                      month,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      description,
+                      maxLines: 4,
                     ),
                   ],
                 ),
-                Row(
-                  children: <Widget>[
-                    ScoreIcon(iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
-                    ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
-                    ScoreIcon(iconData: getPointTypeIcon(PointType.attraction), points: attraction),
-                    ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),
-                  ],
-                )
-              ],
-            ),
-          ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        day,
+                        style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        month,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      ScoreIcon(
+                          iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
+                      ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
+                      ScoreIcon(
+                          iconData: getPointTypeIcon(PointType.attraction), points: attraction),
+                      ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),
+                    ],
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
