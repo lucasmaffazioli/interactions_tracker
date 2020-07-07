@@ -29,6 +29,7 @@ dependencies:
   intl: ^0.16.1
   flutter_localizations:
     sdk: flutter
+  flushbar: ^1.10.4
 
 
 

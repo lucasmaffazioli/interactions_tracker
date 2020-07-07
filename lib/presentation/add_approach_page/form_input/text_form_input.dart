@@ -9,14 +9,14 @@ class TextFormInput extends StatelessWidget {
   final int maxLines;
   final int minLines;
 
-  const TextFormInput(
-      {Key key,
-      @required this.title,
-      @required this.onSave,
-      this.validator,
-      this.maxLines,
-      this.minLines})
-      : super(key: key);
+  const TextFormInput({
+    Key key,
+    @required this.title,
+    @required this.onSave,
+    this.validator,
+    this.maxLines,
+    this.minLines,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -64,6 +64,15 @@ class AddApproachController {
 
     return approachPresentation;
   }
+
+  void saveApproach(ApproachPresentation approachPresentation) async {
+    print('Saving approach');
+    print(approachPresentation.date);
+    print(approachPresentation.time);
+    print(DateTime.parse(
+            approachPresentation.date.toString() + ' ' + approachPresentation.time.toString())
+        .toString());
+  }
 }
 
 class ApproachPresentation {

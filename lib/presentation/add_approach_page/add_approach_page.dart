@@ -1,6 +1,7 @@
 import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -31,6 +32,7 @@ class AddApproachPage extends StatelessWidget {
     _required_value_text = AppLocalizations.of(context).translate('required_field');
 
     Future<ApproachPresentation> approachPresentationFuture = controller.getApproach(context);
+    ApproachPresentation approachPresentation;
 
     return Scaffold(
       appBar: BaseAppBar(
@@ -49,10 +51,11 @@ class AddApproachPage extends StatelessWidget {
               print('project snapshot data is: ${snapshot.data}');
               return Container(child: Text('Loading data....'));
             }
-            ApproachPresentation approachPresentation = snapshot.data;
+            approachPresentation = snapshot.data;
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
+                autovalidate: true,
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -122,25 +125,7 @@ class AddApproachPage extends StatelessWidget {
                       height: 60,
                       child: RawMaterialButton(
                         fillColor: Constants.accent,
-                        onPressed: () {
-                          // Validate returns true if the form is valid, otherwise false.
-                          print('aaaaaaaaaaa');
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            print('approachPresentation.date');
-                            print(approachPresentation.date);
-
-                            approachPresentation.points.forEach((element) {
-                              print(element.name);
-                              print(element.value);
-                            });
-                            // print(approachData.time);
-                            // print(approachData.name);
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-
-                          }
-                        },
+                        onPressed: (() => _saveForm(context)),
                         child: Text(
                           AppLocalizations.of(context).translate('save'),
                           style: TextStyle(
@@ -157,6 +142,43 @@ class AddApproachPage extends StatelessWidget {
             );
           }),
     );
+  }
+
+  void _saveForm(context) {
+    // Validate returns true if the form is valid, otherwise false.
+    print('aaaaaaaaaaa');
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+
+      controller.saveApproach(approachPresentation);
+
+      print('approachPresentation.date');
+      print(approachPresentation.date);
+
+      approachPresentation.points.forEach((element) {
+        print(element.name);
+        print(element.value);
+      });
+      // print(approachData.time);
+      // print(approachData.name);
+      // If the form is valid, display a snackbar. In the real world,
+      // you'd often call a server or save the information in a database.
+
+    } else {
+      Flushbar(
+        message: AppLocalizations.of(context).translate('form_validation_error'),
+        duration: Duration(seconds: 3),
+        margin: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(20),
+        borderRadius: 8,
+        icon: Icon(
+          FontAwesomeIcons.exclamationCircle,
+          size: 28.0,
+          color: Colors.red[600],
+        ),
+        // leftBarIndicatorColor: Colors.red[300],
+      )..show(context);
+    }
   }
 }
 
@@ -273,12 +295,21 @@ class _TitleWithSlider extends StatelessWidget {
               width: 40,
               decoration: BoxDecoration(
                 border: Border.all(
-                    // color: Constants.accent2,
-                    color: Colors.transparent),
+                  // color: Constants.accent2,
+                  color: Colors.transparent,
+                ),
                 borderRadius: BorderRadius.all(Radius.circular(Constants.borderRadiusSmall)),
                 color: Colors.white,
               ),
-              child: Center(child: Text(_value.toInt().toString())),
+              child: Center(
+                  child: Text(
+                _value.toInt().toString(),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Constants.accent2,
+                  fontWeight: FontWeight.w500,
+                ),
+              )),
             )
           ],
         ),
@@ -306,7 +337,7 @@ class TitleWithIcon extends StatelessWidget {
             ? SizedBox.shrink()
             : FaIcon(
                 iconData,
-                color: Constants.mainTextColor,
+                color: Constants.accent2,
               ),
         SizedBox(
           width: 8,
