@@ -31,17 +31,6 @@ class FloorGateway {
 }
 
 class PointFloorGateway extends FloorGateway {
-  List<PointModel> listPointOnCreate = [
-    PointModel(id: null, name: 'Contato visual', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Postura física', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Projeção vocal', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Calibragem', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Frame', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Confiança', pointType: PointTypeDataLayer.skill),
-    PointModel(id: null, name: 'Atração', pointType: PointTypeDataLayer.attraction),
-    PointModel(id: null, name: 'Resultado', pointType: PointTypeDataLayer.result)
-  ];
-
   void insertPoint(PointModel point) async {
     await _setUp();
     //
@@ -82,10 +71,14 @@ class PointFloorGateway extends FloorGateway {
 }
 
 class ApproachFloorGateway extends FloorGateway {
-  void insertApproach(ApproachModel approach) async {
+  Future<int> insertApproach(ApproachModel approach) async {
     await _setUp();
     //
     await approachDao.insertApproach(approach);
+    //
+    List<Map<String, dynamic>> a = await database.database.rawQuery('SELECT last_insert_rowid()');
+
+    return a[0]["last_insert_rowid()"];
   }
 
   void updateApproach(ApproachModel approach) async {
@@ -114,13 +107,13 @@ class ApproachFloorGateway extends FloorGateway {
     approachDao.deleteApproachById(id);
   }
 
-  Future<int> findLastInsertedApproach() async {
-    await _setUp();
-    //
-    List<Map<String, dynamic>> a = await database.database.rawQuery('SELECT last_insert_rowid()');
+  // Future<int> findLastInsertedApproach() async {
+  //   await _setUp();
+  //   //
+  //   List<Map<String, dynamic>> a = await database.database.rawQuery('SELECT last_insert_rowid()');
 
-    return a[0]["last_insert_rowid()"];
-  }
+  //   return a[0]["last_insert_rowid()"];
+  // }
 }
 
 class ApproachPointsFloorGateway extends FloorGateway {

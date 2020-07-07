@@ -20,6 +20,17 @@ void main() {
     locator.reset();
   });
 
+  List<PointModel> listPointOnCreate = [
+    PointModel(id: null, name: 'Contato visual', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Postura física', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Projeção vocal', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Calibragem', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Frame', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Confiança', pointType: PointTypeDataLayer.skill),
+    PointModel(id: null, name: 'Atração', pointType: PointTypeDataLayer.attraction),
+    PointModel(id: null, name: 'Resultado', pointType: PointTypeDataLayer.result)
+  ];
+
   TestWidgetsFlutterBinding.ensureInitialized();
   PointFloorGateway pointFloorGateway = PointFloorGateway();
   ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
@@ -43,8 +54,8 @@ void main() {
         print('Id ${element.id}, name ${element.name}');
       });
 
-      PointModel point = await pointFloorGateway.getPointById(9);
-      expect(point.id, 9);
+      PointModel point = await pointFloorGateway.getPointById(10);
+      expect(point.id, 10);
       expect(point.name, testPointModel.name);
       expect(point.pointType, testPointModel.pointType);
       //
@@ -60,9 +71,9 @@ void main() {
       //   print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
       // });
 
-      expect(list[0].name, pointFloorGateway.listPointOnCreate[0].name);
+      expect(list[0].name, 'Contato visual');
       expect(list[1].id, 2);
-      expect(list[7].pointType, pointFloorGateway.listPointOnCreate[7].pointType);
+      expect(list[7].pointType, 'attraction');
     });
 
     test('Change point', () async {
@@ -161,8 +172,7 @@ void main() {
     });
 
     test('Insert, get, delete', () async {
-      await approachFloorGateway.insertApproach(testApproachModel);
-      int approachId = await approachFloorGateway.findLastInsertedApproach();
+      int approachId = await approachFloorGateway.insertApproach(testApproachModel);
       //
       approachPointsFloorGateway
           .insertApproachPoints(ApproachPointsModel(approachId: approachId, pointId: 1, value: 5));
@@ -227,10 +237,11 @@ void main() {
       expect(list[0].dateTime, DateTime(2020, 02, 15).toIso8601String());
       expect(list[0].description, 'Lady o nite');
       expect(list[0].skill, 7.5);
-      expect(list[0].attraction, 7);
-      expect(list[0].result, 8);
+      expect(list[0].attraction, 8);
+      expect(list[0].result, null);
       expect(list[1].id, 2);
       expect(list[1].skill, 8);
+      expect(list[1].difficulty, null);
       expect(list[1].attraction, null);
       expect(list[1].result, null);
     });

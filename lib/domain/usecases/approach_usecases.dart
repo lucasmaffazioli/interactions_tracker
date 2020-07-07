@@ -4,6 +4,7 @@ import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
+import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
@@ -25,6 +26,17 @@ class SaveApproach {
     // dynamic lol = await LocalDatastore().setApproach(uid, approach);
     print('Save approach');
     print(approach.toJson());
+
+    int approachId = await approachFloorGateway.insertApproach(ApproachModel(
+      id: approach.id,
+      name: approach.name,
+      dateTime: approach.dateTime.toIso8601String(),
+      description: approach.description,
+      notes: approach.notes,
+    ));
+    
+    
+    ERROR HANDLING
   }
 }
 
