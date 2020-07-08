@@ -7,29 +7,41 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor = Colors.red;
   final String title;
   final AppBar appBar;
-  final List<Widget> widgets;
+  final List<Widget> actions;
   final bool hasBackButton;
+  final bool hasSettings;
 
-  const BaseAppBar(this.title,
-      {Key key, @required this.appBar, this.widgets, this.hasBackButton: false})
-      : super(key: key);
+  const BaseAppBar(
+    this.title, {
+    Key key,
+    @required this.appBar,
+    this.actions,
+    this.hasBackButton: false,
+    this.hasSettings: false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 10,
       centerTitle: true,
       leading: hasBackButton
-          ? Center(
-              child: FaIcon(
-                FontAwesomeIcons.chevronLeft,
-                color: Constants.mainTextColor,
-                size: 32,
+          ? InkWell(
+              onTap: () => Navigator.maybePop(context),
+              child: Center(
+                child: FaIcon(
+                  FontAwesomeIcons.chevronLeft,
+                  color: Colors.white,
+                  size: 24,
+                ),
               ),
             )
           : null,
+
       title: AppBarTitleText(title),
-      backgroundColor: Constants.background,
-      actions: widgets,
+      backgroundColor: Constants.accent2,
+      // backgroundColor: Constants.background,
+      actions: actions,
     );
   }
 
@@ -46,7 +58,7 @@ class AppBarTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Constants.textH1,
+      style: Constants.textWhite,
     );
   }
 }

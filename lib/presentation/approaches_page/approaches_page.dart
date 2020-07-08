@@ -1,6 +1,7 @@
 import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
+import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -15,6 +16,15 @@ class HomePage extends StatelessWidget {
       appBar: BaseAppBar(
         // 'Approaches',
         AppLocalizations.of(context).translate('approaches'),
+        actions: <Widget>[
+          IconButton(
+            icon: const FaIcon(FontAwesomeIcons.cog),
+            tooltip: 'Show Snackbar',
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+            },
+          ),
+        ],
         appBar: AppBar(),
       ),
       floatingActionButton: FloatingActionButton(

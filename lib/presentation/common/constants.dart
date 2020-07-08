@@ -12,6 +12,12 @@ class Constants {
     fontSize: 26,
     color: Constants.mainTextColor,
   );
+  static const TextStyle textWhite = TextStyle(
+    fontFamily: 'MPlusRounded',
+    fontWeight: FontWeight.w900,
+    fontSize: 26,
+    color: Colors.white,
+  );
   static const double borderRadiusCards = 20;
   static const double borderRadiusSmall = 4;
 }

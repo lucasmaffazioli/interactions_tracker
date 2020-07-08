@@ -287,8 +287,7 @@ class _$PointModelDao extends PointModelDao {
 
   @override
   Future<List<PointModel>> findAllPointModels() async {
-    return _queryAdapter.queryList(
-        'SELECT * FROM point ORDER BY pointType DESC, name',
+    return _queryAdapter.queryList('SELECT * FROM point ORDER BY id',
         mapper: _pointMapper);
   }
 
