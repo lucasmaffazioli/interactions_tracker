@@ -5,6 +5,7 @@ class Constants {
   static const Color background = Color(0xFFF2F4F9);
   static const Color accent2 = Color(0xFFF5438DC);
   static const Color accent = Color(0xFF143EE9);
+  static const Color red = Color(0xFFE91414);
   static const Color accentDisabled = Color(0xFF535354);
   static const TextStyle textH1 = TextStyle(
     fontFamily: 'MPlusRounded',

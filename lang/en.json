@@ -22,5 +22,9 @@
 	"Outros dados": "Other",
 	"settings": "Settings",
 	"categories": "Categories",
+	"cancel": "Cancel",
+	"edit_category": "Edit category",
+	"create_category": "Create category",
+	"delete": "Delete",
 	"date": "Date"
 }

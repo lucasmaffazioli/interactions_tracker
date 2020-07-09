@@ -4,9 +4,20 @@ import 'package:flutter/foundation.dart';
 
 PointFloorGateway pointFloorGateway = PointFloorGateway();
 
-// class SavePoint {
-//   void call(PointEntity point) async {}
-// }
+class SavePoint {
+  void call(int id, String name, String pointType) async {
+    String _pointType = pointType;
+    if (pointType == null) {
+      _pointType = 'skill';
+    }
+
+    await pointFloorGateway.savePoint(PointModel(
+      id: id,
+      name: name,
+      pointType: _pointType,
+    ));
+  }
+}
 
 // class GetPoint {}
 
@@ -17,7 +28,11 @@ class GetAllPoints {
 
     pointsModel.forEach((element) {
       if (element.pointType == 'skill')
-        pointsPresentation.add(PointPresentation(id: element.id, name: element.name));
+        pointsPresentation.add(PointPresentation(
+          id: element.id,
+          name: element.name,
+          pointType: element.pointType,
+        ));
     });
 
     return pointsPresentation;
@@ -27,9 +42,11 @@ class GetAllPoints {
 class PointPresentation {
   final int id;
   final String name;
+  final String pointType;
 
   PointPresentation({
     @required this.id,
     @required this.name,
+    @required this.pointType,
   });
 }

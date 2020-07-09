@@ -31,6 +31,17 @@ class FloorGateway {
 }
 
 class PointFloorGateway extends FloorGateway {
+  void savePoint(PointModel point) async {
+    await _setUp();
+    //
+    print(point.toJson());
+    if (point.id == null || point.id == 0) {
+      await pointDao.insertPoint(point);
+    } else {
+      await pointDao.updatePoint(point);
+    }
+  }
+
   void insertPoint(PointModel point) async {
     await _setUp();
     //

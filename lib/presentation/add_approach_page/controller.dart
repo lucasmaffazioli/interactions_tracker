@@ -14,35 +14,53 @@ class AddApproachController {
     PointType lastPointType;
     //
     approachEntity.points.forEach((element) {
-      // if (lastPointType != element.pointType) {
-      if (PointType.skill == element.pointType && lastPointType != element.pointType) {
+      if (element.pointType == PointType.skill) {
+        if (lastPointType != element.pointType) {
+          pointPresentationList.add(PointPresentation(
+            isHeader: true,
+            headerTitle: element.pointType.toString(),
+            headerIcon: getPointTypeIcon(element.pointType),
+          ));
+        }
         pointPresentationList.add(PointPresentation(
-          isHeader: true,
-          headerTitle: element.pointType.toString(),
+          isHeader: false,
+          id: element.id,
+          name: element.name,
+          pointType: element.pointType,
+          value: element.value,
           headerIcon: getPointTypeIcon(element.pointType),
+          fullTitle: element.pointType == PointType.skill ? false : true,
         ));
-      }
-      if (PointType.skill == lastPointType && PointType.skill != element.pointType) {
-        pointPresentationList.add(PointPresentation(
-          isHeader: true,
-          headerTitle: AppLocalizations.of(context).translate('other_point_type'),
-          headerIcon: null,
-        ));
-      }
-      //
-      pointPresentationList.add(PointPresentation(
-        isHeader: false,
-        id: element.id,
-        name: element.name,
-        pointType: element.pointType,
-        value: element.value,
-        headerIcon: getPointTypeIcon(element.pointType),
-        fullTitle: element.pointType == PointType.skill ? false : true,
-      ));
-      //
-      lastPointType = element.pointType;
-    });
 
+        lastPointType = element.pointType;
+      }
+    });
+    //
+    //
+    pointPresentationList.add(PointPresentation(
+      isHeader: true,
+      headerTitle: AppLocalizations.of(context).translate('other_point_type'),
+      headerIcon: null,
+    ));
+    approachEntity.points.forEach((element) {
+      if (element.pointType != PointType.skill) {
+        if (lastPointType != element.pointType) {
+          //
+          pointPresentationList.add(PointPresentation(
+            isHeader: false,
+            id: element.id,
+            name: element.name,
+            pointType: element.pointType,
+            value: element.value,
+            headerIcon: getPointTypeIcon(element.pointType),
+            fullTitle: element.pointType == PointType.skill ? false : true,
+          ));
+        }
+      }
+    });
+    //
+    //
+    //
     ApproachPresentation approachPresentation = ApproachPresentation(
       id: approachEntity.id,
       date: approachEntity.dateTime,

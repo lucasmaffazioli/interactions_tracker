@@ -6,7 +6,7 @@ import 'package:floor/floor.dart';
 
 @dao
 abstract class PointModelDao {
-  @Query('SELECT * FROM point ORDER BY id')
+  @Query('SELECT * FROM point ORDER BY pointType, name')
   Future<List<PointModel>> findAllPointModels();
 
   @Query('SELECT * FROM point WHERE id = :id')

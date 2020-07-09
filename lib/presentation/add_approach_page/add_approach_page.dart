@@ -1,6 +1,7 @@
 import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
+import 'package:cold_app/presentation/common/large_button.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -119,22 +120,10 @@ class AddApproachPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 60,
-                      child: RawMaterialButton(
-                        fillColor: Constants.accent,
-                        onPressed: (() => _saveForm(context)),
-                        child: Text(
-                          AppLocalizations.of(context).translate('save'),
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                    LargeButton(
+                        backgroundColor: Constants.accent,
+                        onPressed: () => _saveForm(context),
+                        name: AppLocalizations.of(context).translate('save')),
                   ],
                 ),
               ),

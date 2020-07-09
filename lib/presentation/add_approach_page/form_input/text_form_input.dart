@@ -4,6 +4,7 @@ import 'base_form_input.dart';
 
 class TextFormInput extends StatelessWidget {
   final String title;
+  final String initialValue;
   final Function onSave;
   final Function validator;
   final int maxLines;
@@ -13,6 +14,7 @@ class TextFormInput extends StatelessWidget {
     Key key,
     @required this.title,
     @required this.onSave,
+    this.initialValue,
     this.validator,
     this.maxLines,
     this.minLines,
@@ -23,6 +25,7 @@ class TextFormInput extends StatelessWidget {
     return BaseFormInput(
       title: title,
       child: TextFormField(
+        initialValue: initialValue,
         minLines: minLines,
         maxLines: maxLines,
         validator: validator,
