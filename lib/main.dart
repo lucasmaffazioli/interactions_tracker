@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'presentation/approaches_page/approaches_page.dart';
 import 'presentation/common/constants.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   setupLocator();

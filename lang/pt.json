@@ -26,5 +26,6 @@
 	"edit_category": "Alterar categoria",
 	"create_category": "Criar categoria",
 	"delete": "Deletar",
+	"warning_want_to_continue_delete": "Atenção! Tem certeza de que deseja deleta? A ação não pode ser desfeita",
 	"date": "Data"
 }

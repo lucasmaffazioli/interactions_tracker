@@ -3,6 +3,9 @@ import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import '../../core/extensions/string_extension.dart';
 
 class ApproachesController {
   callEditScreen(int id) async {
@@ -18,7 +21,7 @@ class ApproachesController {
     print(approach.toJson());
   }
 
-  Future<List<ApproachSummaryPresentation>> getAllApproaches() async {
+  Future<List<ApproachSummaryPresentation>> getAllApproaches(BuildContext context) async {
     List<ApproachSummaryPresentation> returnItems = [];
     List<ApproachSummaryView> items = await GetAllSummaryApproaches().call();
 
@@ -30,13 +33,17 @@ class ApproachesController {
       if (_currentMonth != _lastMonth)
         returnItems.add(ApproachSummaryPresentation(
           isMonth: true,
-          month: _currentMonth.toString(),
+          month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+              .format(DateTime.parse(element.dateTime))
+              .capitalize(),
         ));
 
       returnItems.add(ApproachSummaryPresentation(
         isMonth: false,
-        month: _currentMonth.toString(),
-        day: DateTime.parse(element.dateTime).day.toString(),
+        month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+            .format(DateTime.parse(element.dateTime))
+            .capitalize(),
+        day: DateTime.parse(element.dateTime).day.toString().padLeft(2, '0'),
         id: element.id,
         name: element.name,
         dateTime: element.dateTime,

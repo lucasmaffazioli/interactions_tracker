@@ -23,7 +23,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 10,
+      elevation: 0,
+      // elevation: 10,
       centerTitle: true,
       leading: hasBackButton
           ? InkWell(
@@ -31,7 +32,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Center(
                 child: FaIcon(
                   FontAwesomeIcons.chevronLeft,
-                  color: Colors.white,
+                  color: Constants.mainTextColor,
+                  // color: Colors.white,
                   size: 24,
                 ),
               ),
@@ -39,8 +41,8 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           : null,
 
       title: AppBarTitleText(title),
-      backgroundColor: Constants.accent2,
-      // backgroundColor: Constants.background,
+      // backgroundColor: Constants.accent2,
+      backgroundColor: Constants.background,
       actions: actions,
     );
   }
@@ -58,7 +60,8 @@ class AppBarTitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: Constants.textWhite,
+      style: Constants.textH1,
+      // style: Constants.textWhite,
     );
   }
 }

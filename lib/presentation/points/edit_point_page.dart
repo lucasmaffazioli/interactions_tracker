@@ -56,7 +56,6 @@ class EditPointPage extends StatelessWidget {
                 title: AppLocalizations.of(context).translate('name') + ' *',
                 validator: _requiredValidator,
                 onSave: ((value) {
-                  print(value);
                   newName = value;
                 }),
               ),
@@ -70,6 +69,10 @@ class EditPointPage extends StatelessWidget {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
+                            _showDeleteConfirmationPopup(context, onConfirm: () async {
+                              await DeletePoint().call(pointId);
+                              Navigator.maybePop(context);
+                            }).then((value) => Navigator.maybePop(context));
                           }
                         },
                         name: AppLocalizations.of(context).translate('delete')),
@@ -92,6 +95,32 @@ class EditPointPage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future _showDeleteConfirmationPopup(BuildContext context, {Function onConfirm}) {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(AppLocalizations.of(context).translate('warning_want_to_continue_delete')),
+          actions: <Widget>[
+            MaterialButton(
+              onPressed: () => Navigator.maybePop(context),
+              child: Text(AppLocalizations.of(context).translate('cancel')),
+            ),
+            MaterialButton(
+              onPressed: onConfirm,
+              child: Text(
+                AppLocalizations.of(context).translate('delete'),
+                style: TextStyle(
+                  color: Constants.red,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

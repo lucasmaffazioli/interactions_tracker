@@ -18,8 +18,11 @@ class HomePage extends StatelessWidget {
         AppLocalizations.of(context).translate('approaches'),
         actions: <Widget>[
           IconButton(
-            icon: const FaIcon(FontAwesomeIcons.cog),
-            tooltip: 'Show Snackbar',
+            icon: const FaIcon(
+              FontAwesomeIcons.cog,
+              color: Constants.mainTextColor,
+            ),
+            tooltip: 'Show settings',
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
             },
@@ -94,10 +97,10 @@ class _Approaches extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<List<ApproachSummaryPresentation>> itemsFuture = controller.getAllApproaches();
+    // Future<List<ApproachSummaryPresentation>> itemsFuture = controller.getAllApproaches(context);
 
     return FutureBuilder<List<ApproachSummaryPresentation>>(
-        future: controller.getAllApproaches(),
+        future: controller.getAllApproaches(context),
         builder: (context, AsyncSnapshot snapshot) {
           print('projectconnection state is: ${snapshot.connectionState}');
           print('project snapshot data is: ${snapshot.data}');
@@ -116,11 +119,13 @@ class _Approaches extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = items[index];
               if (item.isMonth) {
-                return Center(
-                    child: Text(
-                  item.month,
-                  style: Constants.textH1,
-                ));
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  child: Text(
+                    item.month,
+                    style: Constants.textH1,
+                  ),
+                );
               } else {
                 return MyCard(
                   onTap: (() {
@@ -228,7 +233,7 @@ class MyCard extends StatelessWidget {
                 children: <Widget>[
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
                         day,
