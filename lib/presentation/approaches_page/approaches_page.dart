@@ -275,11 +275,11 @@ class MyCard extends StatelessWidget {
                   ),
                   Row(
                     children: <Widget>[
-                      ScoreIcon(
-                          iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
                       ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
                       ScoreIcon(
                           iconData: getPointTypeIcon(PointType.attraction), points: attraction),
+                      ScoreIcon(
+                          iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
                       ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),
                     ],
                   )

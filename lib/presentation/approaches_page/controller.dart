@@ -47,14 +47,14 @@ class ApproachesController {
         name: element.name,
         dateTime: element.dateTime,
         description: element.description,
-        difficulty: 1,
-        skill: 1,
-        attraction: 1,
-        result: 1,
-        // difficulty: element.difficulty.toInt(),
-        // skill: element.skill.toInt(),
-        // attraction: element.attraction.toInt(),
-        // result: element.result.toInt(),
+        // difficulty: 1,
+        // skill: 1,
+        // attraction: 1,
+        // result: 1,
+        difficulty: element.difficulty.toInt(),
+        skill: element.skill.toInt(),
+        attraction: element.attraction.toInt(),
+        result: element.result.toInt(),
       ));
     });
 
