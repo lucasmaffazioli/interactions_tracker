@@ -6,12 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
 
 class AddApproachController {
-  Future<ApproachPresentation> getApproach(context) async {
-    ApproachEntity approachEntity = await GetApproach().call(null);
+  Future<ApproachPresentation> getApproach(context, approachId) async {
+    ApproachEntity approachEntity = await GetApproach().call(approachId);
     //
     List<PointPresentation> pointPresentationList = [];
     //
     PointType lastPointType;
+    //
+    print('approachEntity.toJson()');
+    print(approachEntity.toJson());
     //
     approachEntity.points.forEach((element) {
       if (element.pointType == PointType.skill) {
@@ -63,7 +66,7 @@ class AddApproachController {
     //
     ApproachPresentation approachPresentation = ApproachPresentation(
       id: approachEntity.id,
-      date: approachEntity.dateTime,
+      date: approachEntity.dateTime.toLocal(),
       time: TimeOfDay.fromDateTime(approachEntity.dateTime),
       name: approachEntity.name,
       description: approachEntity.description,
@@ -71,33 +74,41 @@ class AddApproachController {
       points: pointPresentationList,
     );
 
-    print(approachPresentation.name);
-    approachPresentation.points.forEach((element) {
-      print(element.isHeader.toString());
-      print(element.headerTitle);
-      print(element.name);
-    });
+    // print(approachPresentation.name);
+    // approachPresentation.points.forEach((element) {
+    //   print(element.isHeader.toString());
+    //   print(element.headerTitle);
+    //   print(element.name);
+    // });
 
-    print(approachPresentation);
+    // print(approachPresentation);
 
     return approachPresentation;
   }
 
   void saveApproach(ApproachPresentation approachPresentation) async {
+    print('save app1');
+    print(approachPresentation.date);
+    print(approachPresentation.date.toString());
+    print(approachPresentation.date.toIso8601String());
+    print(approachPresentation.date.day.toString());
+
     final DateTime dateTime = DateTime(
-        approachPresentation.date.year,
-        approachPresentation.date.month,
-        approachPresentation.date.second,
-        approachPresentation.time.hour,
-        approachPresentation.time.minute);
+      approachPresentation.date.year,
+      approachPresentation.date.month,
+      approachPresentation.date.day,
+      approachPresentation.time.hour,
+      approachPresentation.time.minute,
+      approachPresentation.date.second,
+    );
     List<PointEntity> points = [];
 
-    print('Saving approach');
-    print(approachPresentation.date);
-    print(approachPresentation.time);
-    print(dateTime.toString());
+    // print('Saving approach');
+    // print(approachPresentation.date);
+    // print(approachPresentation.time);
+    // print(dateTime.toString());
     approachPresentation.points.forEach((element) {
-      print(element.isHeader.toString());
+      print('forEach presentation points');
       print(element.name);
       print(element.value);
       //

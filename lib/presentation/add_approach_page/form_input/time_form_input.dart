@@ -6,8 +6,10 @@ class TimeFormInput extends StatefulWidget {
   final String title;
   final Function validator;
   final Function onSave;
+  final TimeOfDay initialValue;
 
-  const TimeFormInput({Key key, @required this.title, this.validator, @required this.onSave})
+  const TimeFormInput(
+      {Key key, @required this.title, this.validator, @required this.onSave, this.initialValue})
       : super(key: key);
 
   @override
@@ -19,26 +21,15 @@ class _TimeFormInputState extends State<TimeFormInput> {
   final Function onSave;
   final Function validator;
   final TextEditingController _controller = TextEditingController();
-  TimeOfDay _selectedTime = TimeOfDay.now();
+  TimeOfDay _selectedTime;
 
   _TimeFormInputState(this.title, this.validator, this.onSave);
 
-  Future<void> _selectDate(BuildContext context) async {
-    final TimeOfDay picked = await showTimePicker(
-      context: context,
-      initialTime: _selectedTime,
-    );
-    if (picked != null && picked != _selectedTime) print(picked);
-    setState(() {
-      _selectedTime = picked;
-      _controller.text = _selectedTime.hour.toString() + ':' + _selectedTime.minute.toString();
-      onSave(_selectedTime);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    _controller.text = _selectedTime.hour.toString() + ':' + _selectedTime.minute.toString();
+    _selectedTime = widget.initialValue ?? TimeOfDay.now();
+    _controller.text =
+        _selectedTime.hour.toString() + ':' + _selectedTime.minute.toString().padLeft(2, '0');
     onSave(_selectedTime);
 
     return BaseFormInput(
@@ -53,5 +44,19 @@ class _TimeFormInputState extends State<TimeFormInput> {
         decoration: myInputDecoration(),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: _selectedTime,
+    );
+    if (picked != null && picked != _selectedTime) print(picked);
+    // setState(() {
+    _selectedTime = picked;
+    _controller.text =
+        _selectedTime.hour.toString() + ':' + _selectedTime.minute.toString().padLeft(2, '0');
+    onSave(_selectedTime);
+    // });
   }
 }

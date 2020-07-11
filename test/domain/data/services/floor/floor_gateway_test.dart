@@ -71,9 +71,9 @@ void main() {
       //   print('Id ${element.id}, name ${element.name}, Type ${element.pointType}');
       // });
 
-      expect(list[0].name, 'Contato visual');
-      expect(list[1].id, 2);
-      expect(list[7].pointType, 'attraction');
+      expect(list[0].name, 'Atração');
+      expect(list[1].id, 7);
+      expect(list[7].pointType, 'skill');
     });
 
     test('Change point', () async {
@@ -244,6 +244,18 @@ void main() {
       expect(list[1].difficulty, null);
       expect(list[1].attraction, null);
       expect(list[1].result, null);
+    });
+  });
+
+  group('Test Date', () {
+    test('Test toiso from is', () {
+      DateTime now = DateTime.now();
+      print(now.toString());
+      print(now.toIso8601String());
+      print(now.toLocal().toString());
+      print(now.toLocal().toIso8601String());
+      String nowString = now.toIso8601String();
+      // print()
     });
   });
 }

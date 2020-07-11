@@ -14,7 +14,6 @@ class _PointsPageState extends State<PointsPage> {
   @override
   Widget build(BuildContext context) {
     List<PointPresentation> list;
-    final TextEditingController _textController = TextEditingController();
 
     return Scaffold(
       appBar: BaseAppBar(

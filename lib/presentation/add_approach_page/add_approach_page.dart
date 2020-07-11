@@ -12,6 +12,10 @@ import 'form_input/text_form_input.dart';
 import 'form_input/time_form_input.dart';
 
 class AddApproachPage extends StatelessWidget {
+  final int approachId;
+
+  AddApproachPage({Key key, this.approachId}) : super(key: key);
+
   ApproachPresentation approachPresentation = ApproachPresentation();
   final AddApproachController controller = AddApproachController();
 
@@ -20,8 +24,6 @@ class AddApproachPage extends StatelessWidget {
   String _required_value_text;
 
   String _requiredValidator(value) {
-    print('value');
-    print(value);
     if (value == null || value == '') {
       return _required_value_text;
     }
@@ -32,7 +34,8 @@ class AddApproachPage extends StatelessWidget {
   Widget build(BuildContext context) {
     _required_value_text = AppLocalizations.of(context).translate('required_field');
 
-    Future<ApproachPresentation> approachPresentationFuture = controller.getApproach(context);
+    Future<ApproachPresentation> approachPresentationFuture =
+        controller.getApproach(context, approachId);
 
     return Scaffold(
       appBar: BaseAppBar(
@@ -43,9 +46,9 @@ class AddApproachPage extends StatelessWidget {
       body: FutureBuilder<ApproachPresentation>(
           future: approachPresentationFuture,
           builder: (context, AsyncSnapshot snapshot) {
-            print('projectconnection state is: ${snapshot.connectionState}');
-            print('project snapshot data is: ${snapshot.data}');
-            print('project has data is: ${snapshot.hasData.toString()}');
+            // print('projectconnection state is: ${snapshot.connectionState}');
+            // print('project snapshot data is: ${snapshot.data}');
+            // print('project has data is: ${snapshot.hasData.toString()}');
 
             if (snapshot.connectionState != ConnectionState.done) {
               print('project snapshot data is: ${snapshot.data}');
@@ -68,6 +71,7 @@ class AddApproachPage extends StatelessWidget {
                               Expanded(
                                 child: DateFormInput(
                                   title: AppLocalizations.of(context).translate('date') + ' *',
+                                  initialValue: approachPresentation.date,
                                   validator: _requiredValidator,
                                   onSave: ((value) {
                                     approachPresentation.date = value;
@@ -80,6 +84,7 @@ class AddApproachPage extends StatelessWidget {
                               Expanded(
                                 child: TimeFormInput(
                                   title: AppLocalizations.of(context).translate('time') + ' *',
+                                  initialValue: approachPresentation.time,
                                   onSave: ((value) {
                                     approachPresentation.time = value;
                                   }),
@@ -90,6 +95,7 @@ class AddApproachPage extends StatelessWidget {
                           TextFormInput(
                             title: AppLocalizations.of(context).translate('name') + ' *',
                             validator: _requiredValidator,
+                            initialValue: approachPresentation.name,
                             onSave: ((value) {
                               approachPresentation.name = value;
                             }),
@@ -97,6 +103,7 @@ class AddApproachPage extends StatelessWidget {
                           TextFormInput(
                             title: AppLocalizations.of(context).translate('summary') + ' *',
                             validator: _requiredValidator,
+                            initialValue: approachPresentation.description,
                             onSave: ((value) {
                               approachPresentation.description = value;
                             }),
@@ -105,6 +112,7 @@ class AddApproachPage extends StatelessWidget {
                             title: AppLocalizations.of(context).translate('notes'),
                             maxLines: 5,
                             minLines: 3,
+                            initialValue: approachPresentation.notes,
                             onSave: ((value) {
                               approachPresentation.notes = value;
                             }),
@@ -139,6 +147,7 @@ class AddApproachPage extends StatelessWidget {
       _formKey.currentState.save();
 
       controller.saveApproach(approachPresentation);
+      Navigator.maybePop(context);
 
       // print('approachPresentation.date');
       // print(approachPresentation.date);
@@ -206,7 +215,6 @@ class __PointsState extends State<_Points> {
           fullTitle: item.fullTitle,
           icon: item.headerIcon,
           onChanged: ((double value) {
-            print('New Value ' + value.toString());
             setState(() {
               item.value = value.toInt();
             });

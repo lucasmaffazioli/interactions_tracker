@@ -24,39 +24,65 @@ ApproachSummaryViewFloorGateway approachSummaryViewFloorGateway = ApproachSummar
 
 class SaveApproach {
   void call(ApproachEntity approach) async {
+    int approachId;
     // dynamic lol = await LocalDatastore().setApproach(uid, approach);
     print('Save approach');
     print(approach.toJson());
 
-    int approachId = await approachFloorGateway.insertApproach(ApproachModel(
-      id: approach.id,
-      name: approach.name,
-      dateTime: approach.dateTime.toIso8601String(),
-      description: approach.description,
-      notes: approach.notes,
-    ));
+    if (approach.id == null || approach == 0) {
+      approachId = await approachFloorGateway.insertApproach(ApproachModel(
+        id: approach.id,
+        name: approach.name,
+        dateTime: approach.dateTime.toIso8601String(),
+        description: approach.description,
+        notes: approach.notes,
+      ));
 
-    // TODO - ERROR HANDLING
-    if (approachId != null && approachId != 0) {
-      approach.points.forEach((element) async {
-        try {
-          await approachPointsFloorGateway.insertApproachPoints(ApproachPointsModel(
-            approachId: approachId,
-            pointId: element.id,
-            value: element.id,
-          ));
-        } catch (e) {
-          print('Erro ao inserir pontos! ' + e.toString());
-        }
-      });
+      // TODO - ERROR HANDLING
+      if (approachId != null && approachId != 0) {
+        approach.points.forEach((element) async {
+          try {
+            await approachPointsFloorGateway.insertApproachPoints(ApproachPointsModel(
+              approachId: approachId,
+              pointId: element.id,
+              value: element.value,
+            ));
+          } catch (e) {
+            print('Erro ao inserir pontos! ' + e.toString());
+          }
+        });
+      }
+    } else {
+      approachId = approach.id;
+      await approachFloorGateway.updateApproach(ApproachModel(
+        id: approach.id,
+        name: approach.name,
+        dateTime: approach.dateTime.toIso8601String(),
+        description: approach.description,
+        notes: approach.notes,
+      ));
+
+      if (approachId != null && approachId != 0) {
+        approach.points.forEach((element) async {
+          try {
+            await approachPointsFloorGateway.updateApproachPoints(ApproachPointsModel(
+              approachId: approachId,
+              pointId: element.id,
+              value: element.value,
+            ));
+          } catch (e) {
+            print('Erro ao inserir pontos! ' + e.toString());
+          }
+        });
+      }
     }
 
     //
     //
 
     ApproachEntity ap = await GetApproach().call(approachId);
-    print('Inserted approach:');
-    print(ap.toJson());
+    // print('Inserted approach:');
+    // print(ap.toJson());
   }
 }
 
@@ -67,8 +93,8 @@ class GetApproach {
     ApproachEntity approach;
     List<PointEntity> points = [];
     //
-    print('call');
-    print(id);
+    // print('call');
+    // print(id);
     //
     if (id == null) {
       List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();
@@ -93,10 +119,10 @@ class GetApproach {
       List<ApproachPointsView> approachPointsView =
           await approachPointsViewFloorGateway.findApproachesPointsByApproachId(id);
 
-      List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();
-      allPointsModel.forEach((element) {
-        print(element.toJson());
-      });
+      // List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();
+      // allPointsModel.forEach((element) {
+      //   print(element.toJson());
+      // });
       //
       //
       approachPointsView.forEach((element) {
@@ -111,6 +137,7 @@ class GetApproach {
           id: approachModel.id,
           name: approachModel.name,
           description: approachModel.description,
+          notes: approachModel.notes,
           dateTime: DateTime.parse(approachModel.dateTime),
           points: points,
         );
@@ -118,13 +145,12 @@ class GetApproach {
     }
     //
     //
-    //
-    print('Approach_usecases');
-    print('approach.toJson()');
-    print(approach.toJson());
-    approach.points.forEach((element) {
-      print(element.toJson());
-    });
+    // print('Approach_usecases');
+    // print('approach.toJson()');
+    // print(approach.toJson());
+    // approach.points.forEach((element) {
+    //   print(element.toJson());
+    // });
     //
     return approach;
   }

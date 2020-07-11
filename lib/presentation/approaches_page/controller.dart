@@ -1,4 +1,3 @@
-import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';

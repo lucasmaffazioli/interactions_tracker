@@ -7,8 +7,10 @@ class DateFormInput extends StatefulWidget {
   final String title;
   final Function validator;
   final Function onSave;
+  final DateTime initialValue;
 
-  const DateFormInput({Key key, @required this.title, this.validator, @required this.onSave})
+  const DateFormInput(
+      {Key key, @required this.title, this.validator, @required this.onSave, this.initialValue})
       : super(key: key);
 
   @override
@@ -20,28 +22,14 @@ class _DateFormInputState extends State<DateFormInput> {
   final Function onSave;
   final Function validator;
   final TextEditingController _controller = TextEditingController();
-  DateTime _selectedDate = DateTime.now();
+  DateTime _selectedDate;
 
   _DateFormInputState(this.title, this.validator, this.onSave);
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate,
-        firstDate: DateTime(2000, 8),
-        lastDate: DateTime.now());
-    if (picked != null && picked != _selectedDate)
-      setState(() {
-        _selectedDate = picked;
-        _controller.text = _selectedDate.toIso8601String();
-        onSave(_selectedDate);
-      });
-  }
-
   @override
   Widget build(BuildContext context) {
+    _selectedDate = widget.initialValue ?? DateTime.now();
     _controller.text = DateFormat('dd/MM/yyyy').format(_selectedDate);
-    onSave(_selectedDate);
 
     return BaseFormInput(
       title: title,
@@ -55,5 +43,16 @@ class _DateFormInputState extends State<DateFormInput> {
         decoration: myInputDecoration(),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _selectedDate,
+        firstDate: DateTime(2000, 8),
+        lastDate: DateTime.now());
+    if (picked != null && picked != _selectedDate) _selectedDate = picked;
+    _controller.text = DateFormat('dd/MM/yyyy').format(_selectedDate);
+    onSave(_selectedDate);
   }
 }

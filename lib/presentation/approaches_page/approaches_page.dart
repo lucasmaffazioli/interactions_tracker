@@ -9,7 +9,12 @@ import '../add_approach_page/add_approach_page.dart';
 import '../common/base_app_bar.dart';
 import '../common/constants.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +44,13 @@ class HomePage extends StatelessWidget {
         //     style: BorderStyle.solid,
         //   ),
         // ),
-        onPressed: (() {
+        onPressed: (() async {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AddApproachPage()),
-          );
+          ).then((value) {
+            setState(() {});
+          });
         }),
         child: FaIcon(FontAwesomeIcons.plus),
       ),
@@ -91,8 +98,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _Approaches extends StatelessWidget {
+class _Approaches extends StatefulWidget {
+  @override
+  __ApproachesState createState() => __ApproachesState();
+}
+
+class __ApproachesState extends State<_Approaches> {
   final ApproachesController controller = ApproachesController();
+
   List<ApproachSummaryPresentation> items;
 
   @override
@@ -130,6 +143,15 @@ class _Approaches extends StatelessWidget {
                 return MyCard(
                   onTap: (() {
                     controller.callEditScreen(item.id);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddApproachPage(
+                                approachId: item.id,
+                              )),
+                    ).then((value) {
+                      setState(() {});
+                    });
                   }),
                   title: item.name,
                   description: item.description,

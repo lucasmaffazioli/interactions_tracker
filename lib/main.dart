@@ -31,19 +31,15 @@ class MyApp extends StatelessWidget {
         // ... other locales the app supports
       ],
       localeResolutionCallback: (locale, supportedLocales) {
-        print('language ' + locale.toString());
-        print('languages ' + supportedLocales.toString());
-        // Check if the current device locale is supported
+        // print('language ' + locale.toString());
+        // print('languages ' + supportedLocales.toString());
         for (var supportedLocale in supportedLocales) {
           if (supportedLocale.languageCode == locale.languageCode
               //  && supportedLocale.countryCode == locale.countryCode
               ) {
-            print('lol');
             return supportedLocale;
           }
         }
-        // If the locale of the device is not supported, use the first one
-        // from the list (English, in this case).
         return supportedLocales.first;
       },
       //

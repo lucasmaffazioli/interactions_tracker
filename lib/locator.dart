@@ -31,8 +31,8 @@ class LocatorDatabase {
   }
 
   Future<AppDatabase> getDatabase() async {
-    print('_isInstanciated');
-    print(_isInstanciated);
+    // print('_isInstanciated');
+    // print(_isInstanciated);
 
     if (!_isInstanciated) {
       if (USE_TEST_IMPLEMENTATION) {
@@ -52,7 +52,6 @@ class LocatorDatabase {
       }
       _isInstanciated = true;
     }
-    print(_isInstanciated);
     return _database;
   }
 }
