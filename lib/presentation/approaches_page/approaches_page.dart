@@ -109,6 +109,12 @@ class __ApproachesState extends State<_Approaches> {
   List<ApproachSummaryPresentation> items;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // Future<List<ApproachSummaryPresentation>> itemsFuture = controller.getAllApproaches(context);
 
@@ -142,7 +148,6 @@ class __ApproachesState extends State<_Approaches> {
               } else {
                 return MyCard(
                   onTap: (() {
-                    controller.callEditScreen(item.id);
                     Navigator.push(
                       context,
                       MaterialPageRoute(

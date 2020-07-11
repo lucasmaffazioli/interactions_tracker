@@ -1,5 +1,4 @@
 import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +6,6 @@ import 'package:intl/intl.dart';
 import '../../core/extensions/string_extension.dart';
 
 class ApproachesController {
-  callEditScreen(int id) async {
-    // List<ApproachModel> approaches = await GetAllApproaches().call();
-
-    // print('callEditScreen');
-    // approaches.forEach((element) {
-    //   print(element.toJson());
-    // });
-
-    ApproachEntity approach = await GetApproach().call(id);
-    print('approach.toString()');
-    print(approach.toJson());
-  }
-
   Future<List<ApproachSummaryPresentation>> getAllApproaches(BuildContext context) async {
     List<ApproachSummaryPresentation> returnItems = [];
     List<ApproachSummaryView> items = await GetAllSummaryApproaches().call();
@@ -47,10 +33,6 @@ class ApproachesController {
         name: element.name,
         dateTime: element.dateTime,
         description: element.description,
-        // difficulty: 1,
-        // skill: 1,
-        // attraction: 1,
-        // result: 1,
         difficulty: element.difficulty.toInt(),
         skill: element.skill.toInt(),
         attraction: element.attraction.toInt(),
