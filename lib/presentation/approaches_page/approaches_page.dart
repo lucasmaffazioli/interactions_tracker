@@ -19,7 +19,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        // 'Approaches',
         AppLocalizations.of(context).translate('approaches'),
         actions: <Widget>[
           IconButton(
@@ -76,11 +75,9 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: FaIcon(
                 FontAwesomeIcons.list,
-                // color: Constants.accentDisabled,
               ),
               activeIcon: FaIcon(
                 FontAwesomeIcons.list,
-                // color: Constants.accent,
               ),
               title: Text(
                 AppLocalizations.of(context).translate('approaches'),
@@ -89,11 +86,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // ],
-      // ),
-      // ),
-      // body: CollapsingList(),
-      // bottomNavigationBar: BottomNavigationBar(items: null),
     );
   }
 }
@@ -110,69 +102,83 @@ class __ApproachesState extends State<_Approaches> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Future<List<ApproachSummaryPresentation>> itemsFuture = controller.getAllApproaches(context);
-
     return StreamBuilder<List<ApproachSummaryPresentation>>(
-        // return FutureBuilder<List<ApproachSummaryPresentation>>(
-        // future: controller.getAllApproaches(context),
-        stream: controller.getAllApproachesStream(context),
-        builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
-          print('projectconnection state is: ${snapshot.connectionState}');
-          print('project snapshot data is: ${snapshot.data}');
-          print('project has data is: ${snapshot.hasData.toString()}');
-
-          if (snapshot.hasError) {
-            return Container(child: Text('Error loading data!'));
-          }
-          items = snapshot.data ?? [];
-          print('items');
-          print(items);
-          return ListView.builder(
-            // Let the ListView know how many items it needs to build.
-            itemCount: items.length,
-
-            itemBuilder: (context, index) {
-              final item = items[index];
-              if (item.isMonth) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  child: Text(
-                    item.month,
-                    style: Constants.textH1,
+      stream: controller.getAllApproachesStream(context),
+      builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
+        print('projectconnection state is: ${snapshot.connectionState}');
+        print('project snapshot data is: ${snapshot.data}');
+        print('project has data is: ${snapshot.hasData.toString()}');
+        if (snapshot.hasError) {
+          return Container(child: Text('Error loading data!'));
+        }
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  child: const CircularProgressIndicator(
+                    backgroundColor: Constants.accent2,
+                    // strokeWidth: 10,
                   ),
-                );
-              } else {
-                return MyCard(
-                  onTap: (() {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AddApproachPage(
-                                approachId: item.id,
-                              )),
-                    ).then((value) {
-                      // setState(() {});
-                    });
-                  }),
-                  title: item.name,
-                  description: item.description,
-                  month: item.month,
-                  day: item.day,
-                  difficulty: item.difficulty,
-                  skill: item.skill,
-                  attraction: item.attraction,
-                  result: item.result,
-                );
-              }
-            },
+                  width: 60,
+                  height: 60,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(AppLocalizations.of(context).translate('loading')),
+                )
+              ],
+            ),
           );
-        });
+        }
+
+        items = snapshot.data ?? [];
+        print('items');
+        print(items);
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            if (item.isMonth) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                child: Text(
+                  item.month,
+                  style: Constants.textH1,
+                ),
+              );
+            } else {
+              return MyCard(
+                onTap: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AddApproachPage(
+                              approachId: item.id,
+                            )),
+                  );
+                }),
+                title: item.name,
+                description: item.description,
+                month: item.month,
+                day: item.day,
+                difficulty: item.difficulty,
+                skill: item.skill,
+                attraction: item.attraction,
+                result: item.result,
+              );
+            }
+          },
+        );
+      },
+    );
   }
 }
 

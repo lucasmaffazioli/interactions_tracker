@@ -46,6 +46,7 @@ class ApproachesController {
   Stream<List<ApproachSummaryPresentation>> getAllApproachesStream(BuildContext context) async* {
     Stream<List<ApproachSummaryView>> items = await GetAllSummaryApproachesStream().call();
     List<ApproachSummaryPresentation> returnItems = [];
+    await Future.delayed(const Duration(milliseconds: 2000), () {});
 
     print('getAllApproachesStream method called');
     await for (var value in items) {
