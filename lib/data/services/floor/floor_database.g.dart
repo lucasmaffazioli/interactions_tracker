@@ -159,7 +159,8 @@ class _$ApproachModelDao extends ApproachModelDao {
                   'name': item.name,
                   'description': item.description,
                   'notes': item.notes
-                }),
+                },
+            changeListener),
         _approachModelUpdateAdapter = UpdateAdapter(
             database,
             'approach',
@@ -170,7 +171,8 @@ class _$ApproachModelDao extends ApproachModelDao {
                   'name': item.name,
                   'description': item.description,
                   'notes': item.notes
-                }),
+                },
+            changeListener),
         _approachModelDeletionAdapter = DeletionAdapter(
             database,
             'approach',
@@ -181,7 +183,8 @@ class _$ApproachModelDao extends ApproachModelDao {
                   'name': item.name,
                   'description': item.description,
                   'notes': item.notes
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -248,7 +251,8 @@ class _$PointModelDao extends PointModelDao {
                   'id': item.id,
                   'name': item.name,
                   'pointType': item.pointType
-                }),
+                },
+            changeListener),
         _pointModelUpdateAdapter = UpdateAdapter(
             database,
             'point',
@@ -257,7 +261,8 @@ class _$PointModelDao extends PointModelDao {
                   'id': item.id,
                   'name': item.name,
                   'pointType': item.pointType
-                }),
+                },
+            changeListener),
         _pointModelDeletionAdapter = DeletionAdapter(
             database,
             'point',
@@ -266,7 +271,8 @@ class _$PointModelDao extends PointModelDao {
                   'id': item.id,
                   'name': item.name,
                   'pointType': item.pointType
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -330,7 +336,8 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
                   'approachId': item.approachId,
                   'pointId': item.pointId,
                   'value': item.value
-                }),
+                },
+            changeListener),
         _approachPointsModelUpdateAdapter = UpdateAdapter(
             database,
             'approach_points',
@@ -339,7 +346,8 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
                   'approachId': item.approachId,
                   'pointId': item.pointId,
                   'value': item.value
-                });
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -406,7 +414,7 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
 
 class _$ApproachSummaryDao extends ApproachSummaryDao {
   _$ApproachSummaryDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database);
+      : _queryAdapter = QueryAdapter(database, changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -428,6 +436,14 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
   @override
   Future<List<ApproachSummaryView>> findApproachesSummary() async {
     return _queryAdapter.queryList('SELECT * FROM approach_summary_view',
+        mapper: _approach_summary_viewMapper);
+  }
+
+  @override
+  Stream<List<ApproachSummaryView>> findApproachesSummaryStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM approach_summary_view',
+        queryableName: 'approach_summary_view',
+        isView: true,
         mapper: _approach_summary_viewMapper);
   }
 }

@@ -3,10 +3,31 @@ import 'package:get_it/get_it.dart';
 
 GetIt locator = GetIt.instance;
 
-bool USE_TEST_IMPLEMENTATION = true;
+bool USE_TEST_IMPLEMENTATION = false;
 
-void setupLocator() {
-  locator.registerSingleton<LocatorDatabase>(LocatorDatabase());
+void setupLocator() async {
+  // locator.registerSingleton<LocatorDatabase>(LocatorDatabase());
+  // await locator.get<LocatorDatabase>().getDatabase();
+
+  dynamic _database;
+
+  if (USE_TEST_IMPLEMENTATION) {
+    _database = await $FloorAppDatabase.inMemoryDatabaseBuilder().addCallback(dbCallback).build();
+    // await resetDatabase(_database);
+    // print('reseted DB');
+    //
+    List<dynamic> a = await _database.database.rawQuery('SELECT * FROM point');
+    a != null ?? print('some error in resetting db');
+    //
+  } else {
+    _database =
+        await $FloorAppDatabase.databaseBuilder('app_database.db').addCallback(dbCallback).build();
+  }
+
+  // final database = await $FloorAppDatabase.databaseBuilder('flutter_database.db').build();
+
+  locator.registerSingleton<AppDatabase>(_database);
+  // locator.registerLazySingleton<AppDatabase>(() => _database);
   // locator.registerLazySingleton<LocatorDatabase>(() => LocatorDatabase());
   // locator.registerFactory<LocatorDatabase>(() => LocatorDatabase());
 }

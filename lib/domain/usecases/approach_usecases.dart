@@ -166,6 +166,12 @@ class GetAllSummaryApproaches {
   }
 }
 
+class GetAllSummaryApproachesStream {
+  Stream<List<ApproachSummaryView>> call() {
+    return approachSummaryViewFloorGateway.findApproachesSummaryStream();
+  }
+}
+
 class GetAllApproaches {
   Future<List<ApproachModel>> call() async {
     //

@@ -74,6 +74,9 @@ abstract class ApproachPointsModelDao {
 abstract class ApproachSummaryDao {
   @Query('SELECT * FROM approach_summary_view')
   Future<List<ApproachSummaryView>> findApproachesSummary();
+
+  @Query('SELECT * FROM approach_summary_view')
+  Stream<List<ApproachSummaryView>> findApproachesSummaryStream();
 }
 
 @dao

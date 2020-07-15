@@ -5,4 +5,8 @@
 - SOLID
 - Clean separation of DATA layer
 
-Como estruturar a parte de controllers da view? Criar uma interface ou Abstract?
+TODO:
+- Lista de abordagens deve ser Stream
+- Criar dashboard
+- Criar forma de lockar o app com senha
+- Criar forma de backup

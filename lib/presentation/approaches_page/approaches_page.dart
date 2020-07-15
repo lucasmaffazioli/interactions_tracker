@@ -118,19 +118,21 @@ class __ApproachesState extends State<_Approaches> {
   Widget build(BuildContext context) {
     // Future<List<ApproachSummaryPresentation>> itemsFuture = controller.getAllApproaches(context);
 
-    return FutureBuilder<List<ApproachSummaryPresentation>>(
-        future: controller.getAllApproaches(context),
-        builder: (context, AsyncSnapshot snapshot) {
+    return StreamBuilder<List<ApproachSummaryPresentation>>(
+        // return FutureBuilder<List<ApproachSummaryPresentation>>(
+        // future: controller.getAllApproaches(context),
+        stream: controller.getAllApproachesStream(context),
+        builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
           print('projectconnection state is: ${snapshot.connectionState}');
           print('project snapshot data is: ${snapshot.data}');
           print('project has data is: ${snapshot.hasData.toString()}');
 
-          if (snapshot.connectionState != ConnectionState.done && snapshot.hasData) {
-            print('project snapshot data is: ${snapshot.data}');
-            print('project snapshot error is: ${snapshot.error}');
-            return Container(child: Text('Loading data....'));
+          if (snapshot.hasError) {
+            return Container(child: Text('Error loading data!'));
           }
           items = snapshot.data ?? [];
+          print('items');
+          print(items);
           return ListView.builder(
             // Let the ListView know how many items it needs to build.
             itemCount: items.length,
@@ -155,7 +157,7 @@ class __ApproachesState extends State<_Approaches> {
                                 approachId: item.id,
                               )),
                     ).then((value) {
-                      setState(() {});
+                      // setState(() {});
                     });
                   }),
                   title: item.name,

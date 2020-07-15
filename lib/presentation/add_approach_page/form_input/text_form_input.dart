@@ -31,7 +31,7 @@ class TextFormInput extends StatelessWidget {
         validator: validator,
         decoration: myInputDecoration(),
         onSaved: ((String value) {
-          onSave(value);
+          onSave(value.trim());
         }),
       ),
     );

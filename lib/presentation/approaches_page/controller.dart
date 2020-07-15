@@ -42,6 +42,48 @@ class ApproachesController {
 
     return returnItems;
   }
+
+  Stream<List<ApproachSummaryPresentation>> getAllApproachesStream(BuildContext context) async* {
+    Stream<List<ApproachSummaryView>> items = await GetAllSummaryApproachesStream().call();
+    List<ApproachSummaryPresentation> returnItems = [];
+
+    print('getAllApproachesStream method called');
+    await for (var value in items) {
+      print(value);
+      int _lastMonth = 0;
+      value.forEach((element) {
+        int _currentMonth = DateTime.parse(element.dateTime).month;
+        if (_currentMonth != _lastMonth)
+          returnItems.add(ApproachSummaryPresentation(
+            isMonth: true,
+            month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+                .format(DateTime.parse(element.dateTime))
+                .capitalize(),
+          ));
+
+        returnItems.add(ApproachSummaryPresentation(
+          isMonth: false,
+          month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+              .format(DateTime.parse(element.dateTime))
+              .capitalize(),
+          day: DateTime.parse(element.dateTime).day.toString().padLeft(2, '0'),
+          id: element.id,
+          name: element.name,
+          dateTime: element.dateTime,
+          description: element.description,
+          difficulty: element.difficulty.toInt(),
+          skill: element.skill.toInt(),
+          attraction: element.attraction.toInt(),
+          result: element.result.toInt(),
+        ));
+        _lastMonth = _currentMonth;
+      });
+      yield returnItems;
+      returnItems = [];
+    }
+
+    // return returnItems;
+  }
 }
 
 class ApproachSummaryPresentation {
