@@ -30,6 +30,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flushbar: ^1.10.4
+  fl_chart: ^0.10.1
 
 
 

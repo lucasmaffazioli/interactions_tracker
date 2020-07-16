@@ -3,6 +3,7 @@ import 'package:cold_app/presentation/add_approach_page/add_approach_page.dart';
 import 'package:cold_app/presentation/approaches_page/approaches_page.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/common/constants.dart';
+import 'package:cold_app/presentation/dashboard/dashboard_page.dart';
 import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -63,10 +64,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: IndexedStack(
         children: <Widget>[
-          Text(
-            'Index 1: Business',
-            style: optionStyle,
-          ),
+          DashboardPage(),
           ApproachesPage(),
         ],
         index: _selectedIndex,
