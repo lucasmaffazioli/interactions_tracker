@@ -6,42 +6,42 @@ import 'package:intl/intl.dart';
 import '../../core/extensions/string_extension.dart';
 
 class ApproachesController {
-  Future<List<ApproachSummaryPresentation>> getAllApproaches(BuildContext context) async {
-    List<ApproachSummaryPresentation> returnItems = [];
-    List<ApproachSummaryView> items = await GetAllSummaryApproaches().call();
+  // Future<List<ApproachSummaryPresentation>> getAllApproaches(BuildContext context) async {
+  //   List<ApproachSummaryPresentation> returnItems = [];
+  //   List<ApproachSummaryView> items = await GetAllSummaryApproaches().call();
 
-    print('getAllApproaches method called');
+  //   print('getAllApproaches method called');
 
-    int _lastMonth = 0;
-    items.forEach((element) {
-      int _currentMonth = DateTime.parse(element.dateTime).month;
-      if (_currentMonth != _lastMonth)
-        returnItems.add(ApproachSummaryPresentation(
-          isMonth: true,
-          month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
-              .format(DateTime.parse(element.dateTime))
-              .capitalize(),
-        ));
+  //   int _lastMonth = 0;
+  //   items.forEach((element) {
+  //     int _currentMonth = DateTime.parse(element.dateTime).month;
+  //     if (_currentMonth != _lastMonth)
+  //       returnItems.add(ApproachSummaryPresentation(
+  //         isMonth: true,
+  //         month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+  //             .format(DateTime.parse(element.dateTime))
+  //             .capitalize(),
+  //       ));
 
-      returnItems.add(ApproachSummaryPresentation(
-        isMonth: false,
-        month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
-            .format(DateTime.parse(element.dateTime))
-            .capitalize(),
-        day: DateTime.parse(element.dateTime).day.toString().padLeft(2, '0'),
-        id: element.id,
-        name: element.name,
-        dateTime: element.dateTime,
-        description: element.description,
-        difficulty: element.difficulty.toInt(),
-        skill: element.skill.toInt(),
-        attraction: element.attraction.toInt(),
-        result: element.result.toInt(),
-      ));
-    });
+  //     returnItems.add(ApproachSummaryPresentation(
+  //       isMonth: false,
+  //       month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
+  //           .format(DateTime.parse(element.dateTime))
+  //           .capitalize(),
+  //       day: DateTime.parse(element.dateTime).day.toString().padLeft(2, '0'),
+  //       id: element.id,
+  //       name: element.name,
+  //       dateTime: element.dateTime,
+  //       description: element.description,
+  //       difficulty: element.difficulty.toInt(),
+  //       skill: element.skill.toInt(),
+  //       attraction: element.attraction.toInt(),
+  //       result: element.result.toInt(),
+  //     ));
+  //   });
 
-    return returnItems;
-  }
+  //   return returnItems;
+  // }
 
   Stream<List<ApproachSummaryPresentation>> getAllApproachesStream(BuildContext context) async* {
     Stream<List<ApproachSummaryView>> items = await GetAllSummaryApproachesStream().call();

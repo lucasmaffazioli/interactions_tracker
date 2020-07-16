@@ -80,7 +80,7 @@ class SaveApproach {
     //
     //
 
-    ApproachEntity ap = await GetApproach().call(approachId);
+    // ApproachEntity ap = await GetApproach().call(approachId);
     // print('Inserted approach:');
     // print(ap.toJson());
   }
@@ -144,39 +144,12 @@ class GetApproach {
       });
     }
     //
-    //
-    // print('Approach_usecases');
-    // print('approach.toJson()');
-    // print(approach.toJson());
-    // approach.points.forEach((element) {
-    //   print(element.toJson());
-    // });
-    //
     return approach;
-  }
-}
-
-class GetAllSummaryApproaches {
-  Future<List<ApproachSummaryView>> call() async {
-    //
-    List<ApproachSummaryView> approachesView =
-        await approachSummaryViewFloorGateway.findApproachesSummary();
-
-    return approachesView;
   }
 }
 
 class GetAllSummaryApproachesStream {
   Stream<List<ApproachSummaryView>> call() {
     return approachSummaryViewFloorGateway.findApproachesSummaryStream();
-  }
-}
-
-class GetAllApproaches {
-  Future<List<ApproachModel>> call() async {
-    //
-    List<ApproachModel> approaches = await approachFloorGateway.getAllApproach();
-
-    return approaches;
   }
 }

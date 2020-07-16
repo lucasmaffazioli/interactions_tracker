@@ -1,12 +1,11 @@
 import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:cold_app/locator.dart';
 import 'package:flutter/material.dart';
 
-import 'presentation/approaches_page/approaches_page.dart';
 import 'presentation/common/constants.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

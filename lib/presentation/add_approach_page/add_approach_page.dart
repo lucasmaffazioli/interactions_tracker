@@ -58,7 +58,7 @@ class AddApproachPage extends StatelessWidget {
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
-                autovalidate: true,
+                // autovalidate: true,
                 child: Column(
                   children: <Widget>[
                     Padding(

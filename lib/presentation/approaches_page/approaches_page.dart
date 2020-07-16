@@ -1,114 +1,39 @@
 import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
-import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../add_approach_page/add_approach_page.dart';
-import '../common/base_app_bar.dart';
 import '../common/constants.dart';
 
-class HomePage extends StatefulWidget {
+class ApproachesPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _ApproachesPageState createState() => _ApproachesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: BaseAppBar(
-        AppLocalizations.of(context).translate('approaches'),
-        actions: <Widget>[
-          IconButton(
-            icon: const FaIcon(
-              FontAwesomeIcons.cog,
-              color: Constants.mainTextColor,
-            ),
-            tooltip: 'Show settings',
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
-            },
-          ),
-        ],
-        appBar: AppBar(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 0,
-        // shape: CircleBorder(
-        //   side: BorderSide(
-        //     width: 4,
-        //     color: Colors.white,
-        //     style: BorderStyle.solid,
-        //   ),
-        // ),
-        onPressed: (() async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AddApproachPage()),
-          ).then((value) {
-            setState(() {});
-          });
-        }),
-        child: FaIcon(FontAwesomeIcons.plus),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      body: _Approaches(),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            boxShadow: [BoxShadow(color: Colors.black.withAlpha(28), blurRadius: 20)]),
-        child: BottomNavigationBar(
-          elevation: 50,
-          selectedItemColor: Constants.accent,
-          unselectedItemColor: Constants.accentDisabled,
-          items: [
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.chartPie,
-                color: Constants.accent,
-              ),
-              title: Text(
-                AppLocalizations.of(context).translate('dashboard'),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: FaIcon(
-                FontAwesomeIcons.list,
-              ),
-              activeIcon: FaIcon(
-                FontAwesomeIcons.list,
-              ),
-              title: Text(
-                AppLocalizations.of(context).translate('approaches'),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _Approaches extends StatefulWidget {
-  @override
-  __ApproachesState createState() => __ApproachesState();
-}
-
-class __ApproachesState extends State<_Approaches> {
+class _ApproachesPageState extends State<ApproachesPage> {
   final ApproachesController controller = ApproachesController();
+  Stream<List<ApproachSummaryPresentation>> stream;
 
   List<ApproachSummaryPresentation> items;
 
   @override
   void initState() {
+    stream = controller.getAllApproachesStream(context);
+
     super.initState();
   }
 
+  // @override
+  // bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
+    // super.build(context);
+
     return StreamBuilder<List<ApproachSummaryPresentation>>(
-      stream: controller.getAllApproachesStream(context),
+      stream: stream,
       builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
         print('projectconnection state is: ${snapshot.connectionState}');
         print('project snapshot data is: ${snapshot.data}');
