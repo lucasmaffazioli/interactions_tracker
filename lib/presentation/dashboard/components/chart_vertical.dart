@@ -5,8 +5,26 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class ChartVertical extends StatefulWidget {
+  final List<ChartLineData> listData;
+
+  const ChartVertical(this.listData, {Key key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => ChartVerticalState();
+}
+
+class ChartLineData {
+  final String title;
+  final String dayOfWeek;
+  final int value;
+  final bool isCurrent;
+
+  ChartLineData({
+    @required this.title,
+    @required this.dayOfWeek,
+    @required this.value,
+    this.isCurrent = false,
+  });
 }
 
 class ChartVerticalState extends State<ChartVertical> {
@@ -72,7 +90,8 @@ class ChartVerticalState extends State<ChartVertical> {
 
   BarChartGroupData makeGroupData(
     int x,
-    double y, {
+    double y,
+    double maxY, {
     bool isTouched = false,
     Color barColor = Constants.accent2,
     double width = 22,
@@ -87,7 +106,7 @@ class ChartVerticalState extends State<ChartVertical> {
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: 20,
+            y: maxY,
             color: barBackgroundColor,
           ),
         ),
@@ -96,26 +115,45 @@ class ChartVerticalState extends State<ChartVertical> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(0, 5, isTouched: i == touchedIndex);
-          case 1:
-            return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
-          case 2:
-            return makeGroupData(2, 5, isTouched: i == touchedIndex);
-          case 3:
-            return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
-          case 4:
-            return makeGroupData(4, 9, isTouched: i == touchedIndex);
-          case 5:
-            return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
-          case 6:
-            return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
-          default:
-            return null;
-        }
-      });
+  List<BarChartGroupData> showingGroups() {
+    List<BarChartGroupData> returnList = [];
+    int _count = 0;
+    final listDataMaxY = widget.listData;
+    listDataMaxY.sort((a, b) => a.value.compareTo(b.value));
+    double maxY = listDataMaxY.last.value.toDouble();
+
+    widget.listData.forEach((element) {
+      returnList.add(makeGroupData(
+        _count,
+        element.value.toDouble(),
+        maxY,
+      ));
+
+      _count++;
+    });
+    return returnList;
+  }
+
+  // List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+  //   switch (i) {
+  //     case 0:
+  //       return makeGroupData(0, 5, isTouched: i == touchedIndex);
+  //     case 1:
+  //       return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+  //     case 2:
+  //       return makeGroupData(2, 5, isTouched: i == touchedIndex);
+  //     case 3:
+  //       return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
+  //     case 4:
+  //       return makeGroupData(4, 9, isTouched: i == touchedIndex);
+  //     case 5:
+  //       return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
+  //     case 6:
+  //       return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
+  //     default:
+  //       return null;
+  //   }
+  // });
 
   BarChartData mainBarData() {
     return BarChartData(
@@ -163,36 +201,65 @@ class ChartVerticalState extends State<ChartVertical> {
         },
       ),
       titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
-          margin: 16,
-          getTitles: (double value) {
-            switch (value.toInt()) {
-              case 0:
-                return 'M';
-              case 1:
-                return 'T';
-              case 2:
-                return 'W';
-              case 3:
-                return 'T';
-              case 4:
-                return 'F';
-              case 5:
-                return 'S';
-              case 6:
-                return 'S';
-              default:
-                return '';
-            }
-          },
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-        ),
-      ),
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+            margin: 16,
+            getTitles: (double value) {
+              print('value111');
+              print(value);
+              switch (value.toInt()) {
+                case 0:
+                  return 'M';
+                case 1:
+                  return 'T';
+                case 2:
+                  return 'W';
+                case 3:
+                  return 'T';
+                case 4:
+                  return 'F';
+                case 5:
+                  return 'S';
+                case 6:
+                  return 'S';
+                default:
+                  return '';
+              }
+            },
+          ),
+          rightTitles: SideTitles(showTitles: true),
+          leftTitles: SideTitles(
+            showTitles: true,
+          ),
+          topTitles: SideTitles(
+            showTitles: true,
+            textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 140),
+            // margin: 16,
+            getTitles: (double value) {
+              print('value');
+              print(value);
+              switch (value.toInt()) {
+                case 0:
+                  return 'M';
+                case 1:
+                  return 'T';
+                case 2:
+                  return 'W';
+                case 3:
+                  return 'T';
+                case 4:
+                  return 'F';
+                case 5:
+                  return 'S';
+                case 6:
+                  return 'S';
+                default:
+                  return '';
+              }
+            },
+          )),
       borderData: FlBorderData(
         show: false,
       ),

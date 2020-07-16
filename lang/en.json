@@ -28,5 +28,12 @@
 	"delete": "Delete",
 	"warning_want_to_continue_delete": "Warning! Are you sure you want to delete this? It can't be undone",
 	"loading": "Loading...",
+	"day_sunday": "Sunday",
+	"day_monday": "Monday",
+	"day_tuesday": "Tuesday",
+	"day_wednesday": "Wednesday",
+	"day_thursday": "Thursday",
+	"day_friday": "Friday",
+	"day_saturday": "Saturday",
 	"date": "Date"
 }
