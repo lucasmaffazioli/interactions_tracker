@@ -28,12 +28,22 @@ class ChartLineData {
 }
 
 class ChartVerticalState extends State<ChartVertical> {
-  final Color barBackgroundColor = Colors.blue;
+  final Color barBackgroundColor = Constants.chartLineBackground;
   final Duration animDuration = const Duration(milliseconds: 250);
+  double maxY;
 
   int touchedIndex;
 
   bool isPlaying = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final _listDataMaxY = widget.listData;
+    _listDataMaxY.sort((a, b) => a.value.compareTo(b.value));
+    maxY = _listDataMaxY.last.value.toDouble();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +100,23 @@ class ChartVerticalState extends State<ChartVertical> {
 
   BarChartGroupData makeGroupData(
     int x,
-    double y,
-    double maxY, {
+    double y, {
+    bool isCurrent = false,
     bool isTouched = false,
     Color barColor = Constants.accent2,
-    double width = 22,
+    double width = 10,
     List<int> showTooltips = const [],
   }) {
+    Color color = barColor;
+    if (isCurrent) color = Constants.accent3;
+    if (isTouched) color = Colors.red;
+
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 1 : y,
-          color: isTouched ? Colors.yellow : barColor,
+          y: y,
+          color: color,
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
@@ -118,17 +132,18 @@ class ChartVerticalState extends State<ChartVertical> {
   List<BarChartGroupData> showingGroups() {
     List<BarChartGroupData> returnList = [];
     int _count = 0;
-    final listDataMaxY = widget.listData;
-    listDataMaxY.sort((a, b) => a.value.compareTo(b.value));
-    double maxY = listDataMaxY.last.value.toDouble();
-
+    //
     widget.listData.forEach((element) {
-      returnList.add(makeGroupData(
-        _count,
-        element.value.toDouble(),
-        maxY,
-      ));
-
+      print('element.value.toString()');
+      print(element.isCurrent.toString());
+      returnList.add(
+        makeGroupData(
+          _count,
+          element.value.toDouble(),
+          isCurrent: element.isCurrent,
+          isTouched: _count == touchedIndex,
+        ),
+      );
       _count++;
     });
     return returnList;
@@ -158,35 +173,14 @@ class ChartVerticalState extends State<ChartVertical> {
   BarChartData mainBarData() {
     return BarChartData(
       barTouchData: BarTouchData(
+        touchExtraThreshold: EdgeInsets.all(14),
         touchTooltipData: BarTouchTooltipData(
             tooltipBgColor: Colors.red,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
-              String weekDay;
-              switch (group.x.toInt()) {
-                case 0:
-                  weekDay = 'Monday';
-                  break;
-                case 1:
-                  weekDay = 'Tuesday';
-                  break;
-                case 2:
-                  weekDay = 'Wednesday';
-                  break;
-                case 3:
-                  weekDay = 'Thursday';
-                  break;
-                case 4:
-                  weekDay = 'Friday';
-                  break;
-                case 5:
-                  weekDay = 'Saturday';
-                  break;
-                case 6:
-                  weekDay = 'Sunday';
-                  break;
-              }
               return BarTooltipItem(
-                  weekDay + '\n' + (rod.y - 1).toString(), TextStyle(color: Colors.black));
+                widget.listData[group.x.toInt()].dayOfWeek + '\n' + (rod.y).toString(),
+                TextStyle(color: Colors.white, fontSize: 14),
+              );
             }),
         touchCallback: (barTouchResponse) {
           setState(() {
@@ -207,26 +201,7 @@ class ChartVerticalState extends State<ChartVertical> {
             textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
             margin: 16,
             getTitles: (double value) {
-              print('value111');
-              print(value);
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
+              return widget.listData[value.toInt()].dayOfWeek.substring(0, 1);
             },
           ),
           rightTitles: SideTitles(showTitles: true),
@@ -236,7 +211,7 @@ class ChartVerticalState extends State<ChartVertical> {
           topTitles: SideTitles(
             showTitles: true,
             textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 140),
-            // margin: 16,
+            margin: 1,
             getTitles: (double value) {
               print('value');
               print(value);

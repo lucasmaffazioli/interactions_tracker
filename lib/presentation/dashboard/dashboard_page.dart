@@ -16,8 +16,8 @@ class DashboardPage extends StatelessWidget {
               child: ChartVertical(<ChartLineData>[
                 ChartLineData(
                   dayOfWeek: AppLocalizations.of(context).translate('day_sunday'),
-                  title: 1.toString(),
-                  value: 1,
+                  title: 0.toString(),
+                  value: 0,
                 ),
                 ChartLineData(
                   dayOfWeek: AppLocalizations.of(context).translate('day_monday'),
