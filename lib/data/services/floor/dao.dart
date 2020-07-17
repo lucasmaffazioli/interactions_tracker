@@ -1,6 +1,7 @@
 import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:floor/floor.dart';
 
@@ -83,4 +84,10 @@ abstract class ApproachSummaryDao {
 abstract class ApproachPointsViewDao {
   @Query('SELECT * FROM approach_points_view WHERE approachId = :approachId')
   Future<List<ApproachPointsView>> findApproachesPointsByApproachId(int approachId);
+}
+
+@dao
+abstract class GoalsModelDao {
+  @Query('SELECT * FROM goals')
+  Future<GoalsModel> findGoalsModel();
 }

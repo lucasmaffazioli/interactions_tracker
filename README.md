@@ -10,3 +10,6 @@ TODO:
 - Criar dashboard
 - Criar forma de lockar o app com senha
 - Criar forma de backup
+
+
+flutter packages pub run build_runner watch

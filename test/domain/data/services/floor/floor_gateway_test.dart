@@ -9,9 +9,9 @@ import 'package:cold_app/locator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  setUp(() {
+  setUp(() async {
     print('setupLocator');
-    setupLocator();
+    await setupLocatorTest();
   });
 
   tearDown(() {

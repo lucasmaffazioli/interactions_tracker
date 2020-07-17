@@ -1,5 +1,6 @@
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/goals_model.dart';
 
 import '../../../locator.dart';
 import '../../models/approach/approach_model.dart';
@@ -14,6 +15,7 @@ class FloorGateway {
   ApproachPointsModelDao approachPointsDao;
   ApproachSummaryDao approachSummaryDao;
   ApproachPointsViewDao approachPointsViewDao;
+  GoalsModelDao goalsModelDao;
 
   // FloorGateway() async {
   //   database = await locator.get<LocatorDatabase>().getDatabase();
@@ -27,6 +29,8 @@ class FloorGateway {
     approachPointsDao = database.approachPointsModelDao;
     approachSummaryDao = database.approachSummaryDao;
     approachPointsViewDao = database.approachPointsViewDao;
+    approachPointsViewDao = database.approachPointsViewDao;
+    goalsModelDao = database.goalsModelDao;
   }
 }
 
@@ -172,5 +176,13 @@ class ApproachPointsViewFloorGateway extends FloorGateway {
     await _setUp();
     //
     return await approachPointsViewDao.findApproachesPointsByApproachId(approachId);
+  }
+}
+
+class GoalsModelFloorGateway extends FloorGateway {
+  Future<GoalsModel> findGoalsModel() async {
+    await _setUp();
+    //
+    return await goalsModelDao.findGoalsModel();
   }
 }

@@ -70,6 +70,8 @@ class _$AppDatabase extends AppDatabase {
 
   ApproachPointsViewDao _approachPointsViewDaoInstance;
 
+  GoalsModelDao _goalsModelDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -93,6 +95,8 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE NO ACTION, PRIMARY KEY (`approachId`, `pointId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyGoal` INTEGER)');
         await database.execute(
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
         await database.execute(
@@ -144,6 +148,11 @@ ORDER BY p.pointType
   ApproachPointsViewDao get approachPointsViewDao {
     return _approachPointsViewDaoInstance ??=
         _$ApproachPointsViewDao(database, changeListener);
+  }
+
+  @override
+  GoalsModelDao get goalsModelDao {
+    return _goalsModelDaoInstance ??= _$GoalsModelDao(database, changeListener);
   }
 }
 
@@ -473,5 +482,24 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
         'SELECT * FROM approach_points_view WHERE approachId = ?',
         arguments: <dynamic>[approachId],
         mapper: _approach_points_viewMapper);
+  }
+}
+
+class _$GoalsModelDao extends GoalsModelDao {
+  _$GoalsModelDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _goalsMapper = (Map<String, dynamic> row) =>
+      GoalsModel(row['id'] as int, row['weeklyGoal'] as int);
+
+  @override
+  Future<GoalsModel> findGoalsModel() async {
+    return _queryAdapter.query('SELECT * FROM goals', mapper: _goalsMapper);
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/services/floor/dao.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
@@ -13,7 +14,7 @@ part 'floor_database.g.dart';
 
 @Database(
     version: 1,
-    entities: [ApproachModel, ApproachPointsModel, PointModel],
+    entities: [ApproachModel, ApproachPointsModel, PointModel, GoalsModel],
     views: [ApproachSummaryView, ApproachPointsView])
 abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
@@ -21,15 +22,16 @@ abstract class AppDatabase extends FloorDatabase {
   ApproachPointsModelDao get approachPointsModelDao;
   ApproachSummaryDao get approachSummaryDao;
   ApproachPointsViewDao get approachPointsViewDao;
+  GoalsModelDao get goalsModelDao;
 }
 
 //
 // - Some helpers
 //
 void resetDatabase(database) async {
-  await _resetTable(database, 'approach_points');
-  await _resetTableWithAutoIncrement(database, 'approach');
-  await _resetTableWithAutoIncrement(database, 'point');
+  // await _resetTable(database, 'approach_points');
+  // await _resetTableWithAutoIncrement(database, 'approach');
+  // await _resetTableWithAutoIncrement(database, 'point');
 }
 
 void _resetTable(database, String tableName) async {
@@ -65,6 +67,7 @@ final dbCallback = Callback(
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Dificuldade', 'difficulty');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Atração', 'attraction');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Resultado', 'result');");
+    database.rawQuery("INSERT INTO goals(id, weeklyGoal) VALUES('1', 10);");
 
     print('First DB use configured');
   },
