@@ -1,5 +1,6 @@
 import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
+import 'package:cold_app/presentation/goals/goals_page.dart';
 import 'package:cold_app/presentation/points/points_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,6 +23,19 @@ class SettingsPage extends StatelessWidget {
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.pollH),
               title: Text(AppLocalizations.of(context).translate('categories')),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => GoalsPage(),
+                ),
+              );
+            },
+            child: ListTile(
+              leading: FaIcon(FontAwesomeIcons.bullseye),
+              title: Text(AppLocalizations.of(context).translate('goals_menu')),
             ),
           ),
           // ListTile(
