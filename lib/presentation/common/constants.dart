@@ -26,4 +26,5 @@ class Constants {
   static const Offset shadowOrientation = Offset(0, 6);
   static const BoxShadow boxShadow = BoxShadow(
       offset: Constants.shadowOrientation, color: Colors.black45, spreadRadius: 0.0, blurRadius: 6);
+  static const Color borderColor = Color.fromARGB(36, 0, 0, 0);
 }

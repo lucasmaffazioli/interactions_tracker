@@ -35,7 +35,10 @@
 	"day_thursday": "Quinta",
 	"day_friday": "Sexta",
 	"day_saturday": "Sábado",
+	"day": "Dia",
 	"week": "Semana",
+	"month": "Mês",
 	"of": "de",
+	"analysis": "Análise",
 	"date": "Data"
 }
