@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 
 class ChartVertical extends StatefulWidget {
   final List<ChartLineData> listData;
+  final String title;
+  final String subTitle;
 
-  const ChartVertical(this.listData, {Key key}) : super(key: key);
+  const ChartVertical(this.listData, {Key key, this.title, this.subTitle}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ChartVerticalState();
@@ -51,6 +53,7 @@ class ChartVerticalState extends State<ChartVertical> {
       aspectRatio: 1,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        elevation: 0,
         color: Colors.white,
         child: Stack(
           children: <Widget>[
@@ -61,18 +64,31 @@ class ChartVerticalState extends State<ChartVertical> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Text(
-                    'Mingguan',
-                    style: TextStyle(
-                        color: const Color(0xff0f4a3c), fontSize: 24, fontWeight: FontWeight.bold),
+                  Visibility(
+                    visible: widget.title != null,
+                    child: Text(
+                      widget.title ?? '',
+                      style: TextStyle(
+                          color: const Color(0xff0f4a3c),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 4,
+                  Visibility(
+                    visible: widget.title != null,
+                    child: const SizedBox(
+                      height: 4,
+                    ),
                   ),
-                  Text(
-                    'Grafik konsumsi kalori',
-                    style: TextStyle(
-                        color: const Color(0xff379982), fontSize: 18, fontWeight: FontWeight.bold),
+                  Visibility(
+                    visible: widget.subTitle != null,
+                    child: Text(
+                      widget.subTitle ?? '',
+                      style: TextStyle(
+                          color: const Color(0xff379982),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(
                     height: 38,
@@ -178,7 +194,7 @@ class ChartVerticalState extends State<ChartVertical> {
             tooltipBgColor: Colors.red,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               return BarTooltipItem(
-                widget.listData[group.x.toInt()].dayOfWeek + '\n' + (rod.y).toString(),
+                widget.listData[group.x.toInt()].dayOfWeek + '\n' + (rod.y.toInt()).toString(),
                 TextStyle(color: Colors.white, fontSize: 14),
               );
             }),

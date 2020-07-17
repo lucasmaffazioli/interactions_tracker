@@ -35,5 +35,7 @@
 	"day_thursday": "Thursday",
 	"day_friday": "Friday",
 	"day_saturday": "Saturday",
+	"week": "Week",
+	"of": "of",
 	"date": "Date"
 }

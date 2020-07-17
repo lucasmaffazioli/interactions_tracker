@@ -23,4 +23,7 @@ class Constants {
   );
   static const double borderRadiusCards = 20;
   static const double borderRadiusSmall = 4;
+  static const Offset shadowOrientation = Offset(0, 6);
+  static const BoxShadow boxShadow = BoxShadow(
+      offset: Constants.shadowOrientation, color: Colors.black45, spreadRadius: 0.0, blurRadius: 6);
 }
