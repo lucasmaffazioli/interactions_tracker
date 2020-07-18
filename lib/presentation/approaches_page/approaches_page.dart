@@ -1,6 +1,8 @@
 import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
+import 'package:cold_app/presentation/common/base_app_bar.dart';
+import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,6 +10,10 @@ import '../add_approach_page/add_approach_page.dart';
 import '../common/constants.dart';
 
 class ApproachesPage extends StatefulWidget {
+  final Function changeBaseAppBar;
+
+  const ApproachesPage(this.changeBaseAppBar, {Key key}) : super(key: key);
+
   @override
   _ApproachesPageState createState() => _ApproachesPageState();
 }
@@ -22,6 +28,24 @@ class _ApproachesPageState extends State<ApproachesPage> {
   @override
   void initState() {
     stream = controller.getAllApproachesStream(context);
+
+    widget.changeBaseAppBar(BaseAppBar(
+      'a', // TODO fix me
+      // AppLocalizations.of(context).translate('approaches'),
+      actions: <Widget>[
+        IconButton(
+          icon: const FaIcon(
+            FontAwesomeIcons.cog,
+            color: Constants.mainTextColor,
+          ),
+          tooltip: 'Show settings',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+          },
+        ),
+      ],
+      appBar: AppBar(),
+    ));
 
     super.initState();
   }

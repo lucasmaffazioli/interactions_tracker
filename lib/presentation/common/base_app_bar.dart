@@ -24,10 +24,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      // elevation: 10,
       centerTitle: true,
       leading: hasBackButton
           ? InkWell(
+              // borderRadius: BorderRadius.circular(50),
               onTap: () => Navigator.maybePop(context),
               child: Center(
                 child: FaIcon(

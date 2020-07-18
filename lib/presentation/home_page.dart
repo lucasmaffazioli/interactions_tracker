@@ -15,6 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  BaseAppBar baseAppBar;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -22,25 +23,40 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  _changeBaseAppBar(BaseAppBar _baseAppBar) {
+    print('setState home_page');
+    // setState(() {
+    //   baseAppBar = _baseAppBar;
+    // });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    baseAppBar = BaseAppBar(
+      'AAAAAAAAAA', // TODO fix me
+      // AppLocalizations.of(context).translate('approaches'),
+      actions: <Widget>[
+        IconButton(
+          icon: const FaIcon(
+            FontAwesomeIcons.cog,
+            color: Constants.mainTextColor,
+          ),
+          tooltip: 'Show settings',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
+          },
+        ),
+      ],
+      appBar: AppBar(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(
-        AppLocalizations.of(context).translate('approaches'),
-        actions: <Widget>[
-          IconButton(
-            icon: const FaIcon(
-              FontAwesomeIcons.cog,
-              color: Constants.mainTextColor,
-            ),
-            tooltip: 'Show settings',
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
-            },
-          ),
-        ],
-        appBar: AppBar(),
-      ),
+      appBar: baseAppBar,
       floatingActionButton: FloatingActionButton(
         elevation: 0,
         // shape: CircleBorder(
@@ -64,7 +80,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         children: <Widget>[
           DashboardPage(),
-          ApproachesPage(),
+          ApproachesPage(_changeBaseAppBar),
         ],
         index: _selectedIndex,
       ),
@@ -79,7 +95,6 @@ class _HomePageState extends State<HomePage> {
             BottomNavigationBarItem(
               icon: FaIcon(
                 FontAwesomeIcons.chartPie,
-                // color: Constants.accent,
               ),
               title: Text(
                 AppLocalizations.of(context).translate('dashboard'),
