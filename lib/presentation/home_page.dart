@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_approach_page/add_approach_page.dart';
 import 'package:cold_app/presentation/approaches_page/approaches_page.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
@@ -7,6 +7,7 @@ import 'package:cold_app/presentation/dashboard/dashboard_page.dart';
 import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
                 FontAwesomeIcons.chartPie,
               ),
               title: Text(
-                AppLocalizations.of(context).translate('dashboard'),
+                'Dashboard'.i18n,
               ),
             ),
             BottomNavigationBarItem(
@@ -108,7 +109,8 @@ class _HomePageState extends State<HomePage> {
                 FontAwesomeIcons.list,
               ),
               title: Text(
-                AppLocalizations.of(context).translate('approaches'),
+                'Approaches'.i18n,
+                // AppLocalizations.of(context).translate('approaches'),
               ),
             ),
           ],

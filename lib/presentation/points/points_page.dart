@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/domain/usecases/point_usecases.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/points/edit_point_page.dart';
@@ -17,7 +17,7 @@ class _PointsPageState extends State<PointsPage> {
 
     return Scaffold(
       appBar: BaseAppBar(
-        AppLocalizations.of(context).translate('categories'),
+        'Categories'.i18n,
         hasBackButton: true,
         appBar: AppBar(),
       ),
@@ -26,7 +26,7 @@ class _PointsPageState extends State<PointsPage> {
           Navigator.of(context)
               .push(MaterialPageRoute(
                   builder: (context) => EditPointPage(
-                        appBarTitle: AppLocalizations.of(context).translate('edit_category'),
+                        appBarTitle: 'Edit category'.i18n,
                         pointId: null,
                         pointName: null,
                         pointType: null,
@@ -60,8 +60,7 @@ class _PointsPageState extends State<PointsPage> {
                     Navigator.of(context)
                         .push(MaterialPageRoute(
                             builder: (context) => EditPointPage(
-                                  appBarTitle:
-                                      AppLocalizations.of(context).translate('edit_category'),
+                                  appBarTitle: 'Edit category'.i18n,
                                   pointId: item.id,
                                   pointName: item.name,
                                   pointType: item.pointType,

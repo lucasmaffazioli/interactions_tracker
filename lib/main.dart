@@ -1,9 +1,9 @@
-import 'package:cold_app/core/app_localizations.dart';
 import 'package:cold_app/presentation/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:cold_app/locator.dart';
 import 'package:flutter/material.dart';
+import 'package:i18n_extension/i18n_widget.dart';
 
 import 'presentation/common/constants.dart';
 
@@ -17,14 +17,11 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // USE_TEST_IMPLEMENTATION = false;
-
     return MaterialApp(
       localizationsDelegates: [
-        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
-        // GlobalCupertinoLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: [
         const Locale('en', ''), // English, no country code
@@ -81,7 +78,7 @@ class MyApp extends StatelessWidget {
           trackShape: _CustomTrackShape(),
         ),
       ),
-      home: HomePage(),
+      home: I18n(child: HomePage()),
     );
   }
 }

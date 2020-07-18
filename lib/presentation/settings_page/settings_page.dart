@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/goals/goals_page.dart';
@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        AppLocalizations.of(context).translate('settings'),
+        'Settings'.i18n,
         hasBackButton: true,
         appBar: AppBar(),
       ),
@@ -24,7 +24,7 @@ class SettingsPage extends StatelessWidget {
             },
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.pollH),
-              title: Text(AppLocalizations.of(context).translate('categories')),
+              title: Text('Categories'.i18n),
             ),
           ),
           InkWell(
@@ -38,7 +38,7 @@ class SettingsPage extends StatelessWidget {
             },
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.bullseye),
-              title: Text(AppLocalizations.of(context).translate('goals_menu')),
+              title: Text('Goals'.i18n),
             ),
           ),
           // ListTile(

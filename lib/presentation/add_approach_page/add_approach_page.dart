@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';
@@ -21,25 +21,21 @@ class AddApproachPage extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _required_value_text;
-
   String _requiredValidator(value) {
     if (value == null || value == '') {
-      return _required_value_text;
+      return 'Required field'.i18n;
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    _required_value_text = AppLocalizations.of(context).translate('required_field');
-
     Future<ApproachPresentation> approachPresentationFuture =
         controller.getApproach(context, approachId);
 
     return Scaffold(
       appBar: BaseAppBar(
-        AppLocalizations.of(context).translate('new_approach'),
+        'New Approach'.i18n,
         appBar: AppBar(),
         hasBackButton: true,
       ),
@@ -70,7 +66,7 @@ class AddApproachPage extends StatelessWidget {
                             children: <Widget>[
                               Expanded(
                                 child: DateFormInput(
-                                  title: AppLocalizations.of(context).translate('date') + ' *',
+                                  title: 'Date'.i18n + ' *',
                                   initialValue: approachPresentation.date,
                                   validator: _requiredValidator,
                                   onSave: ((value) {
@@ -83,7 +79,7 @@ class AddApproachPage extends StatelessWidget {
                               ),
                               Expanded(
                                 child: TimeFormInput(
-                                  title: AppLocalizations.of(context).translate('time') + ' *',
+                                  title: 'Time'.i18n + ' *',
                                   initialValue: approachPresentation.time,
                                   onSave: ((value) {
                                     approachPresentation.time = value;
@@ -93,7 +89,7 @@ class AddApproachPage extends StatelessWidget {
                             ],
                           ),
                           TextFormInput(
-                            title: AppLocalizations.of(context).translate('name') + ' *',
+                            title: 'Name'.i18n + ' *',
                             validator: _requiredValidator,
                             initialValue: approachPresentation.name,
                             onSave: ((value) {
@@ -101,7 +97,7 @@ class AddApproachPage extends StatelessWidget {
                             }),
                           ),
                           TextFormInput(
-                            title: AppLocalizations.of(context).translate('summary') + ' *',
+                            title: 'Summary'.i18n + ' *',
                             validator: _requiredValidator,
                             initialValue: approachPresentation.description,
                             onSave: ((value) {
@@ -109,7 +105,7 @@ class AddApproachPage extends StatelessWidget {
                             }),
                           ),
                           TextFormInput(
-                            title: AppLocalizations.of(context).translate('notes'),
+                            title: 'Notes'.i18n,
                             maxLines: 5,
                             minLines: 3,
                             initialValue: approachPresentation.notes,
@@ -129,9 +125,10 @@ class AddApproachPage extends StatelessWidget {
                       ),
                     ),
                     LargeButton(
-                        backgroundColor: Constants.accent,
-                        onPressed: () => _saveForm(context),
-                        name: AppLocalizations.of(context).translate('save')),
+                      backgroundColor: Constants.accent,
+                      onPressed: () => _saveForm(context),
+                      name: 'Save'.i18n,
+                    ),
                   ],
                 ),
               ),
@@ -164,7 +161,7 @@ class AddApproachPage extends StatelessWidget {
 
     } else {
       Flushbar(
-        message: AppLocalizations.of(context).translate('form_validation_error'),
+        message: "Oops... There's something missing in this form".i18n,
         duration: Duration(seconds: 3),
         margin: const EdgeInsets.all(8),
         padding: const EdgeInsets.all(20),
@@ -201,9 +198,7 @@ class __PointsState extends State<_Points> {
       // index++;
       if (item.isHeader) {
         listWidgets.add(TitleWithIcon(
-          AppLocalizations.of(context).translate(item.headerTitle),
-
-          // item.headerTitle,
+          item.headerTitle.i18n,
           iconData: item.headerIcon,
         ));
         listWidgets.add(SizedBox(height: 10));

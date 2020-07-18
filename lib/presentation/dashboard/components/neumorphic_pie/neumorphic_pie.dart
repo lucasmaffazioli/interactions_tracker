@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/dashboard/components/neumorphic_pie/middle_ring.dart';
 import 'package:cold_app/presentation/dashboard/components/neumorphic_pie/progress_rings.dart';
@@ -97,9 +97,7 @@ class NeumorphicPie extends StatelessWidget {
                         style: TextStyle(fontSize: size * 0.3, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        AppLocalizations.of(context).translate('of') +
-                            ' ' +
-                            totalValue.toInt().toString(),
+                        'of'.i18n + ' ' + totalValue.toInt().toString(),
                         style: TextStyle(fontSize: size * 0.1),
                       ),
                     ],

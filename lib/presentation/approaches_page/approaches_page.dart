@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
@@ -83,7 +83,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
-                  child: Text(AppLocalizations.of(context).translate('loading')),
+                  child: Text('Loading'.i18n),
                 )
               ],
             ),

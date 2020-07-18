@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/domain/usecases/goals_usecases.dart';
 import 'package:cold_app/presentation/add_approach_page/form_input/text_form_input.dart';
@@ -12,9 +12,6 @@ class GoalsPage extends StatelessWidget {
 
   final _formKey = GlobalKey<FormState>();
 
-  String _required_value_text;
-  String _not_valid_numer_text;
-
   GoalsPage(
     this.goalsModel, {
     Key key,
@@ -22,24 +19,21 @@ class GoalsPage extends StatelessWidget {
 
   String _weeklyGoalsValidator(value) {
     if (value == null || value == '') {
-      return _required_value_text;
+      return 'Required field'.i18n;
     }
 
     final n = num.tryParse(value);
     if (n == null) {
-      return '$value ' + _not_valid_numer_text;
+      return '$value ' + ' is not a number!'.i18n;
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    _required_value_text = AppLocalizations.of(context).translate('required_field');
-    _not_valid_numer_text = AppLocalizations.of(context).translate('not_valid_numer_field');
-
     return Scaffold(
       appBar: BaseAppBar(
-        AppLocalizations.of(context).translate('goals_menu'),
+        'Goals'.i18n,
         hasBackButton: true,
         appBar: AppBar(),
       ),
@@ -54,7 +48,7 @@ class GoalsPage extends StatelessWidget {
               child: TextFormInput(
                 textInputType: TextInputType.number,
                 initialValue: goalsModel.weeklyApproachGoal.toString(),
-                title: AppLocalizations.of(context).translate('weekly_approaches_goal') + ' *',
+                title: 'Weekly approaches'.i18n + ' *',
                 validator: _weeklyGoalsValidator,
                 onSave: ((value) {
                   SaveGoals().call(int.parse(value));
@@ -66,14 +60,15 @@ class GoalsPage extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: LargeButton(
-                        backgroundColor: Constants.accent,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            Navigator.maybePop(context);
-                          }
-                        },
-                        name: AppLocalizations.of(context).translate('save')),
+                      backgroundColor: Constants.accent,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _formKey.currentState.save();
+                          Navigator.maybePop(context);
+                        }
+                      },
+                      name: 'Save'.i18n,
+                    ),
                   ),
                 ],
               ),

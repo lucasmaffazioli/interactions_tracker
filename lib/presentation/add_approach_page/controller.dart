@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
@@ -42,7 +42,7 @@ class AddApproachController {
     //
     pointPresentationList.add(PointPresentation(
       isHeader: true,
-      headerTitle: AppLocalizations.of(context).translate('other_point_type'),
+      headerTitle: 'Other'.i18n,
       headerIcon: null,
     ));
     approachEntity.points.forEach((element) {

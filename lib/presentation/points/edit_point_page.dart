@@ -1,4 +1,4 @@
-import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/domain/usecases/point_usecases.dart';
 import 'package:cold_app/presentation/add_approach_page/form_input/text_form_input.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
@@ -12,7 +12,6 @@ class EditPointPage extends StatelessWidget {
   final String pointName;
   final String pointType;
   final _formKey = GlobalKey<FormState>();
-  String _required_value_text;
   String newName;
 
   EditPointPage({
@@ -27,14 +26,13 @@ class EditPointPage extends StatelessWidget {
     print('value');
     print(value);
     if (value == null || value.trim() == '') {
-      return _required_value_text;
+      return 'Required field'.i18n;
     }
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    _required_value_text = AppLocalizations.of(context).translate('required_field');
     newName = pointName;
 
     return Scaffold(
@@ -53,7 +51,7 @@ class EditPointPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
               child: TextFormInput(
                 initialValue: pointName,
-                title: AppLocalizations.of(context).translate('name') + ' *',
+                title: 'Name'.i18n + ' *',
                 validator: _requiredValidator,
                 onSave: ((value) {
                   newName = value;
@@ -75,7 +73,7 @@ class EditPointPage extends StatelessWidget {
                             }).then((value) => Navigator.maybePop(context));
                           }
                         },
-                        name: AppLocalizations.of(context).translate('delete')),
+                        name: 'Delete'.i18n),
                   ),
                   Expanded(
                     child: LargeButton(
@@ -87,7 +85,7 @@ class EditPointPage extends StatelessWidget {
                             Navigator.maybePop(context);
                           }
                         },
-                        name: AppLocalizations.of(context).translate('save')),
+                        name: 'Save'.i18n),
                   ),
                 ],
               ),
@@ -103,16 +101,16 @@ class EditPointPage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(AppLocalizations.of(context).translate('warning_want_to_continue_delete')),
+          title: Text("Warning! Are you sure you want to delete this? It can't be undone".i18n),
           actions: <Widget>[
             MaterialButton(
               onPressed: () => Navigator.maybePop(context),
-              child: Text(AppLocalizations.of(context).translate('cancel')),
+              child: Text('Cancel'.i18n),
             ),
             MaterialButton(
               onPressed: onConfirm,
               child: Text(
-                AppLocalizations.of(context).translate('delete'),
+                'Delete'.i18n,
                 style: TextStyle(
                   color: Constants.red,
                 ),
