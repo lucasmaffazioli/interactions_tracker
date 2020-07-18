@@ -6,7 +6,10 @@
 - Clean separation of DATA layer
 
 TODO:
-- Lista de abordagens deve ser Stream
+- Corrigir bug que da pra adicionar categoria espaço
+- Limitar quantidade de objetivo de approaches (0)
+- Deletar approach
+- Lista de abordagens deve ser Stream - Bug
 - Criar dashboard
 - Criar forma de lockar o app com senha
 - Criar forma de backup

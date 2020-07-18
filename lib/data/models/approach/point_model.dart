@@ -21,7 +21,7 @@ class PointModel {
     @required this.pointType,
   }) {
     // if (id == null) throw ArgumentError('Error!');
-    if (name == null) throw ArgumentError('Error!');
+    if (name == null || name.trim() == '') throw ArgumentError('Error!');
     if (pointType == null) throw ArgumentError('Error!');
   }
 

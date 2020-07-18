@@ -9,6 +9,7 @@ class TextFormInput extends StatelessWidget {
   final Function validator;
   final int maxLines;
   final int minLines;
+  final TextInputType textInputType;
 
   const TextFormInput({
     Key key,
@@ -18,6 +19,7 @@ class TextFormInput extends StatelessWidget {
     this.validator,
     this.maxLines,
     this.minLines,
+    this.textInputType,
   }) : super(key: key);
 
   @override
@@ -25,6 +27,7 @@ class TextFormInput extends StatelessWidget {
     return BaseFormInput(
       title: title,
       child: TextFormField(
+        keyboardType: textInputType,
         initialValue: initialValue,
         minLines: minLines,
         maxLines: maxLines,

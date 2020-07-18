@@ -72,9 +72,11 @@ class PointFloorGateway extends FloorGateway {
   }
 
   void deletePointById(int id) async {
-    await _setUp();
-    //
-    pointDao.deletePointById(id);
+    if (id != null && id != 0) {
+      await _setUp();
+      //
+      pointDao.deletePointById(id);
+    }
   }
 
   // void onCreateDatabase() async {

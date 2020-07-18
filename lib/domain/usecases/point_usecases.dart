@@ -21,7 +21,9 @@ class SavePoint {
 
 class DeletePoint {
   void call(int id) async {
-    await pointFloorGateway.deletePointById(id);
+    if (id != null && id != 0) {
+      await pointFloorGateway.deletePointById(id);
+    }
   }
 }
 

@@ -42,5 +42,6 @@
 	"analysis": "Analysis",
 	"goals_menu": "Goals",
 	"weekly_approaches_goal": "Weekly approaches",
+	"not_valid_numer_field": " is not a number",
 	"date": "Date"
 }

@@ -23,10 +23,10 @@ class EditPointPage extends StatelessWidget {
     @required this.pointType,
   }) : super(key: key);
 
-  String _requiredValidator(value) {
+  String _requiredValidator(String value) {
     print('value');
     print(value);
-    if (value == null || value == '') {
+    if (value == null || value.trim() == '') {
       return _required_value_text;
     }
     return null;

@@ -15,6 +15,7 @@ class ApproachesPage extends StatefulWidget {
 class _ApproachesPageState extends State<ApproachesPage> {
   final ApproachesController controller = ApproachesController();
   Stream<List<ApproachSummaryPresentation>> stream;
+  List<int> selectedItems = [];
 
   List<ApproachSummaryPresentation> items;
 
@@ -37,6 +38,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
       builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
         print('projectconnection state is: ${snapshot.connectionState}');
         print('project snapshot data is: ${snapshot.data}');
+        print('project has error is: ${snapshot.hasError} + ${snapshot.error.toString()}');
         print('project has data is: ${snapshot.hasData.toString()}');
         if (snapshot.hasError) {
           return Container(child: Text('Error loading data!'));
@@ -71,6 +73,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
+            final isSelected = selectedItems.indexOf(item.id) != -1;
             if (item.isMonth) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -85,11 +88,21 @@ class _ApproachesPageState extends State<ApproachesPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => AddApproachPage(
-                              approachId: item.id,
-                            )),
+                      builder: (context) => AddApproachPage(approachId: item.id),
+                    ),
                   );
                 }),
+                onLongPress: (() {
+                  setState(() {
+                    print(selectedItems.indexOf(item.id));
+                    if (isSelected) {
+                      selectedItems.removeAt(selectedItems.indexOf(item.id));
+                    } else {
+                      selectedItems.add(item.id);
+                    }
+                  });
+                }),
+                isSelected: isSelected,
                 title: item.name,
                 description: item.description,
                 month: item.month,
@@ -145,9 +158,13 @@ class MyCard extends StatelessWidget {
     @required this.skill,
     @required this.attraction,
     @required this.result,
+    @required this.onLongPress,
+    @required this.isSelected,
   }) : super(key: key);
 
   final Function onTap;
+  final Function onLongPress;
+  final bool isSelected;
   final String title;
   final String description;
   final String month;
@@ -158,72 +175,79 @@ class MyCard extends StatelessWidget {
   final int result;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Card(
-        margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        elevation: 0,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      description,
-                      maxLines: 4,
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Column(
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      elevation: 0,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.black26 : Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          onLongPress: onLongPress,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        day,
+                        title,
                         style: TextStyle(
-                          fontSize: 26,
+                          fontSize: 20,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
                       Text(
-                        month,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        description,
+                        maxLines: 4,
                       ),
                     ],
                   ),
-                  Row(
-                    children: <Widget>[
-                      ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
-                      ScoreIcon(
-                          iconData: getPointTypeIcon(PointType.attraction), points: attraction),
-                      ScoreIcon(
-                          iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
-                      ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),
-                    ],
-                  )
-                ],
-              ),
-            ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          day,
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        Text(
+                          month,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        ScoreIcon(iconData: getPointTypeIcon(PointType.skill), points: skill),
+                        ScoreIcon(
+                            iconData: getPointTypeIcon(PointType.attraction), points: attraction),
+                        ScoreIcon(
+                            iconData: getPointTypeIcon(PointType.difficulty), points: difficulty),
+                        ScoreIcon(iconData: getPointTypeIcon(PointType.result), points: result),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

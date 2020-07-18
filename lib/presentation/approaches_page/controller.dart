@@ -50,6 +50,7 @@ class ApproachesController {
 
     print('getAllApproachesStream method called');
     await for (var value in items) {
+      print('value');
       print(value);
       int _lastMonth = 0;
       value.forEach((element) {
