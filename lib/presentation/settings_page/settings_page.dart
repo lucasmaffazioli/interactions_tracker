@@ -1,9 +1,11 @@
 import 'package:cold_app/core/app_localizations.dart';
+import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/goals/goals_page.dart';
 import 'package:cold_app/presentation/points/points_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cold_app/domain/usecases/goals_usecases.dart';
 
 class SettingsPage extends StatelessWidget {
   @override
@@ -26,10 +28,11 @@ class SettingsPage extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {
+            onTap: () async {
+              GoalsModel goalsModel = await GetGoals().call();
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => GoalsPage(),
+                  builder: (context) => GoalsPage(goalsModel),
                 ),
               );
             },

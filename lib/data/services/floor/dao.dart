@@ -90,4 +90,7 @@ abstract class ApproachPointsViewDao {
 abstract class GoalsModelDao {
   @Query('SELECT * FROM goals')
   Future<GoalsModel> findGoalsModel();
+
+  @update
+  Future<void> saveGoalsModel(GoalsModel goalsModel);
 }

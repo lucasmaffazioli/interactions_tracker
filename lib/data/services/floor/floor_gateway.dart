@@ -185,4 +185,10 @@ class GoalsModelFloorGateway extends FloorGateway {
     //
     return await goalsModelDao.findGoalsModel();
   }
+
+  Future<void> saveGoalsModel(GoalsModel goalsModel) async {
+    await _setUp();
+    //
+    return await goalsModelDao.saveGoalsModel(goalsModel);
+  }
 }

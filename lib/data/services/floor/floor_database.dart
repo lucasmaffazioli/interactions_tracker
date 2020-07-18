@@ -67,7 +67,7 @@ final dbCallback = Callback(
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Dificuldade', 'difficulty');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Atração', 'attraction');");
     database.rawQuery("INSERT INTO Point(name, pointType) VALUES('Resultado', 'result');");
-    database.rawQuery("INSERT INTO goals(id, weeklyGoal) VALUES('1', 10);");
+    database.rawQuery("INSERT INTO goals(id, weeklyApproachGoal) VALUES('1', 10);");
 
     print('First DB use configured');
   },

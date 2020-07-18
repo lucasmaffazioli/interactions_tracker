@@ -1,4 +1,5 @@
 import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:matcher/matcher.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_model.dart';
@@ -36,6 +37,7 @@ void main() {
   ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
   ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
   ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
+  GoalsModelFloorGateway goalsModelFloorGateway = GoalsModelFloorGateway();
 
   PointModel testPointModel =
       PointModel(id: null, name: 'Beleza', pointType: PointTypeDataLayer.attraction);
@@ -247,15 +249,22 @@ void main() {
     });
   });
 
-  group('Test Date', () {
-    test('Test toiso from is', () {
-      DateTime now = DateTime.now();
-      print(now.toString());
-      print(now.toIso8601String());
-      print(now.toLocal().toString());
-      print(now.toLocal().toIso8601String());
-      // String nowString = now.toIso8601String();
-      // print()
+  group('Goals Model', () {
+    test('Test initial goal value', () async {
+      GoalsModel goalsModel = await goalsModelFloorGateway.findGoalsModel();
+
+      print(goalsModel.toJson());
+      expect(goalsModel.id, 1);
+      expect(goalsModel.weeklyApproachGoal, 10);
+    });
+
+    test('Test change goal value', () async {
+      goalsModelFloorGateway.saveGoalsModel(GoalsModel(5));
+      GoalsModel goalsModel = await goalsModelFloorGateway.findGoalsModel();
+
+      print(goalsModel.toJson());
+      expect(goalsModel.id, 1);
+      expect(goalsModel.weeklyApproachGoal, 5);
     });
   });
 }

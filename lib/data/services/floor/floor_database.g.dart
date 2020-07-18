@@ -96,7 +96,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyGoal` INTEGER)');
+            'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyApproachGoal` INTEGER)');
         await database.execute(
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
         await database.execute(
@@ -487,7 +487,16 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
 
 class _$GoalsModelDao extends GoalsModelDao {
   _$GoalsModelDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database);
+      : _queryAdapter = QueryAdapter(database),
+        _goalsModelUpdateAdapter = UpdateAdapter(
+            database,
+            'goals',
+            ['id'],
+            (GoalsModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'weeklyApproachGoal': item.weeklyApproachGoal
+                },
+            changeListener);
 
   final sqflite.DatabaseExecutor database;
 
@@ -496,10 +505,17 @@ class _$GoalsModelDao extends GoalsModelDao {
   final QueryAdapter _queryAdapter;
 
   static final _goalsMapper = (Map<String, dynamic> row) =>
-      GoalsModel(row['id'] as int, row['weeklyGoal'] as int);
+      GoalsModel(row['weeklyApproachGoal'] as int);
+
+  final UpdateAdapter<GoalsModel> _goalsModelUpdateAdapter;
 
   @override
   Future<GoalsModel> findGoalsModel() async {
     return _queryAdapter.query('SELECT * FROM goals', mapper: _goalsMapper);
+  }
+
+  @override
+  Future<void> saveGoalsModel(GoalsModel goalsModel) async {
+    await _goalsModelUpdateAdapter.update(goalsModel, OnConflictStrategy.abort);
   }
 }

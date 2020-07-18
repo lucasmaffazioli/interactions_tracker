@@ -1,19 +1,18 @@
 import 'dart:convert';
-
 import 'package:floor/floor.dart';
 
 @Entity(tableName: 'goals', indices: [])
 class GoalsModel {
   @PrimaryKey(autoGenerate: true)
-  final int id;
-  final int weeklyGoal;
+  final int id = 1;
+  final int weeklyApproachGoal;
 
-  GoalsModel(this.id, this.weeklyGoal);
+  GoalsModel(this.weeklyApproachGoal);
 
   String toJson() {
     return json.encode({
       'id': id.toString(),
-      'weeklyGoal': weeklyGoal.toString(),
+      'weeklyApproachGoal': weeklyApproachGoal.toString(),
     });
   }
 }
