@@ -27,8 +27,6 @@ class DeletePoint {
   }
 }
 
-// class GetPoint {}
-
 class GetAllPoints {
   Future<List<PointModel>> call() async {
     return await pointFloorGateway.getAllPoint();
