@@ -118,10 +118,10 @@ class ApproachFloorGateway extends FloorGateway {
     return approach;
   }
 
-  void deleteApproachById(int id) async {
+  Future<void> deleteApproachById(int id) async {
     await _setUp();
     //
-    approachDao.deleteApproachById(id);
+    return approachDao.deleteApproachById(id);
   }
 
   // Future<int> findLastInsertedApproach() async {

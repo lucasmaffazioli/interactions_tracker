@@ -4,6 +4,7 @@ import 'package:cold_app/presentation/add_approach_page/form_input/text_form_inp
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';
+import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 import 'package:flutter/material.dart';
 
 class EditPointPage extends StatelessWidget {
@@ -67,10 +68,10 @@ class EditPointPage extends StatelessWidget {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
-                            _showDeleteConfirmationPopup(context, onConfirm: () async {
+                            showDeleteConfirmationPopup(context, onConfirm: () async {
                               await DeletePoint().call(pointId);
                               Navigator.maybePop(context);
-                            }).then((value) => Navigator.maybePop(context));
+                            });
                           }
                         },
                         name: 'Delete'.i18n),
@@ -93,32 +94,6 @@ class EditPointPage extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Future _showDeleteConfirmationPopup(BuildContext context, {Function onConfirm}) {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Warning! Are you sure you want to delete this? It can't be undone".i18n),
-          actions: <Widget>[
-            MaterialButton(
-              onPressed: () => Navigator.maybePop(context),
-              child: Text('Cancel'.i18n),
-            ),
-            MaterialButton(
-              onPressed: onConfirm,
-              child: Text(
-                'Delete'.i18n,
-                style: TextStyle(
-                  color: Constants.red,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

@@ -16,11 +16,11 @@ ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewF
 ApproachPointsViewFloorGateway approachPointsViewFloorGateway = ApproachPointsViewFloorGateway();
 ApproachSummaryViewFloorGateway approachSummaryViewFloorGateway = ApproachSummaryViewFloorGateway();
 
-// class DeleteApproach {
-//   void call(String uid) async {
-//     await LocalDatastore().deleteApproach(uid);
-//   }
-// }
+class DeleteApproach {
+  Future<void> call(int id) async {
+    return await approachFloorGateway.deleteApproachById(id);
+  }
+}
 
 class SaveApproach {
   void call(ApproachEntity approach) async {

@@ -5,14 +5,20 @@ import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 
 import '../add_approach_page/add_approach_page.dart';
 import '../common/constants.dart';
 
 class ApproachesPage extends StatefulWidget {
-  final Function changeBaseAppBar;
+  final Function changeAppBar;
+  final BaseAppBar defaultAppBar;
 
-  const ApproachesPage(this.changeBaseAppBar, {Key key}) : super(key: key);
+  const ApproachesPage({
+    @required this.changeAppBar,
+    @required this.defaultAppBar,
+    Key key,
+  }) : super(key: key);
 
   @override
   _ApproachesPageState createState() => _ApproachesPageState();
@@ -20,6 +26,7 @@ class ApproachesPage extends StatefulWidget {
 
 class _ApproachesPageState extends State<ApproachesPage> {
   final ApproachesController controller = ApproachesController();
+  bool isSelecting = false;
   Stream<List<ApproachSummaryPresentation>> stream;
   List<int> selectedItems = [];
 
@@ -29,34 +36,66 @@ class _ApproachesPageState extends State<ApproachesPage> {
   void initState() {
     stream = controller.getAllApproachesStream(context);
 
-    widget.changeBaseAppBar(BaseAppBar(
-      'a', // TODO fix me
-      // AppLocalizations.of(context).translate('approaches'),
-      actions: <Widget>[
-        IconButton(
-          icon: const FaIcon(
-            FontAwesomeIcons.cog,
-            color: Constants.mainTextColor,
-          ),
-          tooltip: 'Show settings',
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage()));
-          },
-        ),
-      ],
-      appBar: AppBar(),
-    ));
-
     super.initState();
   }
 
-  // @override
-  // bool get wantKeepAlive => true;
+  _emptySelected() {
+    isSelecting = false;
+    widget.changeAppBar(widget.defaultAppBar);
+    setState(() {
+      selectedItems.clear();
+    });
+  }
+
+  _selectItems(int itemId, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        selectedItems.removeAt(selectedItems.indexOf(itemId));
+      } else {
+        selectedItems.add(itemId);
+      }
+    });
+    print('selectedItems.length');
+    print(selectedItems.length);
+    print(widget.defaultAppBar);
+    print(widget.defaultAppBar.title);
+
+    if (selectedItems.length == 0) {
+      _emptySelected();
+    } else {
+      isSelecting = true;
+      widget.changeAppBar(BaseAppBar(
+        '%d selected'.plural(selectedItems.length),
+        hasBackButton: true,
+        backButtonCustomTap: _emptySelected,
+        actions: <Widget>[
+          IconButton(
+            icon: const FaIcon(
+              FontAwesomeIcons.trash,
+              color: Constants.mainTextColor,
+            ),
+            tooltip: 'Delete items'.i18n,
+            onPressed: () {
+              showDeleteConfirmationPopup(context, onConfirm: () async {
+                await _deleteSelectedApproaches();
+                Navigator.maybePop(context);
+              });
+            },
+          ),
+        ],
+        appBar: AppBar(),
+      ));
+    }
+  }
+
+  _deleteSelectedApproaches() async {
+    int totalDeleted = await controller.deleteApproaches(selectedItems);
+    print('Total deleted items');
+    print(totalDeleted);
+  }
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
-
     return StreamBuilder<List<ApproachSummaryPresentation>>(
       stream: stream,
       builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
@@ -97,7 +136,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            final isSelected = selectedItems.indexOf(item.id) != -1;
+            final bool isSelected = selectedItems.indexOf(item.id) != -1;
             if (item.isMonth) {
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
@@ -108,23 +147,18 @@ class _ApproachesPageState extends State<ApproachesPage> {
               );
             } else {
               return MyCard(
-                onTap: (() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddApproachPage(approachId: item.id),
-                    ),
-                  );
-                }),
+                onTap: (isSelecting
+                    ? () => _selectItems(item.id, isSelected)
+                    : () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddApproachPage(approachId: item.id),
+                          ),
+                        );
+                      }),
                 onLongPress: (() {
-                  setState(() {
-                    print(selectedItems.indexOf(item.id));
-                    if (isSelected) {
-                      selectedItems.removeAt(selectedItems.indexOf(item.id));
-                    } else {
-                      selectedItems.add(item.id);
-                    }
-                  });
+                  _selectItems(item.id, isSelected);
                 }),
                 isSelected: isSelected,
                 title: item.name,

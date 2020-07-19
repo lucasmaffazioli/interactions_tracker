@@ -9,7 +9,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final AppBar appBar;
   final List<Widget> actions;
   final bool hasBackButton;
-  final bool hasSettings;
+  final Function backButtonCustomTap;
 
   const BaseAppBar(
     this.title, {
@@ -17,7 +17,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     @required this.appBar,
     this.actions,
     this.hasBackButton: false,
-    this.hasSettings: false,
+    this.backButtonCustomTap,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,9 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: hasBackButton
           ? InkWell(
               // borderRadius: BorderRadius.circular(50),
-              onTap: () => Navigator.maybePop(context),
+              onTap: backButtonCustomTap == null
+                  ? () => Navigator.maybePop(context)
+                  : backButtonCustomTap,
               child: Center(
                 child: FaIcon(
                   FontAwesomeIcons.chevronLeft,

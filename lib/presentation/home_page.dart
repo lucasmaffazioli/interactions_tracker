@@ -16,6 +16,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  BaseAppBar defaultBaseAppBar;
   BaseAppBar baseAppBar;
 
   void _onItemTapped(int index) {
@@ -26,16 +27,16 @@ class _HomePageState extends State<HomePage> {
 
   _changeBaseAppBar(BaseAppBar _baseAppBar) {
     print('setState home_page');
-    // setState(() {
-    //   baseAppBar = _baseAppBar;
-    // });
+    setState(() {
+      baseAppBar = _baseAppBar;
+    });
   }
 
   @override
   void initState() {
     super.initState();
 
-    baseAppBar = BaseAppBar(
+    defaultBaseAppBar = BaseAppBar(
       'AAAAAAAAAA', // TODO fix me
       // AppLocalizations.of(context).translate('approaches'),
       actions: <Widget>[
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: baseAppBar,
+      appBar: baseAppBar ?? defaultBaseAppBar,
       floatingActionButton: FloatingActionButton(
         elevation: 0,
         // shape: CircleBorder(
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         children: <Widget>[
           DashboardPage(),
-          ApproachesPage(_changeBaseAppBar),
+          ApproachesPage(changeAppBar: _changeBaseAppBar, defaultAppBar: defaultBaseAppBar),
         ],
         index: _selectedIndex,
       ),

@@ -14,11 +14,13 @@ import 'point_model.dart';
       childColumns: ['approachId'],
       parentColumns: ['id'],
       entity: ApproachModel,
+      onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
       childColumns: ['pointId'],
       parentColumns: ['id'],
       entity: PointModel,
+      onDelete: ForeignKeyAction.cascade,
     )
   ],
 )

@@ -124,7 +124,7 @@ extension Localization on String {
       } +
       {
         "en": "Warning! Are you sure you want to delete this? It can't be undone",
-        "pt": "Atenção! Tem certeza de que deseja deleta? A ação não pode ser desfeita",
+        "pt": "Atenção! Tem certeza de que deseja remover? A ação não pode ser desfeita",
       } +
       {
         "en": "Loading...",
@@ -191,9 +191,19 @@ extension Localization on String {
         "pt": " não é um número",
       } +
       {
+        "en": "Delete items",
+        "pt": "Deletar itens",
+      } +
+      {
+        "en": "%d selected",
+        "pt": "%d selecionados",
+      } +
+      {
         "en": "Date",
         "pt": "Data",
       };
 
   String get i18n => localize(this, _t);
+
+  String plural(int value) => localizePlural(value, this, _t);
 }
