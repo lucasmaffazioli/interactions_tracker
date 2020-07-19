@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     defaultBaseAppBar = BaseAppBar(
-      'AAAAAAAAAA', // TODO fix me
+      'Approaches'.i18n, // TODO fix me
       // AppLocalizations.of(context).translate('approaches'),
       actions: <Widget>[
         IconButton(

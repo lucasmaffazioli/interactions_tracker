@@ -107,7 +107,7 @@ void main() {
       expect(approach.description, testApproachModel.description);
       expect(approach.notes, testApproachModel.notes);
       //
-      await approachFloorGateway.deleteApproachById(1);
+      await approachFloorGateway.deleteApproach(approach);
       approach = await approachFloorGateway.getApproachById(1);
       expect(approach, null);
     });

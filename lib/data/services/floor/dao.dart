@@ -43,8 +43,8 @@ abstract class ApproachModelDao {
   @delete
   Future<void> deleteApproach(ApproachModel approach);
 
-  @Query('DELETE FROM approach WHERE id = :id')
-  Future<void> deleteApproachById(int id);
+  // @Query('DELETE FROM approach WHERE id = :id')
+  // Future<void> deleteApproachById(int id);
   // @Query('DELETE FROM approach WHERE id = :id')
   // Future<int> deleteApproachById(int id);
 

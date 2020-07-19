@@ -33,13 +33,14 @@ class ApproachesController {
       int _lastMonth = 0;
       value.forEach((element) {
         int _currentMonth = DateTime.parse(element.dateTime).month;
-        if (_currentMonth != _lastMonth)
+        if (_currentMonth != _lastMonth) {
           returnItems.add(ApproachSummaryPresentation(
             isMonth: true,
             month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
                 .format(DateTime.parse(element.dateTime))
                 .capitalize(),
           ));
+        }
 
         returnItems.add(ApproachSummaryPresentation(
           isMonth: false,
@@ -51,13 +52,14 @@ class ApproachesController {
           name: element.name,
           dateTime: element.dateTime,
           description: element.description,
-          difficulty: element.difficulty.toInt(),
-          skill: element.skill.toInt(),
-          attraction: element.attraction.toInt(),
-          result: element.result.toInt(),
+          difficulty: element.difficulty == null ? 0 : element.difficulty.toInt(),
+          skill: element.skill == null ? 0 : element.skill.toInt(),
+          attraction: element.attraction == null ? 0 : element.attraction.toInt(),
+          result: element.result == null ? 0 : element.result.toInt(),
         ));
         _lastMonth = _currentMonth;
       });
+      // if (returnItems.isNotEmpty) yield returnItems;
       yield returnItems;
       returnItems = [];
     }

@@ -227,12 +227,6 @@ class _$ApproachModelDao extends ApproachModelDao {
   }
 
   @override
-  Future<void> deleteApproachById(int id) async {
-    await _queryAdapter.queryNoReturn('DELETE FROM approach WHERE id = ?',
-        arguments: <dynamic>[id]);
-  }
-
-  @override
   Future<void> insertApproach(ApproachModel approach) async {
     await _approachModelInsertionAdapter.insert(
         approach, OnConflictStrategy.abort);

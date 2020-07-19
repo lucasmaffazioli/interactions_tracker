@@ -199,6 +199,10 @@ extension Localization on String {
         "pt": "%d selecionados",
       } +
       {
+        "en": "Your approaches will be shown here",
+        "pt": "Suas abordagens serão exibidas aqui",
+      } +
+      {
         "en": "Date",
         "pt": "Data",
       };

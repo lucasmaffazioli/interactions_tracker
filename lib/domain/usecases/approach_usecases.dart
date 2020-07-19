@@ -18,7 +18,8 @@ ApproachSummaryViewFloorGateway approachSummaryViewFloorGateway = ApproachSummar
 
 class DeleteApproach {
   Future<void> call(int id) async {
-    return await approachFloorGateway.deleteApproachById(id);
+    return await approachFloorGateway
+        .deleteApproach(ApproachModel(id: id, name: '', description: '', dateTime: ''));
   }
 }
 

@@ -78,6 +78,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
             onPressed: () {
               showDeleteConfirmationPopup(context, onConfirm: () async {
                 await _deleteSelectedApproaches();
+                _emptySelected();
                 Navigator.maybePop(context);
               });
             },
@@ -101,7 +102,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
       builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
         print('projectconnection state is: ${snapshot.connectionState}');
         print('project snapshot data is: ${snapshot.data}');
-        print('project has error is: ${snapshot.hasError} + ${snapshot.error.toString()}');
+        print('project has error is: ${snapshot.hasError} - ${snapshot.error.toString()}');
         print('project has data is: ${snapshot.hasData.toString()}');
         if (snapshot.hasError) {
           return Container(child: Text('Error loading data!'));
@@ -122,11 +123,20 @@ class _ApproachesPageState extends State<ApproachesPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 10),
-                  child: Text('Loading'.i18n),
+                  child: Text('Loading...'.i18n),
                 )
               ],
             ),
           );
+        }
+        if (snapshot.data.length == 0 &&
+            (snapshot.connectionState == ConnectionState.active ||
+                snapshot.connectionState == ConnectionState.done)) {
+          return Center(
+              child: Padding(
+            padding: EdgeInsets.only(top: 10),
+            child: Text('Your approaches will be shown here'.i18n),
+          ));
         }
 
         items = snapshot.data ?? [];
