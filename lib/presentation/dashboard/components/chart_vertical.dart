@@ -9,7 +9,8 @@ class ChartVertical extends StatefulWidget {
   final String title;
   final String subTitle;
 
-  const ChartVertical(this.listData, {Key key, this.title, this.subTitle}) : super(key: key);
+  const ChartVertical({Key key, this.title, @required this.listData, this.subTitle})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() => ChartVerticalState();
