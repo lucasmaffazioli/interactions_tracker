@@ -48,13 +48,15 @@ class _ApproachesPageState extends State<ApproachesPage> {
   }
 
   _selectItems(int itemId, bool isSelected) {
-    setState(() {
-      if (isSelected) {
+    if (isSelected) {
+      setState(() {
         selectedItems.removeAt(selectedItems.indexOf(itemId));
-      } else {
+      });
+    } else {
+      setState(() {
         selectedItems.add(itemId);
-      }
-    });
+      });
+    }
     print('selectedItems.length');
     print(selectedItems.length);
     print(widget.defaultAppBar);

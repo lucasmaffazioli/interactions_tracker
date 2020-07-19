@@ -71,7 +71,7 @@ class EditPointPage extends StatelessWidget {
                             showDeleteConfirmationPopup(context, onConfirm: () async {
                               await DeletePoint().call(pointId);
                               Navigator.maybePop(context);
-                            });
+                            }).then((value) => Navigator.maybePop(context));
                           }
                         },
                         name: 'Delete'.i18n),

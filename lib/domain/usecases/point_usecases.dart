@@ -30,20 +30,8 @@ class DeletePoint {
 // class GetPoint {}
 
 class GetAllPoints {
-  Future<List<PointPresentation>> call() async {
-    final List<PointModel> pointsModel = await pointFloorGateway.getAllPoint();
-    List<PointPresentation> pointsPresentation = [];
-
-    pointsModel.forEach((element) {
-      if (element.pointType == 'skill')
-        pointsPresentation.add(PointPresentation(
-          id: element.id,
-          name: element.name,
-          pointType: element.pointType,
-        ));
-    });
-
-    return pointsPresentation;
+  Future<List<PointModel>> call() async {
+    return await pointFloorGateway.getAllPoint();
   }
 }
 

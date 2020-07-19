@@ -2,7 +2,7 @@ import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:flutter/material.dart';
 
-showDeleteConfirmationPopup(BuildContext context, {Function onConfirm}) async {
+Future<void> showDeleteConfirmationPopup(BuildContext context, {Function onConfirm}) async {
   return showDialog(
     context: context,
     builder: (BuildContext context) {

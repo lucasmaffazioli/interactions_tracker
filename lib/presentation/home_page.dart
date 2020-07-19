@@ -37,8 +37,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     defaultBaseAppBar = BaseAppBar(
-      'Approaches'.i18n, // TODO fix me
-      // AppLocalizations.of(context).translate('approaches'),
+      'Approaches'.i18n,
       actions: <Widget>[
         IconButton(
           icon: const FaIcon(
@@ -111,7 +110,6 @@ class _HomePageState extends State<HomePage> {
               ),
               title: Text(
                 'Approaches'.i18n,
-                // AppLocalizations.of(context).translate('approaches'),
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/domain/usecases/point_usecases.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
+import 'package:cold_app/presentation/points/controller.dart';
 import 'package:cold_app/presentation/points/edit_point_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,6 +12,8 @@ class PointsPage extends StatefulWidget {
 }
 
 class _PointsPageState extends State<PointsPage> {
+  PointsController controller = PointsController();
+
   @override
   Widget build(BuildContext context) {
     List<PointPresentation> list;
@@ -39,7 +42,7 @@ class _PointsPageState extends State<PointsPage> {
       ),
       body: Container(
         child: FutureBuilder<List<PointPresentation>>(
-          future: GetAllPoints().call(),
+          future: controller.getAllPoints(),
           builder: (context, AsyncSnapshot snapshot) {
             print('projectconnection state is: ${snapshot.connectionState}');
             print('project snapshot data is: ${snapshot.data}');
