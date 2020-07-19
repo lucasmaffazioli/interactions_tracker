@@ -17,14 +17,14 @@ class ChartVertical extends StatefulWidget {
 }
 
 class ChartLineData {
-  final String title;
-  final String dayOfWeek;
+  final String topTitle;
+  final String bottomTitle;
   final int value;
   final bool isCurrent;
 
   ChartLineData({
-    @required this.title,
-    @required this.dayOfWeek,
+    @required this.topTitle,
+    @required this.bottomTitle,
     @required this.value,
     this.isCurrent = false,
   });
@@ -195,7 +195,7 @@ class ChartVerticalState extends State<ChartVertical> {
             tooltipBgColor: Colors.red,
             getTooltipItem: (group, groupIndex, rod, rodIndex) {
               return BarTooltipItem(
-                widget.listData[group.x.toInt()].dayOfWeek + '\n' + (rod.y.toInt()).toString(),
+                widget.listData[group.x.toInt()].bottomTitle + '\n' + (rod.y.toInt()).toString(),
                 TextStyle(color: Colors.white, fontSize: 14),
               );
             }),
@@ -218,7 +218,7 @@ class ChartVerticalState extends State<ChartVertical> {
             textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
             margin: 16,
             getTitles: (double value) {
-              return widget.listData[value.toInt()].dayOfWeek.substring(0, 1);
+              return widget.listData[value.toInt()].bottomTitle.substring(0, 1);
             },
           ),
           rightTitles: SideTitles(showTitles: true),

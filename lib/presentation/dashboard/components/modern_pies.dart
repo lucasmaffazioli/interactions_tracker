@@ -26,8 +26,6 @@ class ModernPies extends StatelessWidget {
     return Container(
       height: 200,
       child: Stack(
-        // fit: StackFit.expand,
-        // overflow: ,
         children: <Widget>[
           Positioned(
             top: 70,

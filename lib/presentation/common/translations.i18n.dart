@@ -8,7 +8,7 @@ extension Localization on String {
       } +
       {
         "en": "Dashboard",
-        "pt": "Painel",
+        "pt": "Gráficos",
       } +
       {
         "en": "PointType.skill",

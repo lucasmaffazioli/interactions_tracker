@@ -1,4 +1,3 @@
-import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_approach_page/add_approach_page.dart';
 import 'package:cold_app/presentation/approaches_page/approaches_page.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
