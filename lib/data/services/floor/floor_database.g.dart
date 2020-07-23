@@ -114,14 +114,6 @@ FROM approach_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
 ''');
-        await database.execute(
-            '''CREATE VIEW IF NOT EXISTS `approach_dashboard_view` AS   SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-    FROM approach a
-    INNER JOIN approach_points ap ON a.id = ap.approachId
-    INNER JOIN point p ON p.id = ap.pointId
-    GROUP BY ap.pointId, pointName, pointType
-    ORDER BY p.pointType
-  ''');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -216,13 +208,6 @@ class _$ApproachModelDao extends ApproachModelDao {
       description: row['description'] as String,
       notes: row['notes'] as String);
 
-  static final _approach_dashboard_viewMapper = (Map<String, dynamic> row) =>
-      ApproachesDashboardDataView(
-          pointId: row['pointId'] as int,
-          pointName: row['pointName'] as String,
-          pointAvg: row['pointAvg'] as double,
-          pointType: row['pointType'] as String);
-
   final InsertionAdapter<ApproachModel> _approachModelInsertionAdapter;
 
   final UpdateAdapter<ApproachModel> _approachModelUpdateAdapter;
@@ -239,16 +224,6 @@ class _$ApproachModelDao extends ApproachModelDao {
   Future<ApproachModel> findApproachModelById(int id) async {
     return _queryAdapter.query('SELECT * FROM approach WHERE id = ?',
         arguments: <dynamic>[id], mapper: _approachMapper);
-  }
-
-  @override
-  Future<List<ApproachesDashboardDataView>>
-      findApproachesDashboardDataByInterval(
-          String initalDate, String finalDate) async {
-    return _queryAdapter.queryList(
-        'SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType FROM approach a INNER JOIN approach_points ap ON a.id = ap.approachId INNER JOIN point p ON p.id = ap.pointId WHERE dateTime >= ? AND dateTime <= ? GROUP BY ap.pointId, pointName, pointType ORDER BY p.pointType',
-        arguments: <dynamic>[initalDate, finalDate],
-        mapper: _approach_dashboard_viewMapper);
   }
 
   @override

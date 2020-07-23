@@ -15,7 +15,7 @@ part 'floor_database.g.dart';
 @Database(
     version: 1,
     entities: [ApproachModel, ApproachPointsModel, PointModel, GoalsModel],
-    views: [ApproachSummaryView, ApproachPointsView, ApproachesDashboardDataView])
+    views: [ApproachSummaryView, ApproachPointsView])
 abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
   PointModelDao get pointModelDao;
@@ -23,7 +23,7 @@ abstract class AppDatabase extends FloorDatabase {
   ApproachSummaryDao get approachSummaryDao;
   ApproachPointsViewDao get approachPointsViewDao;
   GoalsModelDao get goalsModelDao;
-  // ApproachesDashboardDataViewDao get dashboardDataViewDao;
+  // MiscDao get miscDao;
 }
 
 //
@@ -35,25 +35,25 @@ void resetDatabase(database) async {
   // await _resetTableWithAutoIncrement(database, 'point');
 }
 
-void _resetTable(database, String tableName) async {
-  await database.database.rawQuery('delete from $tableName');
-}
+// void _resetTable(database, String tableName) async {
+//   await database.database.rawQuery('delete from $tableName');
+// }
 
-void _resetTableWithAutoIncrement(database, String tableName) async {
-  await database.database.rawQuery('DELETE FROM $tableName');
-  await database.database.rawQuery("DELETE FROM sqlite_sequence where name='$tableName'");
+// void _resetTableWithAutoIncrement(database, String tableName) async {
+//   await database.database.rawQuery('DELETE FROM $tableName');
+//   await database.database.rawQuery("DELETE FROM sqlite_sequence where name='$tableName'");
 
-  List<dynamic> a = await database.database.rawQuery("SELECT * FROM sqlite_sequence");
-  print('Resetting table $tableName');
-  a.forEach((element) {
-    print(element);
-  });
-  a = await database.database.rawQuery("SELECT * FROM $tableName");
-  print('Resetting table $tableName');
-  a.forEach((element) {
-    print(element);
-  });
-}
+//   List<dynamic> a = await database.database.rawQuery("SELECT * FROM sqlite_sequence");
+//   print('Resetting table $tableName');
+//   a.forEach((element) {
+//     print(element);
+//   });
+//   a = await database.database.rawQuery("SELECT * FROM $tableName");
+//   print('Resetting table $tableName');
+//   a.forEach((element) {
+//     print(element);
+//   });
+// }
 
 final dbCallback = Callback(
   onCreate: (database, version) async {

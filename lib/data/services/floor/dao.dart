@@ -1,6 +1,7 @@
 import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:floor/floor.dart';
@@ -53,21 +54,39 @@ abstract class ApproachModelDao {
   ///
   ///
   ///
-  @Query(
-      // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
-      '''
-      SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-    FROM approach a
-    INNER JOIN approach_points ap ON a.id = ap.approachId
-    INNER JOIN point p ON p.id = ap.pointId
-       WHERE dateTime >= :initialDate AND dateTime <= :finalDate
-    GROUP BY ap.pointId, pointName, pointType
-    ORDER BY p.pointType
-      
-       ''')
-  Future<List<ApproachesDashboardDataView>> findApproachesDashboardDataByInterval(
-      String initalDate, String finalDate);
+  // @Query(
+  //     // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+  //     '''
+  //     SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+  //   FROM approach a
+  //   INNER JOIN approach_points ap ON a.id = ap.approachId
+  //   INNER JOIN point p ON p.id = ap.pointId
+  //      WHERE dateTime >= :initialDate AND dateTime <= :finalDate
+  //   GROUP BY ap.pointId, pointName, pointType
+  //   ORDER BY p.pointType
+
+  //      ''')
+  // Future<List<ApproachesDashboardDataView>> findApproachesDashboardDataByInterval(
+  //     String initalDate, String finalDate);
 }
+
+// @dao
+// abstract class MiscDao {
+//   @Query(
+//       // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+//       '''
+//       SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+//     FROM approach a
+//     INNER JOIN approach_points ap ON a.id = ap.approachId
+//     INNER JOIN point p ON p.id = ap.pointId
+//        WHERE dateTime >= :initialDate AND dateTime <= :finalDate
+//     GROUP BY ap.pointId, pointName, pointType
+//     ORDER BY p.pointType
+
+//        ''')
+//   Future<List<DashboardModel>> findApproachesDashboardDataByInterval(
+//       String initalDate, String finalDate);
+// }
 
 @dao
 abstract class ApproachPointsModelDao {

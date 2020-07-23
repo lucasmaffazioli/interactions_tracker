@@ -1,5 +1,6 @@
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 
 import '../../../locator.dart';
@@ -16,11 +17,7 @@ class FloorGateway {
   ApproachSummaryDao approachSummaryDao;
   ApproachPointsViewDao approachPointsViewDao;
   GoalsModelDao goalsModelDao;
-  // ApproachesDashboardDataViewDao dashboardDataViewDao;
-
-  // FloorGateway() async {
-  //   database = await locator.get<LocatorDatabase>().getDatabase();
-  // }
+  // MiscDao miscDao;
 
   _setUp() async {
     // database = await locator.get<LocatorDatabase>().getDatabase();
@@ -31,7 +28,7 @@ class FloorGateway {
     approachSummaryDao = database.approachSummaryDao;
     approachPointsViewDao = database.approachPointsViewDao;
     goalsModelDao = database.goalsModelDao;
-    // dashboardDataViewDao = database.dashboardDataViewDao;
+    // miscDao = database.miscDao;
   }
 }
 
@@ -137,12 +134,31 @@ class ApproachFloorGateway extends FloorGateway {
     // return approachDao.getApproachesDashboardData(initialDate, finalDate);
   }
 
-  Future<List<ApproachesDashboardDataView>> findDashboardDataByDateInterval(
+  Future<List<DashboardModel>> findDashboardDataByDateInterval(
       DateTime initialDate, DateTime finalDate) async {
     await _setUp();
     //
-    return await approachDao.findApproachesDashboardDataByInterval(
-        initialDate.toIso8601String(), finalDate.toIso8601String());
+    List<DashboardModel> returnList;
+
+    await database.database.rawQuery('''
+       SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+        FROM approach a
+        INNER JOIN approach_points ap ON a.id = ap.approachId
+        INNER JOIN point p ON p.id = ap.pointId
+          WHERE dateTime >= :initialDate AND dateTime <= :finalDate
+        GROUP BY ap.pointId, pointName, pointType
+        ORDER BY p.pointType
+          
+      ''', [initialDate.toIso8601String(), finalDate.toIso8601String()]).then(
+      (value) => value.forEach(
+        (element) {
+          returnList.add(DashboardModel.fromMap(element));
+        },
+      ),
+    );
+    // return await miscDao.findApproachesDashboardDataByInterval(
+    //     initialDate.toIso8601String(), finalDate.toIso8601String());
+    return returnList;
   }
 }
 

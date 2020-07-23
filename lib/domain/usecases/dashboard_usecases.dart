@@ -1,4 +1,4 @@
-import 'package:cold_app/data/models/approach/approach_views.dart';
+import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:intl/intl.dart';
 
@@ -67,7 +67,7 @@ class WeekNumber {
   int weekNumber;
   DateTime initialDate;
   DateTime finalDate;
-  List<ApproachesDashboardDataView> dashboardData;
+  List<DashboardModel> dashboardData;
 
   WeekNumber(this.weekNumber, this.initialDate, this.finalDate, {this.dashboardData});
 }
