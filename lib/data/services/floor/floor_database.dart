@@ -15,7 +15,7 @@ part 'floor_database.g.dart';
 @Database(
     version: 1,
     entities: [ApproachModel, ApproachPointsModel, PointModel, GoalsModel],
-    views: [ApproachSummaryView, ApproachPointsView])
+    views: [ApproachSummaryView, ApproachPointsView, ApproachesDashboardDataView])
 abstract class AppDatabase extends FloorDatabase {
   ApproachModelDao get approachModelDao;
   PointModelDao get pointModelDao;
@@ -23,6 +23,7 @@ abstract class AppDatabase extends FloorDatabase {
   ApproachSummaryDao get approachSummaryDao;
   ApproachPointsViewDao get approachPointsViewDao;
   GoalsModelDao get goalsModelDao;
+  // ApproachesDashboardDataViewDao get dashboardDataViewDao;
 }
 
 //

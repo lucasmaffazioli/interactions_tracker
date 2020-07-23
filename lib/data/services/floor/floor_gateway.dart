@@ -16,6 +16,7 @@ class FloorGateway {
   ApproachSummaryDao approachSummaryDao;
   ApproachPointsViewDao approachPointsViewDao;
   GoalsModelDao goalsModelDao;
+  // ApproachesDashboardDataViewDao dashboardDataViewDao;
 
   // FloorGateway() async {
   //   database = await locator.get<LocatorDatabase>().getDatabase();
@@ -29,8 +30,8 @@ class FloorGateway {
     approachPointsDao = database.approachPointsModelDao;
     approachSummaryDao = database.approachSummaryDao;
     approachPointsViewDao = database.approachPointsViewDao;
-    approachPointsViewDao = database.approachPointsViewDao;
     goalsModelDao = database.goalsModelDao;
+    // dashboardDataViewDao = database.dashboardDataViewDao;
   }
 }
 
@@ -131,6 +132,18 @@ class ApproachFloorGateway extends FloorGateway {
 
   //   return a[0]["last_insert_rowid()"];
   // }
+  Future<dynamic> getApproachesDashboardData(initialDate, finalDate) async {
+    await _setUp();
+    // return approachDao.getApproachesDashboardData(initialDate, finalDate);
+  }
+
+  Future<List<ApproachesDashboardDataView>> findDashboardDataByDateInterval(
+      DateTime initialDate, DateTime finalDate) async {
+    await _setUp();
+    //
+    return await approachDao.findApproachesDashboardDataByInterval(
+        initialDate.toIso8601String(), finalDate.toIso8601String());
+  }
 }
 
 class ApproachPointsFloorGateway extends FloorGateway {
@@ -194,3 +207,13 @@ class GoalsModelFloorGateway extends FloorGateway {
     return await goalsModelDao.saveGoalsModel(goalsModel);
   }
 }
+
+// class ApproachesDashboardDataViewGateway extends FloorGateway {
+//   Future<List<ApproachesDashboardDataView>> findDashboardDataByDateInterval(
+//       DateTime initialDate, DateTime finalDate) async {
+//     await _setUp();
+//     //
+//     return await dashboardDataViewDao.findApproachesDashboardDataByInterval(
+//         initialDate.toIso8601String(), finalDate.toIso8601String());
+//   }
+// }

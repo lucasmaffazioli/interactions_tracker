@@ -9,10 +9,9 @@ import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
 
-PointFloorGateway pointFloorGateway = PointFloorGateway();
 ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
 ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
-ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
+PointFloorGateway pointFloorGateway = PointFloorGateway();
 ApproachPointsViewFloorGateway approachPointsViewFloorGateway = ApproachPointsViewFloorGateway();
 ApproachSummaryViewFloorGateway approachSummaryViewFloorGateway = ApproachSummaryViewFloorGateway();
 
@@ -26,7 +25,6 @@ class DeleteApproach {
 class SaveApproach {
   void call(ApproachEntity approach) async {
     int approachId;
-    // dynamic lol = await LocalDatastore().setApproach(uid, approach);
     print('Save approach');
     print(approach.toJson());
 

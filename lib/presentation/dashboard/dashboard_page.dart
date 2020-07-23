@@ -4,15 +4,22 @@ import 'package:cold_app/presentation/dashboard/components/chart_vertical.dart';
 import 'package:cold_app/presentation/dashboard/components/label.dart';
 import 'package:cold_app/presentation/dashboard/components/line_chart.dart';
 import 'package:cold_app/presentation/dashboard/components/modern_pies.dart';
+import 'package:cold_app/presentation/dashboard/controller.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {
+  final DashBoardPageController controller = DashBoardPageController();
+
   @override
   Widget build(BuildContext context) {
+    controller.getApproachesCard();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        // child: FutureBuilder(
+        // builder: controller.getApproachesCard(),
+        // future: null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
@@ -155,6 +162,7 @@ class DashboardPage extends StatelessWidget {
           ],
         ),
       ),
+      // ),
     );
   }
 }

@@ -79,3 +79,25 @@ class ApproachPointsView {
     });
   }
 }
+
+@DatabaseView('''
+  SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+    FROM approach a
+    INNER JOIN approach_points ap ON a.id = ap.approachId
+    INNER JOIN point p ON p.id = ap.pointId
+    GROUP BY ap.pointId, pointName, pointType
+    ORDER BY p.pointType
+  ''', viewName: 'approach_dashboard_view')
+class ApproachesDashboardDataView {
+  final int pointId;
+  final double pointAvg;
+  final String pointName;
+  final String pointType;
+
+  ApproachesDashboardDataView({
+    this.pointId,
+    this.pointName,
+    this.pointAvg,
+    this.pointType,
+  });
+}

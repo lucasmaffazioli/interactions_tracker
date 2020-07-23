@@ -48,8 +48,25 @@ abstract class ApproachModelDao {
   // @Query('DELETE FROM approach WHERE id = :id')
   // Future<int> deleteApproachById(int id);
 
-  // @Query('SELECT last_insert_rowid()')
-  // Future<int> findLastInsertedApproach();
+  ///
+  ///  Aqui eu preciso mostrar a media de cada um dos pontos entre um intervalo de tempo
+  ///
+  ///
+  ///
+  @Query(
+      // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+      '''
+      SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+    FROM approach a
+    INNER JOIN approach_points ap ON a.id = ap.approachId
+    INNER JOIN point p ON p.id = ap.pointId
+       WHERE dateTime >= :initialDate AND dateTime <= :finalDate
+    GROUP BY ap.pointId, pointName, pointType
+    ORDER BY p.pointType
+      
+       ''')
+  Future<List<ApproachesDashboardDataView>> findApproachesDashboardDataByInterval(
+      String initalDate, String finalDate);
 }
 
 @dao
@@ -96,3 +113,21 @@ abstract class GoalsModelDao {
   @update
   Future<void> saveGoalsModel(GoalsModel goalsModel);
 }
+
+// @dao
+// abstract class ApproachesDashboardDataViewDao {
+//   @Query(
+//       // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+//       '''
+//       SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+//     FROM approach a
+//     INNER JOIN approach_points ap ON a.id = ap.approachId
+//     INNER JOIN point p ON p.id = ap.pointId
+//        WHERE dateTime >= :initialDate AND dateTime <= :finalDate
+//     GROUP BY ap.pointId, pointName, pointType
+//     ORDER BY p.pointType
+
+//        ''')
+//   Future<List<ApproachesDashboardDataView>> findApproachesDashboardDataByInterval(
+//       String initalDate, String finalDate);
+// }
