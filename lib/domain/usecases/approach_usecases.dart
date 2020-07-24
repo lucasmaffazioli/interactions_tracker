@@ -1,11 +1,14 @@
 // Isto aqui NÃO CONHECE o banco de dados
 
+import 'dart:convert';
+
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
+import 'package:cold_app/data/services/storage.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
 
@@ -85,15 +88,44 @@ class SaveApproach {
   }
 }
 
+class GetAllApproachesJson {
+  Future<List<ApproachEntity>> call() async {
+    List<ApproachModel> listModels = await approachFloorGateway.getAllApproach();
+    List<ApproachEntity> listApproach = [];
+    List<Map> listMap = [];
+
+    for (ApproachModel e in listModels) {
+      listApproach.add(await GetApproach().call(e.id));
+      print('e');
+      print(e.toJson());
+    }
+
+    // await listModels.forEach((e) async {
+    //   listApproach.add(await GetApproach().call(e.id));
+    //   print('e');
+    //   print(e.toJson());
+    // });
+    if (listApproach != null) {
+      listApproach.forEach((element) {
+        listMap.add(element.toMap());
+      });
+
+      print('json.encode(listMap)');
+      print(json.encode(listMap));
+    }
+    print('Saving file to:');
+    print(await Storage().saveExternalFile('Approaches.json', json.encode(listMap)));
+
+    return listApproach;
+  }
+}
+
 class GetApproach {
   Future<ApproachEntity> call(int id) async {
     ApproachModel approachModel;
     //
     ApproachEntity approach;
     List<PointEntity> points = [];
-    //
-    // print('call');
-    // print(id);
     //
     if (id == null) {
       List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();

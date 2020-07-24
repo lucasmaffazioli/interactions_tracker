@@ -203,6 +203,14 @@ extension Localization on String {
         "pt": "Suas abordagens serão exibidas aqui",
       } +
       {
+        "en": "Import approaches",
+        "pt": "Importar abordagens",
+      } +
+      {
+        "en": "Export approaches",
+        "pt": "Exportar abordagens",
+      } +
+      {
         "en": "Date",
         "pt": "Data",
       };

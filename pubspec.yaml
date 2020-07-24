@@ -32,6 +32,8 @@ dependencies:
   flushbar: ^1.10.4
   fl_chart: ^0.10.1
   i18n_extension: ^1.4.1
+  file_picker: ^1.13.0+1
+  path_provider: ^1.6.11
 
 
 

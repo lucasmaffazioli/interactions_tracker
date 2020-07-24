@@ -35,4 +35,13 @@ class ApproachEntity {
       'points': points.map((e) => e.toJson()).toList(),
     });
   }
+
+  Map<String, dynamic> toMap() => {
+        'id': id.toString(),
+        'dateTime': dateTime.toIso8601String(),
+        'name': name,
+        'description': description,
+        'notes': notes,
+        'points': points.map((e) => e.toJson()).toList(),
+      };
 }
