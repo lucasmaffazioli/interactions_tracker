@@ -3,8 +3,6 @@ import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';
-import 'package:flushbar/flushbar.dart';
-import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 

@@ -1,7 +1,6 @@
 import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:floor/floor.dart';

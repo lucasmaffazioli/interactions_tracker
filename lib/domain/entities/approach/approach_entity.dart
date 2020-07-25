@@ -81,7 +81,7 @@ class ApproachEntity {
 
   // this.points = _convertMapPoints(map['points']); //List[PointEntity.fromMap(map['points'])];
 
-  List<PointEntity> _convertMapPoints(Map map) {
-    List<PointEntity> returnList;
-  }
+  // List<PointEntity> _convertMapPoints(Map map) {
+  //   List<PointEntity> returnList;
+  // }
 }

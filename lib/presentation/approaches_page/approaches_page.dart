@@ -2,7 +2,6 @@ import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
-import 'package:cold_app/presentation/settings_page/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cold_app/presentation/common/show_delete_confirmation.dart';

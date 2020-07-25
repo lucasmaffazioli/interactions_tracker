@@ -1,6 +1,5 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SnackBarHelper {
   /// Get a success notification flushbar.
