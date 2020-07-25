@@ -1,8 +1,10 @@
+import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';
 import 'package:flushbar/flushbar.dart';
+import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -160,19 +162,23 @@ class AddApproachPage extends StatelessWidget {
       // you'd often call a server or save the information in a database.
 
     } else {
-      Flushbar(
-        message: "Oops... There's something missing in this form".i18n,
-        duration: Duration(seconds: 3),
-        margin: const EdgeInsets.all(8),
-        padding: const EdgeInsets.all(20),
-        borderRadius: 8,
-        icon: Icon(
-          FontAwesomeIcons.exclamationCircle,
-          size: 28.0,
-          color: Colors.red[600],
-        ),
-        // leftBarIndicatorColor: Colors.red[300],
-      )..show(context);
+      // SnackBarError("Oops... There's something missing in this form".i18n)..show(context);
+      // snackBarError("Oops... There's something missing in this form".i18n)..show(context);
+      SnackBarHelper.createError(message: "Oops... There's something missing in this form".i18n)
+        ..show(context);
+      // Flushbar(
+      //   message: "Oops... There's something missing in this form".i18n,
+      //   duration: Duration(seconds: 3),
+      //   margin: const EdgeInsets.all(8),
+      //   padding: const EdgeInsets.all(20),
+      //   borderRadius: 8,
+      //   icon: Icon(
+      //     FontAwesomeIcons.exclamationCircle,
+      //     size: 28.0,
+      //     color: Colors.red[600],
+      //   ),
+      //   // leftBarIndicatorColor: Colors.red[300],
+      // )..show(context);
     }
   }
 }

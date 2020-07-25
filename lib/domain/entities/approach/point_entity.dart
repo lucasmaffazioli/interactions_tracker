@@ -29,4 +29,17 @@ class PointEntity {
       'pointType': pointType.toString(),
     });
   }
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'name': name,
+        'value': value,
+        'pointType': pointType.toString(),
+      };
+
+  PointEntity.fromMap(Map map)
+      : this.id = map['id'],
+        this.name = map['name'],
+        this.value = map['value'],
+        this.pointType = getPointTypeFromCompleteString(map['pointType']);
 }

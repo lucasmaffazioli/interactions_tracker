@@ -16,4 +16,11 @@ class Storage {
     file = await file.writeAsString('$content');
     return file.path;
   }
+
+  Future<String> readExternalFile(String fileName) async {
+    final directory = await getExternalStorageDirectory();
+    File file = File('${directory.path}/$fileName');
+
+    return await file.readAsStringSync();
+  }
 }

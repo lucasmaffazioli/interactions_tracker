@@ -28,10 +28,17 @@ class DeleteApproach {
 class SaveApproach {
   void call(ApproachEntity approach) async {
     int approachId;
+    ApproachModel approachFromDb;
     print('Save approach');
     print(approach.toJson());
 
-    if (approach.id == null || approach == 0) {
+    if (approach.id != null && approach.id != 0) {
+      approachFromDb = await approachFloorGateway.getApproachById(approach.id);
+      print('Is approachFromDb null?');
+      print(approachFromDb);
+    }
+
+    if (approach.id == null || approach.id == 0 || approachFromDb == null) {
       approachId = await approachFloorGateway.insertApproach(ApproachModel(
         id: approach.id,
         name: approach.name,
@@ -88,8 +95,8 @@ class SaveApproach {
   }
 }
 
-class GetAllApproachesJson {
-  Future<List<ApproachEntity>> call() async {
+class ExportAllApproachesJson {
+  Future<String> call() async {
     List<ApproachModel> listModels = await approachFloorGateway.getAllApproach();
     List<ApproachEntity> listApproach = [];
     List<Map> listMap = [];
@@ -100,11 +107,6 @@ class GetAllApproachesJson {
       print(e.toJson());
     }
 
-    // await listModels.forEach((e) async {
-    //   listApproach.add(await GetApproach().call(e.id));
-    //   print('e');
-    //   print(e.toJson());
-    // });
     if (listApproach != null) {
       listApproach.forEach((element) {
         listMap.add(element.toMap());
@@ -114,9 +116,56 @@ class GetAllApproachesJson {
       print(json.encode(listMap));
     }
     print('Saving file to:');
-    print(await Storage().saveExternalFile('Approaches.json', json.encode(listMap)));
+    final String savedPath =
+        await Storage().saveExternalFile('Approaches.json', json.encode(listMap));
+    print(savedPath);
 
-    return listApproach;
+    return savedPath;
+  }
+}
+
+class ImportApproachesJson {
+  Future<int> call() async {
+    // List<Map<dynamic>> listMap;
+    final String source = await Storage().readExternalFile('Approaches.json');
+
+    final List<dynamic> listMap = json.decode(source);
+
+    for (dynamic e in listMap) {
+      final ApproachEntity approach = ApproachEntity.fromMap(e);
+
+      if (listMap == null) print(listMap);
+
+      await SaveApproach().call(approach);
+
+      print('approach.toJson()');
+      print(approach.toJson());
+    }
+    print(listMap);
+
+    // List<ApproachModel> listModels = await approachFloorGateway.getAllApproach();
+    // List<ApproachEntity> listApproach = [];
+
+    // for (ApproachModel e in listModels) {
+    //   listApproach.add(await GetApproach().call(e.id));
+    //   print('e');
+    //   print(e.toJson());
+    // }
+
+    // if (listApproach != null) {
+    //   listApproach.forEach((element) {
+    //     listMap.add(element.toMap());
+    //   });
+
+    //   print('json.encode(listMap)');
+    //   print(json.encode(listMap));
+    // }
+    // print('Saving file to:');
+
+    // print(savedPath);
+
+    // return savedPath;
+    return listMap.length;
   }
 }
 
@@ -133,7 +182,7 @@ class GetApproach {
         points.add(PointEntity(
           id: element.id,
           name: element.name,
-          pointType: getPointTypeWithString(element.pointType),
+          pointType: getPointTypeFromString(element.pointType),
           value: 0,
         ));
         approach = ApproachEntity(
@@ -161,7 +210,7 @@ class GetApproach {
         points.add(PointEntity(
           id: element.pointId,
           name: element.pointName,
-          pointType: getPointTypeWithString(element.pointType),
+          pointType: getPointTypeFromString(element.pointType),
           value: element.pointValue,
         ));
         approach = ApproachEntity(

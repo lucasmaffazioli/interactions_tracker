@@ -1,3 +1,4 @@
+import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
@@ -46,7 +47,10 @@ class SettingsPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              await controller.export();
+              final String filePath = await controller.export();
+              SnackBarHelper.createInformation(
+                  message: "File successfully exported to ".i18n + filePath)
+                ..show(context);
             },
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.fileExport),

@@ -14,7 +14,7 @@ class PointTypeDataLayer {
   static final String result = 'result';
 }
 
-PointType getPointTypeWithString(String str) {
+PointType getPointTypeFromString(String str) {
   PointType pointType;
   switch (str) {
     case 'skill':
@@ -27,6 +27,26 @@ PointType getPointTypeWithString(String str) {
       pointType = PointType.difficulty;
       break;
     case 'result':
+      pointType = PointType.result;
+      break;
+  }
+
+  return pointType;
+}
+
+PointType getPointTypeFromCompleteString(String str) {
+  PointType pointType;
+  switch (str) {
+    case 'PointType.skill':
+      pointType = PointType.skill;
+      break;
+    case 'PointType.attraction':
+      pointType = PointType.attraction;
+      break;
+    case 'PointType.difficulty':
+      pointType = PointType.difficulty;
+      break;
+    case 'PointType.result':
       pointType = PointType.result;
       break;
   }
