@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
       //
       title: 'Flutter Demo',
       theme: ThemeData(
+        disabledColor: Colors.blue,
         buttonTheme: ButtonThemeData(),
         iconTheme: IconThemeData(
           color: Constants.accent,

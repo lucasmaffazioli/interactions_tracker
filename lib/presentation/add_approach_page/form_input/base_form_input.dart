@@ -1,3 +1,4 @@
+import 'package:cold_app/presentation/common/constants.dart';
 import 'package:flutter/material.dart';
 
 class BaseFormInput extends StatelessWidget {
@@ -31,6 +32,22 @@ InputDecoration myInputDecoration() {
   return InputDecoration(
     filled: true,
     fillColor: Colors.white,
+    contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+    focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.white),
+      borderRadius: BorderRadius.circular(4),
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: const BorderSide(color: Colors.white),
+      borderRadius: BorderRadius.circular(4),
+    ),
+  );
+}
+
+InputDecoration myDisabledInputDecoration() {
+  return InputDecoration(
+    filled: true,
+    fillColor: Constants.background,
     contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
     focusedBorder: OutlineInputBorder(
       borderSide: const BorderSide(color: Colors.white),

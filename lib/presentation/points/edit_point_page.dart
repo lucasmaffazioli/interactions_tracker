@@ -50,13 +50,23 @@ class EditPointPage extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-              child: TextFormInput(
-                initialValue: pointName,
-                title: 'Name'.i18n + ' *',
-                validator: _requiredValidator,
-                onSave: ((value) {
-                  newName = value;
-                }),
+              child: Column(
+                children: <Widget>[
+                  TextFormInput(
+                    initialValue: pointName,
+                    title: 'Name'.i18n + ' *',
+                    validator: _requiredValidator,
+                    onSave: ((value) {
+                      newName = value;
+                    }),
+                  ),
+                  TextFormInput(
+                    initialValue: pointId.toString(),
+                    title: 'Code'.i18n,
+                    enabled: false,
+                    onSave: () {},
+                  ),
+                ],
               ),
             ),
             Container(

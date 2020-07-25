@@ -32,10 +32,10 @@ class SaveApproach {
     print('Save approach');
     print(approach.toJson());
 
+    ///
+    /// For the case of a import from backup approach
     if (approach.id != null && approach.id != 0) {
       approachFromDb = await approachFloorGateway.getApproachById(approach.id);
-      print('Is approachFromDb null?');
-      print(approachFromDb);
     }
 
     if (approach.id == null || approach.id == 0 || approachFromDb == null) {
@@ -143,28 +143,6 @@ class ImportApproachesJson {
     }
     print(listMap);
 
-    // List<ApproachModel> listModels = await approachFloorGateway.getAllApproach();
-    // List<ApproachEntity> listApproach = [];
-
-    // for (ApproachModel e in listModels) {
-    //   listApproach.add(await GetApproach().call(e.id));
-    //   print('e');
-    //   print(e.toJson());
-    // }
-
-    // if (listApproach != null) {
-    //   listApproach.forEach((element) {
-    //     listMap.add(element.toMap());
-    //   });
-
-    //   print('json.encode(listMap)');
-    //   print(json.encode(listMap));
-    // }
-    // print('Saving file to:');
-
-    // print(savedPath);
-
-    // return savedPath;
     return listMap.length;
   }
 }

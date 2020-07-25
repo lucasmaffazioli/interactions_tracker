@@ -211,6 +211,18 @@ extension Localization on String {
         "pt": "Exportar abordagens",
       } +
       {
+        "en": "File successfully exported to ",
+        "pt": "Arquivo exportado com sucesso para ",
+      } +
+      {
+        "en": "Code",
+        "pt": "Código",
+      } +
+      {
+        "en": "%d approach(es) imported",
+        "pt": "%d abordagem(ns) importadas",
+      } +
+      {
         "en": "Date",
         "pt": "Data",
       };
@@ -218,4 +230,5 @@ extension Localization on String {
   String get i18n => localize(this, _t);
 
   String plural(int value) => localizePlural(value, this, _t);
+  // '%d selected'.plural(selectedItems.length),
 }

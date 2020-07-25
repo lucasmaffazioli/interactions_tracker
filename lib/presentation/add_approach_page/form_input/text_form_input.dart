@@ -10,6 +10,7 @@ class TextFormInput extends StatelessWidget {
   final int maxLines;
   final int minLines;
   final TextInputType textInputType;
+  final bool enabled;
 
   const TextFormInput({
     Key key,
@@ -20,6 +21,7 @@ class TextFormInput extends StatelessWidget {
     this.maxLines,
     this.minLines,
     this.textInputType,
+    this.enabled = true,
   }) : super(key: key);
 
   @override
@@ -32,10 +34,11 @@ class TextFormInput extends StatelessWidget {
         minLines: minLines,
         maxLines: maxLines,
         validator: validator,
-        decoration: myInputDecoration(),
+        decoration: enabled ? myInputDecoration() : myDisabledInputDecoration(),
         onSaved: ((String value) {
           onSave(value.trim());
         }),
+        enabled: enabled,
       ),
     );
   }

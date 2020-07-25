@@ -59,7 +59,10 @@ class SettingsPage extends StatelessWidget {
           ),
           InkWell(
             onTap: () async {
-              await controller.import();
+              final int importedRecords = await controller.import();
+              SnackBarHelper.createInformation(
+                  message: '%d approach(es) imported'.plural(importedRecords))
+                ..show(context);
             },
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.fileImport),
