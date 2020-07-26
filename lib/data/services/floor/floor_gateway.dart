@@ -134,25 +134,45 @@ class ApproachFloorGateway extends FloorGateway {
     // return approachDao.getApproachesDashboardData(initialDate, finalDate);
   }
 
-  Future<List<DashboardModel>> findDashboardDataByDateInterval(
-      DateTime initialDate, DateTime finalDate) async {
+  Future<int> findApproachesCountByDateInterval(DateTime initialDate, DateTime finalDate) async {
     await _setUp();
     //
-    List<DashboardModel> returnList;
+    int returnValue = 0;
 
     await database.database.rawQuery('''
-       SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-        FROM approach a
-        INNER JOIN approach_points ap ON a.id = ap.approachId
-        INNER JOIN point p ON p.id = ap.pointId
+       SELECT count(*) AS approaches
+        FROM approach 
           WHERE dateTime >= :initialDate AND dateTime <= :finalDate
-        GROUP BY ap.pointId, pointName, pointType
-        ORDER BY p.pointType
-          
       ''', [initialDate.toIso8601String(), finalDate.toIso8601String()]).then(
       (value) => value.forEach(
         (element) {
-          returnList.add(DashboardModel.fromMap(element));
+          returnValue = DashboardApproachesCountModel.fromMap(element).approaches;
+        },
+      ),
+    );
+
+    return returnValue;
+  }
+
+  Future<List<DashboardComplexModel>> findDashboardDataByDateInterval(
+      DateTime initialDate, DateTime finalDate) async {
+    await _setUp();
+    //
+    List<DashboardComplexModel> returnList = [];
+
+    await database.database.rawQuery('''
+        SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
+          FROM approach a
+          INNER JOIN approach_points ap ON a.id = ap.approachId
+          INNER JOIN point p ON p.id = ap.pointId
+            WHERE dateTime >= :initialDate AND dateTime <= :finalDate
+          GROUP BY ap.pointId, pointName, pointType
+          ORDER BY p.pointType
+            
+        ''', [initialDate.toIso8601String(), finalDate.toIso8601String()]).then(
+      (value) => value.forEach(
+        (element) {
+          returnList.add(DashboardComplexModel.fromMap(element));
         },
       ),
     );

@@ -56,10 +56,10 @@ class _ApproachesPageState extends State<ApproachesPage> {
         selectedItems.add(itemId);
       });
     }
-    print('selectedItems.length');
-    print(selectedItems.length);
-    print(widget.defaultAppBar);
-    print(widget.defaultAppBar.title);
+    // print('selectedItems.length');
+    // print(selectedItems.length);
+    // print(widget.defaultAppBar);
+    // print(widget.defaultAppBar.title);
 
     if (selectedItems.length == 0) {
       _emptySelected();
@@ -92,8 +92,8 @@ class _ApproachesPageState extends State<ApproachesPage> {
 
   _deleteSelectedApproaches() async {
     int totalDeleted = await controller.deleteApproaches(selectedItems);
-    print('Total deleted items');
-    print(totalDeleted);
+    // print('Total deleted items');
+    // print(totalDeleted);
   }
 
   @override
@@ -101,10 +101,10 @@ class _ApproachesPageState extends State<ApproachesPage> {
     return StreamBuilder<List<ApproachSummaryPresentation>>(
       stream: stream,
       builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
-        print('projectconnection state is: ${snapshot.connectionState}');
-        print('project snapshot data is: ${snapshot.data}');
-        print('project has error is: ${snapshot.hasError} - ${snapshot.error.toString()}');
-        print('project has data is: ${snapshot.hasData.toString()}');
+        // print('projectconnection state is: ${snapshot.connectionState}');
+        // print('project snapshot data is: ${snapshot.data}');
+        // print('project has error is: ${snapshot.hasError} - ${snapshot.error.toString()}');
+        // print('project has data is: ${snapshot.hasData.toString()}');
         if (snapshot.hasError) {
           return Container(child: Text('Error loading data!'));
         }
@@ -141,8 +141,8 @@ class _ApproachesPageState extends State<ApproachesPage> {
         }
 
         items = snapshot.data ?? [];
-        print('items');
-        print(items);
+        // print('items');
+        // print(items);
         return ListView.builder(
           itemCount: items.length,
           itemBuilder: (context, index) {
