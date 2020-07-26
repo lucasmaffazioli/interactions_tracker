@@ -8,8 +8,10 @@ class ChartVertical extends StatefulWidget {
   final List<ChartLineData> listData;
   final String title;
   final String subTitle;
+  final double maxY;
 
-  const ChartVertical({Key key, this.title, @required this.listData, this.subTitle})
+  const ChartVertical(
+      {Key key, this.title, @required this.listData, this.subTitle, @required this.maxY})
       : super(key: key);
 
   @override
@@ -33,7 +35,6 @@ class ChartLineData {
 class ChartVerticalState extends State<ChartVertical> {
   final Color barBackgroundColor = Constants.chartLineBackground;
   final Duration animDuration = const Duration(milliseconds: 250);
-  double maxY;
 
   int touchedIndex;
 
@@ -42,10 +43,6 @@ class ChartVerticalState extends State<ChartVertical> {
   @override
   void initState() {
     super.initState();
-
-    final _listDataMaxY = widget.listData;
-    _listDataMaxY.sort((a, b) => a.value.compareTo(b.value));
-    maxY = _listDataMaxY.last.value.toDouble();
   }
 
   @override
@@ -137,7 +134,7 @@ class ChartVerticalState extends State<ChartVertical> {
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: maxY,
+            y: widget.maxY,
             color: barBackgroundColor,
           ),
         ),

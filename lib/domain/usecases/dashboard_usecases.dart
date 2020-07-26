@@ -9,12 +9,23 @@ GoalsModelFloorGateway goalsGateway = GoalsModelFloorGateway();
 
 class GetApproachesSimpleGraphsData {
   Future<SimpleGraphsData> call() async {
-    SimpleGraphsData simpleData = SimpleGraphsData(weekApproaches: WeekApproaches());
+    SimpleGraphsData simpleData = SimpleGraphsData();
     final DateTime dateTimeNow = DateTime.now();
     DateTime dateProcessing = dateTimeNow;
     int dayApproaches;
 
     int i = 0;
+
+    simpleData.monthTotalApproaches = await approachGateway.findApproachesCountByDateInterval(
+        dateTimeNow.add(Duration(days: -30)).initialDayMoment(), dateTimeNow.finalDayMoment());
+    simpleData.dayTotalApproaches = await approachGateway.findApproachesCountByDateInterval(
+        dateTimeNow.initialDayMoment(), dateTimeNow.finalDayMoment());
+    final GoalsModel goal = await goalsGateway.findGoalsModel();
+    simpleData.weekGoal = goal.weeklyApproachGoal;
+    simpleData.dayGoal = goal.weeklyApproachGoal ~/ 7;
+    simpleData.monthGoal = goal.weeklyApproachGoal * 4;
+
+    simpleData.currentWeekDay = dateProcessing.weekday;
 
     do {
       print('dateProcessing.weekday');
@@ -25,53 +36,54 @@ class GetApproachesSimpleGraphsData {
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.sunday = dayApproaches;
+            simpleData.sunday = dayApproaches ?? 0;
           }
           break;
         case DateTime.monday:
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.monday = dayApproaches;
+            simpleData.monday = dayApproaches ?? 0;
           }
           break;
         case DateTime.tuesday:
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.tuesday = dayApproaches;
+            simpleData.tuesday = dayApproaches ?? 0;
           }
           break;
         case DateTime.wednesday:
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.wednesday = dayApproaches;
+            simpleData.wednesday = dayApproaches ?? 0;
           }
           break;
         case DateTime.thursday:
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.thursday = dayApproaches;
+            simpleData.thursday = dayApproaches ?? 0;
           }
           break;
         case DateTime.friday:
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.friday = dayApproaches;
+            simpleData.friday = dayApproaches ?? 0;
           }
           break;
         case DateTime.saturday:
           {
             dayApproaches = await approachGateway.findApproachesCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.weekApproaches.saturday = dayApproaches;
+            simpleData.saturday = dayApproaches ?? 0;
           }
           break;
       }
       simpleData.weekTotalApproaches += dayApproaches ?? 0;
+      if (dayApproaches > simpleData.maxApproachesDay) simpleData.maxApproachesDay = dayApproaches;
       //
       i++;
       dateProcessing =
@@ -80,32 +92,17 @@ class GetApproachesSimpleGraphsData {
       print(i);
     } while (i <= 6);
 
-    simpleData.monthTotalApproaches = await approachGateway.findApproachesCountByDateInterval(
-        dateTimeNow.add(Duration(days: -30)).initialDayMoment(), dateTimeNow.finalDayMoment());
-    final GoalsModel goal = await goalsGateway.findGoalsModel();
-    simpleData.weekGoal = goal.weeklyApproachGoal;
-    simpleData.dayGoal = goal.weeklyApproachGoal ~/ 7;
-    simpleData.monthGoal = goal.weeklyApproachGoal * 4;
-
     return simpleData;
   }
 }
 
 class SimpleGraphsData {
-  WeekApproaches weekApproaches;
-  int weekTotalApproaches = 0;
-  int monthTotalApproaches = 0;
-  int dayGoal = 0;
-  int weekGoal = 0;
-  int monthGoal = 0;
-
-  SimpleGraphsData({
-    this.weekApproaches,
-    this.monthTotalApproaches,
-  });
-}
-
-class WeekApproaches {
+  int dayTotalApproaches;
+  int weekTotalApproaches;
+  int monthTotalApproaches;
+  int dayGoal;
+  int weekGoal;
+  int monthGoal;
   int sunday;
   int monday;
   int tuesday;
@@ -113,15 +110,24 @@ class WeekApproaches {
   int thursday;
   int friday;
   int saturday;
-
-  WeekApproaches({
-    this.sunday,
-    this.monday,
-    this.tuesday,
-    this.wednesday,
-    this.thursday,
-    this.friday,
-    this.saturday,
+  int currentWeekDay;
+  int maxApproachesDay;
+  SimpleGraphsData({
+    this.dayTotalApproaches = 0,
+    this.weekTotalApproaches = 0,
+    this.monthTotalApproaches = 0,
+    this.dayGoal = 0,
+    this.weekGoal = 0,
+    this.monthGoal = 0,
+    this.sunday = 0,
+    this.monday = 0,
+    this.tuesday = 0,
+    this.wednesday = 0,
+    this.thursday = 0,
+    this.friday = 0,
+    this.saturday = 0,
+    this.currentWeekDay = 0,
+    this.maxApproachesDay = 0,
   });
 }
 

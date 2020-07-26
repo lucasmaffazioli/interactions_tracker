@@ -2,16 +2,18 @@ import 'package:flutter/foundation.dart';
 import '../../domain/usecases/dashboard_usecases.dart';
 
 class DashBoardPageController {
-  Future<dynamic> getApproachesCard() async {
-    SimpleGraphsData simpleGraph = await GetApproachesSimpleGraphsData().call();
+  Future<SimpleGraphsData> getApproachesSimpleData() async {
+    // SimpleGraphsData simpleGraph = await GetApproachesSimpleGraphsData().call();
+    // print('-------------------------simpleGraph');
+    // print(simpleGraph.monthTotalApproaches);
+    // print(simpleGraph.weekApproaches.sunday);
+    // print(simpleGraph.weekApproaches.saturday);
+    // print(simpleGraph.weekGoal);
+    // print(simpleGraph.dayGoal);
+    return await GetApproachesSimpleGraphsData().call();
+  }
 
-    print('-------------------------simpleGraph');
-    print(simpleGraph.monthTotalApproaches);
-    print(simpleGraph.weekApproaches.sunday);
-    print(simpleGraph.weekApproaches.saturday);
-    print(simpleGraph.weekGoal);
-    print(simpleGraph.dayGoal);
-
+  Future getApproachesComplexData() async {
     List<WeekComplexData> weeks = await GetApproachesComplexGraphsData().call();
     List<int> approachesByWeekDay = [];
 
@@ -19,7 +21,6 @@ class DashBoardPageController {
     // weeks.forEach((element) {
     //   print(element.dashboardData);
     // });
-    GetApproachesSimpleGraphsData().call();
   }
 }
 
