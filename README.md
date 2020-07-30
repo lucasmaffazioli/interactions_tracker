@@ -22,5 +22,6 @@ TODO:
 	Boldness
 	My Appearence
 - Notas de categorias devem ter no máximo 6 pontos, para não ser tão difícil atribuir uma nota
+- Resultado deve ser medido com SUCESSO. Isso pode ser resolvido dando a oportunidade ao usuario alterar o que cada ponto significa.
 
 flutter packages pub run build_runner watch --delete-conflicting-outputs
