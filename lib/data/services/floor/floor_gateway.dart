@@ -102,11 +102,16 @@ class ApproachFloorGateway extends FloorGateway {
     await approachDao.updateApproach(approach);
   }
 
-  Future<List<ApproachModel>> getAllApproach() async {
+  Future<List<ApproachModel>> getAllApproaches() async {
     await _setUp();
     //
-
     return await approachDao.findAllApproachModels();
+  }
+
+  Future<List<ApproachModel>> getLast30Approaches() async {
+    await _setUp();
+    //
+    return await approachDao.findLast30Approaches();
   }
 
   Future<ApproachModel> getApproachById(int id) async {

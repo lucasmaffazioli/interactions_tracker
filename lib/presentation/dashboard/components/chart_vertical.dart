@@ -148,8 +148,6 @@ class ChartVerticalState extends State<ChartVertical> {
     int _count = 0;
     //
     widget.listData.forEach((element) {
-      print('element.value.toString()');
-      print(element.isCurrent.toString());
       returnList.add(
         makeGroupData(
           _count,
@@ -227,8 +225,6 @@ class ChartVerticalState extends State<ChartVertical> {
             textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 140),
             margin: 1,
             getTitles: (double value) {
-              print('value');
-              print(value);
               switch (value.toInt()) {
                 case 0:
                   return 'M';

@@ -43,6 +43,9 @@ abstract class ApproachModelDao {
   @delete
   Future<void> deleteApproach(ApproachModel approach);
 
+  @Query('SELECT * FROM approach ORDER BY dateTime DESC LIMIT 30')
+  Future<List<ApproachModel>> findLast30Approaches();
+
   // @Query('DELETE FROM approach WHERE id = :id')
   // Future<void> deleteApproachById(int id);
   // @Query('DELETE FROM approach WHERE id = :id')

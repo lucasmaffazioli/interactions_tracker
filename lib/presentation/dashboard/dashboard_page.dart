@@ -1,4 +1,6 @@
 import 'package:cold_app/domain/usecases/dashboard_usecases.dart';
+import 'package:cold_app/presentation/common/loading.dart';
+import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/dashboard/components/chart_vertical.dart';
@@ -16,11 +18,50 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   final DashBoardPageController controller = DashBoardPageController();
-  SimpleGraphsData simpleGraphsData = SimpleGraphsData(sunday: 0);
+  MyLineChartData myLineChartData;
+
+  SimpleGraphsData simpleGraphsData = SimpleGraphsData();
+  // List<ComplexGraphsData> complexGraphsData = ComplexGraphsData();
+
+  List<Line> _getLine(List<LineData> listLineData) {
+    List<Line> listLines = [];
+    Line line;
+    List<FlSpot> flSpots = [];
+    listLines.add(
+      Line(
+        color: Colors.red,
+        spots: <FlSpot>[
+          FlSpot(0, 3),
+          FlSpot(2, 5),
+          FlSpot(3, 2),
+          FlSpot(4, 5),
+          FlSpot(5, 3.1),
+          FlSpot(6, 4),
+          FlSpot(7, 3),
+          FlSpot(8, 2),
+          FlSpot(9, 2),
+          FlSpot(10, 2),
+          FlSpot(11, 2),
+          FlSpot(12, 2),
+        ],
+      ),
+    );
+
+    listLineData.forEach((element) {
+      element.pointData.forEach((e) {
+        flSpots.add(FlSpot(e.position.toDouble(), e.value.toDouble()));
+      });
+      // line = Line(color: Colors.blue, spots: flSpots);
+      listLines.add(Line(color: Colors.blue, spots: flSpots));
+    });
+
+    return listLines;
+  }
 
   @override
   Widget build(BuildContext context) {
     Future<SimpleGraphsData> simpleGraphsDataFuture = controller.getApproachesSimpleData();
+    Future<MyLineChartData> lineChart = controller.getDashboardLineData();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -36,12 +77,9 @@ class _DashboardPageState extends State<DashboardPage> {
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       simpleGraphsData = snapshot.data;
-                      print('DONE**************************');
                     } else {
                       simpleGraphsData = SimpleGraphsData();
                     }
-
-                    print('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
                     return Column(
                       children: <Widget>[
@@ -136,56 +174,44 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             ),
-            LineChartSample2(
-              chartBottomTitle: <ChartPositionTitle>[
-                ChartPositionTitle(title: 'FEV', value: 0),
-                ChartPositionTitle(title: 'MAR', value: 5),
-                ChartPositionTitle(title: 'APR', value: 9),
-              ],
-              chartLeftTitle: <ChartPositionTitle>[
-                ChartPositionTitle(title: '0', value: 0),
-                ChartPositionTitle(title: '1', value: 1),
-                ChartPositionTitle(title: '2', value: 2),
-                ChartPositionTitle(title: '3', value: 3),
-                ChartPositionTitle(title: '4', value: 4),
-                ChartPositionTitle(title: '5', value: 5),
-                ChartPositionTitle(title: '6', value: 6),
-                ChartPositionTitle(title: '7', value: 7),
-                ChartPositionTitle(title: '8', value: 8),
-                ChartPositionTitle(title: '9', value: 9),
-                ChartPositionTitle(title: '10', value: 10),
-              ],
-              lines: <Line>[
-                Line(
-                  color: Colors.red,
-                  spots: <FlSpot>[
-                    FlSpot(0, 3),
-                    FlSpot(2, 5),
-                    FlSpot(3, 2),
-                    FlSpot(4, 5),
-                    FlSpot(5, 3.1),
-                    FlSpot(6, 4),
-                    FlSpot(7, 3),
-                    FlSpot(8, 2),
-                    FlSpot(9, 2),
-                    FlSpot(10, 2),
-                    FlSpot(11, 2),
-                    FlSpot(12, 2),
-                  ],
-                ),
-                Line(
-                  color: Colors.blue,
-                  spots: <FlSpot>[
-                    FlSpot(2, 3),
-                    FlSpot(2.3, 5),
-                    FlSpot(2.6, 2),
-                    FlSpot(3, 5),
-                    FlSpot(3.8, 3.1),
-                    FlSpot(3.9, 4),
-                    FlSpot(4, 3),
-                  ],
-                ),
-              ],
+            FutureBuilder(
+              future: lineChart,
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasError) {
+                  print('snapshot.error');
+                  print(snapshot.error);
+                  return Text(snapshot.error.toString());
+                  // SnackBarHelper.createError(message: snapshot.error.toString()).show(context);
+                } else if (snapshot.hasData) {
+                  myLineChartData = snapshot.data;
+
+                  print('snapshot.data');
+                  print(snapshot.data);
+                  return LineChartSample2(
+                    chartBottomTitle: <ChartPositionTitle>[
+                      ChartPositionTitle(title: 'FEV', value: 0),
+                      ChartPositionTitle(title: 'MAR', value: 5),
+                      ChartPositionTitle(title: 'APR', value: 9),
+                    ],
+                    chartLeftTitle: <ChartPositionTitle>[
+                      ChartPositionTitle(title: '0', value: 0),
+                      ChartPositionTitle(title: '1', value: 1),
+                      ChartPositionTitle(title: '2', value: 2),
+                      ChartPositionTitle(title: '3', value: 3),
+                      ChartPositionTitle(title: '4', value: 4),
+                      ChartPositionTitle(title: '5', value: 5),
+                      ChartPositionTitle(title: '6', value: 6),
+                      ChartPositionTitle(title: '7', value: 7),
+                      ChartPositionTitle(title: '8', value: 8),
+                      ChartPositionTitle(title: '9', value: 9),
+                      ChartPositionTitle(title: '10', value: 10),
+                    ],
+                    lines: _getLine(myLineChartData.lines),
+                  );
+                } else {
+                  return Loading();
+                }
+              },
             ),
             SizedBox(
               height: 25,

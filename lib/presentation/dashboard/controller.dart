@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import '../../domain/usecases/dashboard_usecases.dart';
 
@@ -13,14 +15,30 @@ class DashBoardPageController {
     return await GetApproachesSimpleGraphsData().call();
   }
 
-  Future getApproachesComplexData() async {
-    List<WeekComplexData> weeks = await GetApproachesComplexGraphsData().call();
-    List<int> approachesByWeekDay = [];
+  Future<MyLineChartData> getDashboardLineData() async {
+    print('getDashboardLineData');
+    MyLineChartData lineChart = await GetGraphLinesData().call();
+    print('getDashboardLineData ENNNND');
+
+    lineChart.lines.forEach((element) {
+      print('element.pointId');
+      print(element.pointId);
+      element.pointData.forEach((e) {
+        print('e.approachName');
+        print(e.approachName);
+        print(e.position);
+      });
+    });
+    // print
+
+    // List<WeekComplexData> weeks = await GetApproachesComplexGraphsData().call();
+    // List<int> approachesByWeekDay = [];
 
     // print('foreach');
     // weeks.forEach((element) {
     //   print(element.dashboardData);
     // });
+    return lineChart;
   }
 }
 

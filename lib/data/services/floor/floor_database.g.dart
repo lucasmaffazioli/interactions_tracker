@@ -227,6 +227,13 @@ class _$ApproachModelDao extends ApproachModelDao {
   }
 
   @override
+  Future<List<ApproachModel>> findLast30Approaches() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM approach ORDER BY dateTime DESC LIMIT 30',
+        mapper: _approachMapper);
+  }
+
+  @override
   Future<void> insertApproach(ApproachModel approach) async {
     await _approachModelInsertionAdapter.insert(
         approach, OnConflictStrategy.abort);

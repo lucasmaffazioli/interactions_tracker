@@ -1,6 +1,10 @@
+import 'package:cold_app/data/models/approach/approach_model.dart';
 import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
+import 'package:cold_app/domain/entities/approach/approach_entity.dart';
+import 'package:cold_app/domain/usecases/approach_usecases.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:cold_app/core/extensions/date_time_extension.dart';
 
@@ -28,9 +32,9 @@ class GetApproachesSimpleGraphsData {
     simpleData.currentWeekDay = dateProcessing.weekday;
 
     do {
-      print('dateProcessing.weekday');
-      print(dateProcessing.weekday);
-      print(dateProcessing.toIso8601String());
+      // print('dateProcessing.weekday');
+      // print(dateProcessing.weekday);
+      // print(dateProcessing.toIso8601String());
       switch (dateProcessing.weekday) {
         case DateTime.sunday:
           {
@@ -131,71 +135,125 @@ class SimpleGraphsData {
   });
 }
 
-class GetApproachesComplexGraphsData {
-  Future<List<WeekComplexData>> call() async {
-    // List<ApproachesDashboardDataView> returnList;
-    List<WeekComplexData> list = [];
-    DateTime dateTimeNow = DateTime.now();
-    int weekNumber = 0;
-    int firstWeek = 9999;
-    int finalWeek;
-    int i = 0;
+// class GetApproachesComplexGraphsData {
+//   Future<ComplexData> call() async {
+//     ComplexData complexData;
+//     DateTime dateTimeNow = DateTime.now();
+//     int weekNumber = 0;
+//     int firstWeek = 9999;
+//     int finalWeek;
+//     int i = 0;
 
-    do {
-      DateTime dateProcessing =
-          DateTime(dateTimeNow.year, dateTimeNow.month, dateTimeNow.day).add(Duration(days: -i));
-      weekNumber = _weekNumber(dateProcessing);
-      if (firstWeek > weekNumber) firstWeek = weekNumber;
-      if (finalWeek == null) finalWeek = weekNumber;
-      //
-      _calc(dateProcessing, weekNumber, list);
-      i++;
-    } while (finalWeek - firstWeek <= 11);
-    list.removeLast();
+//     do {
+//       DateTime dateProcessing =
+//           DateTime(dateTimeNow.year, dateTimeNow.month, dateTimeNow.day).add(Duration(days: -i));
+//       weekNumber = _weekNumber(dateProcessing);
+//       if (firstWeek > weekNumber) firstWeek = weekNumber;
+//       if (finalWeek == null) finalWeek = weekNumber;
+//       //
+//       _calc(dateProcessing, weekNumber, complexData);
+//       i++;
+//     } while (finalWeek - firstWeek <= 11);
+//     complexData.removeLast();
 
-    ///
-    /// Processamento de datas
-    ///
-    ///
-    for (int i = 0; i < list.length; i++) {
-      final week = list[i];
-      list[i].dashboardData =
-          await approachGateway.findDashboardDataByDateInterval(week.initialDate, week.finalDate);
+//     ///
+//     /// Processamento de datas
+//     ///
+//     ///
+//     for (int i = 0; i < complexData.length; i++) {
+//       final week = complexData[i];
+//       complexData[i].dashboardData =
+//           await approachGateway.findDashboardDataByDateInterval(week.initialDate, week.finalDate);
+//     }
+//     print('***************  Complex dashboard data');
+
+//     complexData.forEach((element) {
+//       element.dashboardData.forEach((e) {
+//         print('e.toJson()');
+//         print(e.toJson());
+//       });
+//     });
+
+//     return complexData;
+//   }
+// }
+
+class GetGraphLinesData {
+  Future<MyLineChartData> call() async {
+    MyLineChartData lineChart = MyLineChartData();
+    List<ApproachModel> approachesModel = await approachGateway.getLast30Approaches();
+
+    int x = 30;
+    for (final approachModel in approachesModel) {
+      ApproachEntity approach = await GetApproach().call(approachModel.id);
+
+      for (final point in approach.points) {
+        lineChart.feedPoint(approach.id, approach.name, point.id, point.name, point.value, x);
+      }
+      x--;
     }
-    // list.forEach((element) {
-    //   element.dashboardData.forEach((e) {
-    // print('e.toJson()');
-    // print(e.toJson());
-    //   });
-    // });
 
-    return list;
-  }
-
-  List<WeekComplexData> _calc(DateTime dateProcessing, int weekNumber, List<WeekComplexData> list) {
-    int indexWeekNumber = list.indexWhere((element) => element.weekNumber == weekNumber);
-
-    if (indexWeekNumber == -1) {
-      list.add(WeekComplexData(weekNumber, dateProcessing, dateProcessing.finalDayMoment()));
-    } else {
-      if (dateProcessing.difference(list[indexWeekNumber].initialDate).inDays < 0)
-        list[indexWeekNumber].initialDate = dateProcessing;
-    }
-    return list;
-  }
-
-  /// Calculates week number from a date as per https://en.wikipedia.org/wiki/ISO_week_date#Calculation
-  int _weekNumber(DateTime date) {
-    int dayOfYear = int.parse(DateFormat("D").format(date));
-    return ((dayOfYear - date.weekday + 10) / 7).floor();
+    return lineChart;
   }
 }
 
-class WeekComplexData {
-  int weekNumber;
-  DateTime initialDate;
-  DateTime finalDate;
-  List<DashboardComplexModel> dashboardData;
+class MyLineChartData {
+  List<LineData> lines = [];
 
-  WeekComplexData(this.weekNumber, this.initialDate, this.finalDate, {this.dashboardData});
+  MyLineChartData();
+
+  void feedPoint(
+    int approachId,
+    String approachName,
+    int pointId,
+    String pointName,
+    int pointValue,
+    int x,
+  ) {
+    int selectedLineIndex = lines.indexWhere((element) => element.pointId == pointId);
+    if (selectedLineIndex == -1) {
+      lines.add(LineData(pointId: pointId, pointName: pointName));
+      selectedLineIndex = lines.indexWhere((element) => element.pointId == pointId);
+    }
+
+    lines[selectedLineIndex].pointData.add(PointData(
+          approachId: approachId,
+          approachName: approachName,
+          position: x,
+          value: pointValue,
+        ));
+
+    // for (int i; i <= lines.length; i++) {
+    // }
+  }
 }
+
+class LineData {
+  final int pointId;
+  final String pointName;
+  List<PointData> pointData = [];
+
+  LineData({@required this.pointId, @required this.pointName});
+}
+
+class PointData {
+  final int approachId;
+  final String approachName;
+  final int position;
+  final int value;
+
+  PointData(
+      {@required this.approachId,
+      @required this.approachName,
+      @required this.position,
+      @required this.value});
+}
+
+// class WeekComplexData {
+//   int weekNumber;
+//   DateTime initialDate;
+//   DateTime finalDate;
+//   List<DashboardComplexModel> dashboardData;
+
+//   WeekComplexData(this.weekNumber, this.initialDate, this.finalDate, {this.dashboardData});
+// }

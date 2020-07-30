@@ -1,3 +1,4 @@
+import 'package:cold_app/presentation/common/loading.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/approaches_page/controller.dart';
@@ -109,26 +110,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
           return Container(child: Text('Error loading data!'));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  child: const CircularProgressIndicator(
-                    backgroundColor: Constants.accent2,
-                    // strokeWidth: 10,
-                  ),
-                  width: 60,
-                  height: 60,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: Text('Loading...'.i18n),
-                )
-              ],
-            ),
-          );
+          return Loading();
         }
         if (snapshot.data.length == 0 &&
             (snapshot.connectionState == ConnectionState.active ||

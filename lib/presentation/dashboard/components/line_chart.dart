@@ -45,7 +45,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
     return Stack(
       children: <Widget>[
         AspectRatio(
-          aspectRatio: 1.2,
+          aspectRatio: 0.9,
           child: Container(
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(
@@ -53,7 +53,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
                 ),
                 color: Color(0xff232d37)),
             child: Padding(
-              padding: const EdgeInsets.only(right: 18.0, left: 12.0, top: 24, bottom: 12),
+              padding: const EdgeInsets.only(right: 12.0, left: 2.0, top: 24, bottom: 12),
               child: LineChart(
                 mainData(),
               ),
@@ -161,7 +161,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       borderData:
           FlBorderData(show: true, border: Border.all(color: const Color(0xff37434d), width: 1)),
       minX: 0,
-      maxX: 12,
+      maxX: 30,
       minY: 0,
       maxY: 10,
       lineBarsData: lineBarsData,

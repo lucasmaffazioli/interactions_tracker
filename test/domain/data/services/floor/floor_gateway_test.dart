@@ -128,7 +128,7 @@ void main() {
             notes: 'Shining'),
       );
       //
-      List<ApproachModel> list = await approachFloorGateway.getAllApproach();
+      List<ApproachModel> list = await approachFloorGateway.getAllApproaches();
       // list.forEach((element) {
       //   print(element.toJson());
       // });

@@ -97,7 +97,7 @@ class SaveApproach {
 
 class ExportAllApproachesJson {
   Future<String> call() async {
-    List<ApproachModel> listModels = await approachFloorGateway.getAllApproach();
+    List<ApproachModel> listModels = await approachFloorGateway.getAllApproaches();
     List<ApproachEntity> listApproach = [];
     List<Map> listMap = [];
 
