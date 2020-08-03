@@ -17,11 +17,12 @@ TODO:
 - Ao alterar objetivo, dashboard não atualiza automaticamente
 - Dashboard deve atualizar com Provider ou algo assim
 - Criar forma de lockar o app com senha
-- Abordagens? Experiencias ou interações soa bem melhor
+- Abordagens? Interações soa bem melhor
 - Mais categorias:
 	Boldness
 	My Appearence
-- Notas de categorias devem ter no máximo 6 pontos, para não ser tão difícil atribuir uma nota
+- Notas devem ter no máximo 5 pontos, para não ser tão difícil atribuir uma nota
+- Incluir combobox de tipo de interação. Warm-up, platonic, romantic
 - Resultado deve ser medido com SUCESSO. Isso pode ser resolvido dando a oportunidade ao usuario alterar o que cada ponto significa.
 
 flutter packages pub run build_runner watch --delete-conflicting-outputs

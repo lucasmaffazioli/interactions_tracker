@@ -277,10 +277,15 @@ class _TitleWithSlider extends StatelessWidget {
             Expanded(
               child: Slider(
                 value: _value,
-                divisions: 10,
-                min: 0,
-                max: 10,
+                divisions: Constants.maxPoints,
+                min: Constants.minPoints.toDouble(),
+                max: Constants.maxPoints.toDouble(),
                 onChanged: onChanged,
+                label: 'asdas',
+                onChangeStart: (value) {
+                  print('Slider value');
+                  print(value);
+                },
               ),
             ),
             SizedBox(

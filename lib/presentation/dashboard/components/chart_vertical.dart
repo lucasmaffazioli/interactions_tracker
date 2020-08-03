@@ -207,44 +207,45 @@ class ChartVerticalState extends State<ChartVertical> {
         },
       ),
       titlesData: FlTitlesData(
-          show: true,
-          bottomTitles: SideTitles(
-            showTitles: true,
-            textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
-            margin: 16,
-            getTitles: (double value) {
-              return widget.listData[value.toInt()].bottomTitle.substring(0, 1);
-            },
-          ),
-          rightTitles: SideTitles(showTitles: true),
-          leftTitles: SideTitles(
-            showTitles: true,
-          ),
-          topTitles: SideTitles(
-            showTitles: true,
-            textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 140),
-            margin: 1,
-            getTitles: (double value) {
-              switch (value.toInt()) {
-                case 0:
-                  return 'M';
-                case 1:
-                  return 'T';
-                case 2:
-                  return 'W';
-                case 3:
-                  return 'T';
-                case 4:
-                  return 'F';
-                case 5:
-                  return 'S';
-                case 6:
-                  return 'S';
-                default:
-                  return '';
-              }
-            },
-          )),
+        show: true,
+        bottomTitles: SideTitles(
+          showTitles: true,
+          textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+          margin: 16,
+          getTitles: (double value) {
+            return widget.listData[value.toInt()].bottomTitle.substring(0, 1);
+          },
+        ),
+        rightTitles: SideTitles(showTitles: true),
+        leftTitles: SideTitles(
+          showTitles: true,
+        ),
+        // topTitles: SideTitles(
+        //   showTitles: true,
+        //   textStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
+        //   margin: 1,
+        //   getTitles: (double value) {
+        //     switch (value.toInt()) {
+        //       case 0:
+        //         return 'M';
+        //       case 1:
+        //         return 'T';
+        //       case 2:
+        //         return 'W';
+        //       case 3:
+        //         return 'T';
+        //       case 4:
+        //         return 'F';
+        //       case 5:
+        //         return 'S';
+        //       case 6:
+        //         return 'S';
+        //       default:
+        //         return '';
+        //     }
+        //   },
+        // ),
+      ),
       borderData: FlBorderData(
         show: false,
       ),

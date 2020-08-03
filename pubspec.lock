@@ -210,14 +210,14 @@ packages:
       name: fl_chart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.1"
+    version: "0.11.0"
   floor:
     dependency: "direct main"
     description:
       name: floor
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.13.0"
+    version: "0.14.0"
   floor_annotation:
     dependency: transitive
     description:

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/presentation/common/constants.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
 
@@ -37,7 +38,7 @@ class ApproachPointsModel {
     if (approachId == null) throw ArgumentError('Error!');
     if (pointId == null) throw ArgumentError('Error!');
     if (value == null) throw ArgumentError('Error!');
-    if (value < 0 || value > 10) throw ArgumentError('Error!');
+    if (value < Constants.minPoints || value > Constants.maxPoints) throw ArgumentError('Error!');
   }
 
   String toJson() {

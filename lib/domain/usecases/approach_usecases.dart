@@ -11,6 +11,7 @@ import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/data/services/storage.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/entities/approach/point_entity.dart';
+import 'package:cold_app/presentation/common/constants.dart';
 
 ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
 ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
@@ -161,7 +162,7 @@ class GetApproach {
           id: element.id,
           name: element.name,
           pointType: getPointTypeFromString(element.pointType),
-          value: 0,
+          value: Constants.minPoints,
         ));
         approach = ApproachEntity(
           id: null,

@@ -218,15 +218,15 @@ void main() {
       );
 
       approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 1, value: 10));
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 1, value: 4));
       approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 2, value: 5));
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 2, value: 1));
       approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 7, value: 7));
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 7, value: 3));
       approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 8, value: 8));
+          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 8, value: 1));
       approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 2, pointId: 3, value: 8));
+          .insertApproachPoints(ApproachPointsModel(approachId: 2, pointId: 3, value: 0));
       //
 
       List<ApproachSummaryView> list = await approachViewsFloorGateway.findApproachesSummary();

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cold_app/core/enums/PointType.dart';
+import 'package:cold_app/presentation/common/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class PointEntity {
@@ -18,7 +19,8 @@ class PointEntity {
     if (id == null) throw ArgumentError('Error, id must not be null!');
     if (name == null) throw ArgumentError('Error, name must not be null!');
     if (value == null) throw ArgumentError('Error, valuemust not be null!');
-    if (value < 0 || value > 10) throw ArgumentError('Error!, value must be 0-10');
+    if (value < Constants.minPoints || value > Constants.maxPoints)
+      throw ArgumentError('Error!, value must be ${Constants.minPoints}-${Constants.maxPoints}');
   }
 
   String toJson() {

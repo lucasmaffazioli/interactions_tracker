@@ -23,14 +23,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  floor: ^0.13.0
+  floor: ^0.14.0
   get_it: ^4.0.2
   font_awesome_flutter: ^8.8.1
   intl: ^0.16.1
   flutter_localizations:
     sdk: flutter
   flushbar: ^1.10.4
-  fl_chart: ^0.10.1
+  fl_chart: ^0.11.0
   i18n_extension: ^1.4.1
   file_picker: ^1.13.0+1
   path_provider: ^1.6.11
