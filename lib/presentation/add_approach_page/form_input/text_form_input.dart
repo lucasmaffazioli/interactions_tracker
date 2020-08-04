@@ -35,9 +35,9 @@ class TextFormInput extends StatelessWidget {
         maxLines: maxLines,
         validator: validator,
         decoration: enabled ? myInputDecoration() : myDisabledInputDecoration(),
-        onSaved: ((String value) {
-          onSave(value.trim());
-        }),
+        onSaved: (String value) {
+          if (onSave != null) onSave(value.trim());
+        },
         enabled: enabled,
       ),
     );

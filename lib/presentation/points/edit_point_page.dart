@@ -72,19 +72,20 @@ class EditPointPage extends StatelessWidget {
                       initialValue: pointName,
                       title: 'Name'.i18n + ' *',
                       validator: _requiredValidator,
-                      onSave: ((value) {
+                      onSave: (value) {
                         newName = value;
-                      }),
+                      },
                     ),
                     TextFormInput(
                       initialValue: pointId.toString(),
                       title: 'Code'.i18n,
                       enabled: false,
-                      onSave: () {},
+                      onSave: null,
                     ),
                     TextFormInput(
                       initialValue: item1.toString(),
                       title: 'First item'.i18n,
+                      validator: _requiredValidator,
                       onSave: (value) {
                         newItem1 = value;
                       },
@@ -92,6 +93,7 @@ class EditPointPage extends StatelessWidget {
                     TextFormInput(
                       initialValue: item2.toString(),
                       title: 'Second item'.i18n,
+                      validator: _requiredValidator,
                       onSave: (value) {
                         newItem2 = value;
                       },
@@ -99,6 +101,7 @@ class EditPointPage extends StatelessWidget {
                     TextFormInput(
                       initialValue: item3.toString(),
                       title: 'Third item'.i18n,
+                      validator: _requiredValidator,
                       onSave: (value) {
                         newItem3 = value;
                       },
@@ -106,6 +109,7 @@ class EditPointPage extends StatelessWidget {
                     TextFormInput(
                       initialValue: item4.toString(),
                       title: 'Fourth item'.i18n,
+                      validator: _requiredValidator,
                       onSave: (value) {
                         newItem4 = value;
                       },
@@ -113,6 +117,7 @@ class EditPointPage extends StatelessWidget {
                     TextFormInput(
                       initialValue: item5.toString(),
                       title: 'Fifth item'.i18n,
+                      validator: _requiredValidator,
                       onSave: (value) {
                         newItem5 = value;
                       },
@@ -127,13 +132,13 @@ class EditPointPage extends StatelessWidget {
                       child: LargeButton(
                           backgroundColor: Constants.red,
                           onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _formKey.currentState.save();
-                              showDeleteConfirmationPopup(context, onConfirm: () async {
-                                await DeletePoint().call(pointId);
-                                Navigator.maybePop(context);
-                              }).then((value) => Navigator.maybePop(context));
-                            }
+                            // if (_formKey.currentState.validate()) {
+                            //   _formKey.currentState.save();
+                            showDeleteConfirmationPopup(context, onConfirm: () async {
+                              await DeletePoint().call(pointId);
+                              Navigator.maybePop(context);
+                            }).then((value) => Navigator.maybePop(context));
+                            // }
                           },
                           name: 'Delete'.i18n),
                     ),
