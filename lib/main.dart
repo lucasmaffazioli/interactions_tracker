@@ -1,7 +1,9 @@
+import 'package:cold_app/data/services/floor/floor_database.dart';
+import 'package:cold_app/locator.dart';
+import 'package:cold_app/presentation/common/loading.dart';
 import 'package:cold_app/presentation/home_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'package:cold_app/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
@@ -79,7 +81,37 @@ class MyApp extends StatelessWidget {
           trackShape: _CustomTrackShape(),
         ),
       ),
-      home: I18n(child: HomePage()),
+      home: I18n(child: _Initializer()),
+      // home: I18n(child: HomePage()),
+    );
+  }
+}
+
+class _Initializer extends StatelessWidget {
+  Future<bool> _future() async {
+    final database = await locator.get<AppDatabase>();
+    await initializeDatabase(database);
+    return true;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _future(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return SafeArea(child: Text(snapshot.error.toString()));
+        } else if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+          print('project snapshot data is: ${snapshot.data}');
+          return HomePage();
+        } else {
+          return Scaffold(
+              body: Center(
+                  child: Container(
+            child: Loading(),
+          )));
+        }
+      },
     );
   }
 }

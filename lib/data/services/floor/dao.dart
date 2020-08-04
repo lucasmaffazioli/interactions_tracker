@@ -3,6 +3,7 @@ import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/models/approach/point_model.dart';
+import 'package:cold_app/data/models/misc/config_model.dart';
 import 'package:floor/floor.dart';
 
 @dao
@@ -133,6 +134,18 @@ abstract class GoalsModelDao {
 
   @update
   Future<void> saveGoalsModel(GoalsModel goalsModel);
+}
+
+@dao
+abstract class ConfigModelDao {
+  @Query('SELECT * FROM config')
+  Future<ConfigModel> findConfigModel();
+
+  @insert
+  Future<void> insertConfigModel(ConfigModel configModel);
+
+  @update
+  Future<void> saveConfigModel(ConfigModel configModel);
 }
 
 // @dao

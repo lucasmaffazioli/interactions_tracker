@@ -72,6 +72,8 @@ class _$AppDatabase extends AppDatabase {
 
   GoalsModelDao _goalsModelDaoInstance;
 
+  ConfigModelDao _configModelDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -98,6 +100,8 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyApproachGoal` INTEGER)');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `config` (`id` INTEGER, `lastRunVersion` INTEGER, PRIMARY KEY (`id`))');
+        await database.execute(
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
         await database.execute(
             '''CREATE VIEW IF NOT EXISTS `approach_summary_view` AS SELECT a.id, a.name, a.dateTime, a.description, 
@@ -109,7 +113,7 @@ FROM approach a
 ORDER BY a.dateTime DESC
 ''');
         await database.execute(
-            '''CREATE VIEW IF NOT EXISTS `approach_points_view` AS SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType
+            '''CREATE VIEW IF NOT EXISTS `approach_points_view` AS SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType, p.item1, p.item2, p.item3, p.item4, p.item5 
 FROM approach_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
@@ -153,6 +157,12 @@ ORDER BY p.pointType
   @override
   GoalsModelDao get goalsModelDao {
     return _goalsModelDaoInstance ??= _$GoalsModelDao(database, changeListener);
+  }
+
+  @override
+  ConfigModelDao get configModelDao {
+    return _configModelDaoInstance ??=
+        _$ConfigModelDao(database, changeListener);
   }
 }
 
@@ -494,7 +504,12 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
           pointId: row['pointId'] as int,
           pointName: row['pointName'] as String,
           pointValue: row['pointValue'] as int,
-          pointType: row['pointType'] as String);
+          pointType: row['pointType'] as String,
+          item1: row['item1'] as String,
+          item2: row['item2'] as String,
+          item3: row['item3'] as String,
+          item4: row['item4'] as String,
+          item5: row['item5'] as String);
 
   @override
   Future<List<ApproachPointsView>> findApproachesPointsByApproachId(
@@ -538,5 +553,57 @@ class _$GoalsModelDao extends GoalsModelDao {
   @override
   Future<void> saveGoalsModel(GoalsModel goalsModel) async {
     await _goalsModelUpdateAdapter.update(goalsModel, OnConflictStrategy.abort);
+  }
+}
+
+class _$ConfigModelDao extends ConfigModelDao {
+  _$ConfigModelDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _configModelInsertionAdapter = InsertionAdapter(
+            database,
+            'config',
+            (ConfigModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'lastRunVersion': item.lastRunVersion
+                },
+            changeListener),
+        _configModelUpdateAdapter = UpdateAdapter(
+            database,
+            'config',
+            ['id'],
+            (ConfigModel item) => <String, dynamic>{
+                  'id': item.id,
+                  'lastRunVersion': item.lastRunVersion
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  static final _configMapper = (Map<String, dynamic> row) =>
+      ConfigModel(lastRunVersion: row['lastRunVersion'] as int);
+
+  final InsertionAdapter<ConfigModel> _configModelInsertionAdapter;
+
+  final UpdateAdapter<ConfigModel> _configModelUpdateAdapter;
+
+  @override
+  Future<ConfigModel> findConfigModel() async {
+    return _queryAdapter.query('SELECT * FROM config', mapper: _configMapper);
+  }
+
+  @override
+  Future<void> insertConfigModel(ConfigModel configModel) async {
+    await _configModelInsertionAdapter.insert(
+        configModel, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> saveConfigModel(ConfigModel configModel) async {
+    await _configModelUpdateAdapter.update(
+        configModel, OnConflictStrategy.abort);
   }
 }

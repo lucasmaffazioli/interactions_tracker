@@ -2,6 +2,7 @@ import 'package:cold_app/data/models/approach/approach_points_model.dart';
 import 'package:cold_app/data/models/approach/approach_views.dart';
 import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/misc/config_model.dart';
 
 import '../../../locator.dart';
 import '../../models/approach/approach_model.dart';
@@ -17,6 +18,7 @@ class FloorGateway {
   ApproachSummaryDao approachSummaryDao;
   ApproachPointsViewDao approachPointsViewDao;
   GoalsModelDao goalsModelDao;
+  ConfigModelDao configModelDao;
   // MiscDao miscDao;
 
   _setUp() async {
@@ -28,6 +30,7 @@ class FloorGateway {
     approachSummaryDao = database.approachSummaryDao;
     approachPointsViewDao = database.approachPointsViewDao;
     goalsModelDao = database.goalsModelDao;
+    configModelDao = database.configModelDao;
     // miscDao = database.miscDao;
   }
 }
@@ -246,6 +249,20 @@ class GoalsModelFloorGateway extends FloorGateway {
     await _setUp();
     //
     return await goalsModelDao.saveGoalsModel(goalsModel);
+  }
+}
+
+class ConfigModelFloorGateway extends FloorGateway {
+  Future<ConfigModel> findConfigModel() async {
+    await _setUp();
+    //
+    return await configModelDao.findConfigModel();
+  }
+
+  Future<void> saveConfigModel(ConfigModel configModel) async {
+    await _setUp();
+    //
+    return await configModelDao.saveConfigModel(configModel);
   }
 }
 

@@ -26,3 +26,4 @@ TODO:
 - Resultado deve ser medido com SUCESSO. Isso pode ser resolvido dando a oportunidade ao usuario alterar o que cada ponto significa.
 
 flutter packages pub run build_runner watch --delete-conflicting-outputs
+await Future.delayed(Duration(seconds: 1));
