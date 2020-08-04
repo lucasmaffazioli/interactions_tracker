@@ -51,6 +51,8 @@ class AddApproachPage extends StatelessWidget {
               return Container(child: Text('Loading data....'));
             }
             approachPresentation = snapshot.data;
+            print('approachPresentation.toJson');
+            print(approachPresentation.points[0].item1);
             return SingleChildScrollView(
               child: Form(
                 key: _formKey,
@@ -213,6 +215,11 @@ class __PointsState extends State<_Points> {
           value: item.value,
           fullTitle: item.fullTitle,
           icon: item.headerIcon,
+          item1: item.item1,
+          item2: item.item2,
+          item3: item.item3,
+          item4: item.item4,
+          item5: item.item5,
           onChanged: ((double value) {
             setState(() {
               item.value = value.toInt();
@@ -235,6 +242,11 @@ class _TitleWithSlider extends StatelessWidget {
   final Function onChanged;
   final bool fullTitle;
   final IconData icon;
+  final String item1;
+  final String item2;
+  final String item3;
+  final String item4;
+  final String item5;
 
   const _TitleWithSlider({
     Key key,
@@ -244,7 +256,51 @@ class _TitleWithSlider extends StatelessWidget {
     @required this.onChanged,
     @required this.fullTitle,
     this.icon,
+    @required this.item1,
+    @required this.item2,
+    @required this.item3,
+    @required this.item4,
+    @required this.item5,
   }) : super(key: key);
+
+  String _getLabel(value) {
+    String returnValue;
+    switch (value) {
+      case 1:
+        {
+          returnValue = item1;
+        }
+        break;
+
+      case 2:
+        {
+          returnValue = item2;
+        }
+        break;
+      case 3:
+        {
+          returnValue = item3;
+        }
+        break;
+      case 4:
+        {
+          returnValue = item4;
+        }
+        break;
+      case 5:
+        {
+          returnValue = item5;
+        }
+        break;
+
+      default:
+        {
+          returnValue = 'Error';
+        }
+        break;
+    }
+    return returnValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -277,11 +333,11 @@ class _TitleWithSlider extends StatelessWidget {
             Expanded(
               child: Slider(
                 value: _value,
-                divisions: Constants.maxPoints,
+                divisions: Constants.maxPoints - 1,
                 min: Constants.minPoints.toDouble(),
                 max: Constants.maxPoints.toDouble(),
                 onChanged: onChanged,
-                label: 'asdas',
+                label: _getLabel(_value),
                 onChangeStart: (value) {
                   print('Slider value');
                   print(value);

@@ -12,8 +12,18 @@ class EditPointPage extends StatelessWidget {
   final int pointId;
   final String pointName;
   final String pointType;
+  final String item1;
+  final String item2;
+  final String item3;
+  final String item4;
+  final String item5;
   final _formKey = GlobalKey<FormState>();
   String newName;
+  String newItem1;
+  String newItem2;
+  String newItem3;
+  String newItem4;
+  String newItem5;
 
   EditPointPage({
     Key key,
@@ -21,6 +31,11 @@ class EditPointPage extends StatelessWidget {
     @required this.pointId,
     @required this.pointName,
     @required this.pointType,
+    @required this.item1,
+    @required this.item2,
+    @required this.item3,
+    @required this.item4,
+    @required this.item5,
   }) : super(key: key);
 
   String _requiredValidator(String value) {
@@ -42,66 +57,112 @@ class EditPointPage extends StatelessWidget {
         hasBackButton: true,
         appBar: AppBar(),
       ),
-      body: Form(
-        key: _formKey,
-        autovalidate: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-              child: Column(
-                children: <Widget>[
-                  TextFormInput(
-                    initialValue: pointName,
-                    title: 'Name'.i18n + ' *',
-                    validator: _requiredValidator,
-                    onSave: ((value) {
-                      newName = value;
-                    }),
-                  ),
-                  TextFormInput(
-                    initialValue: pointId.toString(),
-                    title: 'Code'.i18n,
-                    enabled: false,
-                    onSave: () {},
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          autovalidate: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                child: Column(
+                  children: <Widget>[
+                    TextFormInput(
+                      initialValue: pointName,
+                      title: 'Name'.i18n + ' *',
+                      validator: _requiredValidator,
+                      onSave: ((value) {
+                        newName = value;
+                      }),
+                    ),
+                    TextFormInput(
+                      initialValue: pointId.toString(),
+                      title: 'Code'.i18n,
+                      enabled: false,
+                      onSave: () {},
+                    ),
+                    TextFormInput(
+                      initialValue: item1.toString(),
+                      title: 'First item'.i18n,
+                      onSave: (value) {
+                        newItem1 = value;
+                      },
+                    ),
+                    TextFormInput(
+                      initialValue: item2.toString(),
+                      title: 'Second item'.i18n,
+                      onSave: (value) {
+                        newItem2 = value;
+                      },
+                    ),
+                    TextFormInput(
+                      initialValue: item3.toString(),
+                      title: 'Third item'.i18n,
+                      onSave: (value) {
+                        newItem3 = value;
+                      },
+                    ),
+                    TextFormInput(
+                      initialValue: item4.toString(),
+                      title: 'Fourth item'.i18n,
+                      onSave: (value) {
+                        newItem4 = value;
+                      },
+                    ),
+                    TextFormInput(
+                      initialValue: item5.toString(),
+                      title: 'Fifth item'.i18n,
+                      onSave: (value) {
+                        newItem5 = value;
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Container(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: LargeButton(
-                        backgroundColor: Constants.red,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            showDeleteConfirmationPopup(context, onConfirm: () async {
-                              await DeletePoint().call(pointId);
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: LargeButton(
+                          backgroundColor: Constants.red,
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              showDeleteConfirmationPopup(context, onConfirm: () async {
+                                await DeletePoint().call(pointId);
+                                Navigator.maybePop(context);
+                              }).then((value) => Navigator.maybePop(context));
+                            }
+                          },
+                          name: 'Delete'.i18n),
+                    ),
+                    Expanded(
+                      child: LargeButton(
+                          backgroundColor: Constants.accent,
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              _formKey.currentState.save();
+                              SavePoint().call(
+                                pointId,
+                                newName,
+                                pointType,
+                                newItem1,
+                                newItem2,
+                                newItem3,
+                                newItem4,
+                                newItem5,
+                              );
                               Navigator.maybePop(context);
-                            }).then((value) => Navigator.maybePop(context));
-                          }
-                        },
-                        name: 'Delete'.i18n),
-                  ),
-                  Expanded(
-                    child: LargeButton(
-                        backgroundColor: Constants.accent,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            _formKey.currentState.save();
-                            SavePoint().call(pointId, newName, pointType);
-                            Navigator.maybePop(context);
-                          }
-                        },
-                        name: 'Save'.i18n),
-                  ),
-                ],
+                            }
+                          },
+                          name: 'Save'.i18n),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

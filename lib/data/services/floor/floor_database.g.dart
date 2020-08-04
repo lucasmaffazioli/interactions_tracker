@@ -94,7 +94,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, PRIMARY KEY (`approachId`, `pointId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT, `item1` TEXT, `item2` TEXT, `item3` TEXT, `item4` TEXT, `item5` TEXT)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyApproachGoal` INTEGER)');
         await database.execute(
@@ -260,7 +260,12 @@ class _$PointModelDao extends PointModelDao {
             (PointModel item) => <String, dynamic>{
                   'id': item.id,
                   'name': item.name,
-                  'pointType': item.pointType
+                  'pointType': item.pointType,
+                  'item1': item.item1,
+                  'item2': item.item2,
+                  'item3': item.item3,
+                  'item4': item.item4,
+                  'item5': item.item5
                 },
             changeListener),
         _pointModelUpdateAdapter = UpdateAdapter(
@@ -270,7 +275,12 @@ class _$PointModelDao extends PointModelDao {
             (PointModel item) => <String, dynamic>{
                   'id': item.id,
                   'name': item.name,
-                  'pointType': item.pointType
+                  'pointType': item.pointType,
+                  'item1': item.item1,
+                  'item2': item.item2,
+                  'item3': item.item3,
+                  'item4': item.item4,
+                  'item5': item.item5
                 },
             changeListener),
         _pointModelDeletionAdapter = DeletionAdapter(
@@ -280,7 +290,12 @@ class _$PointModelDao extends PointModelDao {
             (PointModel item) => <String, dynamic>{
                   'id': item.id,
                   'name': item.name,
-                  'pointType': item.pointType
+                  'pointType': item.pointType,
+                  'item1': item.item1,
+                  'item2': item.item2,
+                  'item3': item.item3,
+                  'item4': item.item4,
+                  'item5': item.item5
                 },
             changeListener);
 
@@ -293,7 +308,12 @@ class _$PointModelDao extends PointModelDao {
   static final _pointMapper = (Map<String, dynamic> row) => PointModel(
       id: row['id'] as int,
       name: row['name'] as String,
-      pointType: row['pointType'] as String);
+      pointType: row['pointType'] as String,
+      item1: row['item1'] as String,
+      item2: row['item2'] as String,
+      item3: row['item3'] as String,
+      item4: row['item4'] as String,
+      item5: row['item5'] as String);
 
   final InsertionAdapter<PointModel> _pointModelInsertionAdapter;
 

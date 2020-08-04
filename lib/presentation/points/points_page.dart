@@ -33,6 +33,11 @@ class _PointsPageState extends State<PointsPage> {
                         pointId: null,
                         pointName: null,
                         pointType: null,
+                        item1: null,
+                        item2: null,
+                        item3: null,
+                        item4: null,
+                        item5: null,
                       )))
               .then((value) {
             setState(() {});
@@ -67,6 +72,11 @@ class _PointsPageState extends State<PointsPage> {
                                   pointId: item.id,
                                   pointName: item.name,
                                   pointType: item.pointType,
+                                  item1: item.item1,
+                                  item2: item.item2,
+                                  item3: item.item3,
+                                  item4: item.item4,
+                                  item5: item.item5,
                                 )))
                         .then((value) {
                       setState(() {});

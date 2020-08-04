@@ -223,11 +223,99 @@ extension Localization on String {
         "pt": "%d abordagem(ns) importadas",
       } +
       {
+        "en": "First item",
+        "pt": "Primeiro item",
+      } +
+      {
+        "en": "Second item",
+        "pt": "Segundo item",
+      } +
+      {
+        "en": "Third item",
+        "pt": "Terceiro item",
+      } +
+      {
+        "en": "Fourth item",
+        "pt": "Quarto item",
+      } +
+      {
+        "en": "Fifth item",
+        "pt": "Quinto item",
+      } +
+      {
+        "en": "Visual contact",
+        "pt": "Contato visual",
+      } +
+      {
+        "en": "Physical posture",
+        "pt": "Postura física",
+      } +
+      {
+        "en": "Vocal projection",
+        "pt": "Projeção vocal",
+      } +
+      {
+        "en": "Calibration",
+        "pt": "Calibragem",
+      } +
+      {
+        "en": "Frame",
+        "pt": "Frame",
+      } +
+      {
+        "en": "Boldness",
+        "pt": "Coragem",
+      } +
+      {
+        "en": "My own styling",
+        "pt": "Meu estilo de roupas",
+      } +
+      {
+        "en": "Confidence",
+        "pt": "Confiança",
+      } +
+      {
+        "en": "Difficulty",
+        "pt": "Dificuldade",
+      } +
+      {
+        "en": "Attraction",
+        "pt": "Atração",
+      } +
+      {
+        "en": "Result",
+        "pt": "Resultado",
+      } +
+      {
+        "en": "Weak",
+        "pt": "Fraco",
+      } +
+      {
+        "en": "Somewhat weak",
+        "pt": "Parcialmente fraco",
+      } +
+      {
+        "en": "Neither",
+        "pt": "Nem fraco nem forte",
+      } +
+      {
+        "en": "Somewhat strong",
+        "pt": "Parcialmente forte",
+      } +
+      {
+        "en": "Strong",
+        "pt": "Forte",
+      } +
+      {
         "en": "Date",
         "pt": "Data",
       };
 
-  String get i18n => localize(this, _t);
+  // String get i18n => localize(this, _t);
+  String get i18n {
+    print('Translating ' + this);
+    return localize(this, _t);
+  }
 
   String plural(int value) => localizePlural(value, this, _t);
   // '%d selected'.plural(selectedItems.length),

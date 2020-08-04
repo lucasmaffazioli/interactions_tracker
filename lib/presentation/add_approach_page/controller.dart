@@ -13,7 +13,7 @@ class AddApproachController {
     //
     PointType lastPointType;
     //
-    print('approachEntity.toJson()');
+    print('controller.dart: approachEntity.toJson()');
     print(approachEntity.toJson());
     //
     approachEntity.points.forEach((element) {
@@ -25,15 +25,22 @@ class AddApproachController {
             headerIcon: getPointTypeIcon(element.pointType),
           ));
         }
-        pointPresentationList.add(PointPresentation(
-          isHeader: false,
-          id: element.id,
-          name: element.name,
-          pointType: element.pointType,
-          value: element.value,
-          headerIcon: getPointTypeIcon(element.pointType),
-          fullTitle: element.pointType == PointType.skill ? false : true,
-        ));
+        pointPresentationList.add(
+          PointPresentation(
+            isHeader: false,
+            id: element.id,
+            name: element.name,
+            pointType: element.pointType,
+            value: element.value,
+            headerIcon: getPointTypeIcon(element.pointType),
+            fullTitle: element.pointType == PointType.skill ? false : true,
+            item1: element.item1,
+            item2: element.item2,
+            item3: element.item3,
+            item4: element.item4,
+            item5: element.item5,
+          ),
+        );
 
         lastPointType = element.pointType;
       }
@@ -57,6 +64,11 @@ class AddApproachController {
             value: element.value,
             headerIcon: getPointTypeIcon(element.pointType),
             fullTitle: element.pointType == PointType.skill ? false : true,
+            item1: element.item1,
+            item2: element.item2,
+            item3: element.item3,
+            item4: element.item4,
+            item5: element.item5,
           ));
         }
       }
@@ -114,10 +126,16 @@ class AddApproachController {
       //
       if (!element.isHeader)
         points.add(PointEntity(
-            id: element.id,
-            name: element.name,
-            pointType: element.pointType,
-            value: element.value));
+          id: element.id,
+          name: element.name,
+          pointType: element.pointType,
+          value: element.value,
+          item1: element.item1,
+          item2: element.item2,
+          item3: element.item3,
+          item4: element.item4,
+          item5: element.item5,
+        ));
     });
     //
     //
@@ -153,21 +171,32 @@ class ApproachPresentation {
 
 class PointPresentation {
   final bool isHeader;
+  final bool fullTitle;
   final String headerTitle;
   final IconData headerIcon;
   final PointType pointType;
   final int id;
   final String name;
-  final bool fullTitle;
+  final String item1;
+  final String item2;
+  final String item3;
+  final String item4;
+  final String item5;
   int value;
 
-  PointPresentation(
-      {this.id,
-      this.name,
-      this.value,
-      this.pointType,
-      @required this.isHeader,
-      this.headerTitle,
-      this.headerIcon,
-      this.fullTitle});
+  PointPresentation({
+    this.id,
+    this.name,
+    this.value,
+    this.pointType,
+    @required this.isHeader,
+    this.headerTitle,
+    this.headerIcon,
+    this.fullTitle,
+    this.item1,
+    this.item2,
+    this.item3,
+    this.item4,
+    this.item5,
+  });
 }

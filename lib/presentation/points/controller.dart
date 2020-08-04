@@ -13,6 +13,11 @@ class PointsController {
           id: element.id,
           name: element.name,
           pointType: element.pointType,
+          item1: element.item1,
+          item2: element.item2,
+          item3: element.item3,
+          item4: element.item4,
+          item5: element.item5,
         ));
     });
 

@@ -39,8 +39,16 @@ void main() {
   ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
   GoalsModelFloorGateway goalsModelFloorGateway = GoalsModelFloorGateway();
 
-  PointModel testPointModel =
-      PointModel(id: null, name: 'Beleza', pointType: PointTypeDataLayer.attraction);
+  PointModel testPointModel = PointModel(
+    id: null,
+    name: 'Beleza',
+    pointType: PointTypeDataLayer.attraction,
+    item1: 'item1',
+    item2: 'item2',
+    item3: 'item3',
+    item4: 'item4',
+    item5: 'item5',
+  );
   ApproachModel testApproachModel = ApproachModel(
       dateTime: DateTime(2020, 01, 15).toIso8601String(),
       name: 'Harry Potter',
@@ -81,8 +89,16 @@ void main() {
     test('Change point', () async {
       await pointFloorGateway.insertPoint(testPointModel);
       PointModel oldPoint = await pointFloorGateway.getPointById(1);
-      PointModel modifiedPoint =
-          PointModel(id: oldPoint.id, name: 'Updated name', pointType: oldPoint.pointType);
+      PointModel modifiedPoint = PointModel(
+        id: oldPoint.id,
+        name: 'Updated name',
+        pointType: oldPoint.pointType,
+        item1: 'item1',
+        item2: 'item2',
+        item3: 'item3',
+        item4: 'item4',
+        item5: 'item5',
+      );
       await pointFloorGateway.updatePoint(modifiedPoint);
       //
       PointModel updatedPoint = await pointFloorGateway.getPointById(1);

@@ -163,6 +163,11 @@ class GetApproach {
           name: element.name,
           pointType: getPointTypeFromString(element.pointType),
           value: Constants.minPoints,
+          item1: element.item1,
+          item2: element.item2,
+          item3: element.item3,
+          item4: element.item4,
+          item5: element.item5,
         ));
         approach = ApproachEntity(
           id: null,
@@ -191,6 +196,11 @@ class GetApproach {
           name: element.pointName,
           pointType: getPointTypeFromString(element.pointType),
           value: element.pointValue,
+          item1: element.item1,
+          item2: element.item2,
+          item3: element.item3,
+          item4: element.item4,
+          item5: element.item5,
         ));
         approach = ApproachEntity(
           id: approachModel.id,

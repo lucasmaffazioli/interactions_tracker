@@ -48,7 +48,7 @@ class ApproachSummaryView {
 }
 
 @DatabaseView('''
-SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType
+SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType, p.item1, p.item2, p.item3, p.item4, p.item5 
 FROM approach_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
@@ -60,6 +60,11 @@ class ApproachPointsView {
   final String pointName;
   final int pointValue;
   final String pointType;
+  final String item1;
+  final String item2;
+  final String item3;
+  final String item4;
+  final String item5;
 
   ApproachPointsView({
     this.approachId,
@@ -67,6 +72,11 @@ class ApproachPointsView {
     this.pointName,
     this.pointValue,
     this.pointType,
+    this.item1,
+    this.item2,
+    this.item3,
+    this.item4,
+    this.item5,
   });
 
   String toJson() {
@@ -76,6 +86,11 @@ class ApproachPointsView {
       'pointName': pointName,
       'pointValue': pointValue.toString(),
       'pointType': pointType,
+      'item1': item1,
+      'item2': item2,
+      'item3': item3,
+      'item4': item4,
+      'item5': item5,
     });
   }
 }
