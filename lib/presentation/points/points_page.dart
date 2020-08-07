@@ -1,5 +1,4 @@
 import 'package:cold_app/presentation/common/translations.i18n.dart';
-import 'package:cold_app/domain/usecases/point_usecases.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/points/controller.dart';
 import 'package:cold_app/presentation/points/edit_point_page.dart';
@@ -53,6 +52,10 @@ class _PointsPageState extends State<PointsPage> {
             print('project snapshot data is: ${snapshot.data}');
             print('project has data is: ${snapshot.hasData.toString()}');
 
+            if (snapshot.hasError) {
+              return Container(child: Text(snapshot.error.toString()));
+            }
+
             if (snapshot.connectionState != ConnectionState.done && snapshot.hasData) {
               print('project snapshot data is: ${snapshot.data}');
               print('project snapshot error is: ${snapshot.error}');
@@ -83,6 +86,7 @@ class _PointsPageState extends State<PointsPage> {
                     });
                   },
                   child: ListTile(
+                    leading: FaIcon(item.iconData),
                     title: Text(item.name),
                   ),
                 );

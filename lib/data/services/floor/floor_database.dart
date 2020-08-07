@@ -75,27 +75,27 @@ void initializeDatabase(AppDatabase database) async {
       // configModel.lastRunVersion == null
       ) {
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Visual contact'.i18n} visual', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Visual contact'.i18n} visual', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Physical posture'.i18n} física', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Physical posture'.i18n} física', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Vocal projection'.i18n} vocal', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Vocal projection'.i18n} vocal', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Calibration'.i18n}', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Calibration'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Frame'.i18n}', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Frame'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Boldness'.i18n}', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Boldness'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'My own styling'.i18n}', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'My own styling'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Confidence'.i18n}', 'skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Confidence'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Difficulty'.i18n}', 'difficulty', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Difficulty'.i18n}', 'PointType.difficulty', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Attraction'.i18n}', 'attraction', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Attraction'.i18n}', 'PointType.attraction', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Result'.i18n}', 'result', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Result'.i18n}', 'PointType.result', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery("INSERT INTO goals(id, weeklyApproachGoal) VALUES('1', 10);");
     print('First DB use configured');
     await database.configModelDao.insertConfigModel(ConfigModel(lastRunVersion: 1));

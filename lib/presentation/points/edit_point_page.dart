@@ -1,3 +1,4 @@
+import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/domain/usecases/point_usecases.dart';
 import 'package:cold_app/presentation/add_approach_page/form_input/text_form_input.dart';
@@ -11,7 +12,7 @@ class EditPointPage extends StatelessWidget {
   final String appBarTitle;
   final int pointId;
   final String pointName;
-  final String pointType;
+  final PointType pointType;
   final String item1;
   final String item2;
   final String item3;
@@ -128,19 +129,22 @@ class EditPointPage extends StatelessWidget {
               Container(
                 child: Row(
                   children: <Widget>[
-                    Expanded(
-                      child: LargeButton(
-                          backgroundColor: Constants.red,
-                          onPressed: () {
-                            // if (_formKey.currentState.validate()) {
-                            //   _formKey.currentState.save();
-                            showDeleteConfirmationPopup(context, onConfirm: () async {
-                              await DeletePoint().call(pointId);
-                              Navigator.maybePop(context);
-                            }).then((value) => Navigator.maybePop(context));
-                            // }
-                          },
-                          name: 'Delete'.i18n),
+                    Visibility(
+                      visible: pointType == PointType.skill,
+                      child: Expanded(
+                        child: LargeButton(
+                            backgroundColor: Constants.red,
+                            onPressed: () {
+                              // if (_formKey.currentState.validate()) {
+                              //   _formKey.currentState.save();
+                              showDeleteConfirmationPopup(context, onConfirm: () async {
+                                await DeletePoint().call(pointId);
+                                Navigator.maybePop(context);
+                              }).then((value) => Navigator.maybePop(context));
+                              // }
+                            },
+                            name: 'Delete'.i18n),
+                      ),
                     ),
                     Expanded(
                       child: LargeButton(

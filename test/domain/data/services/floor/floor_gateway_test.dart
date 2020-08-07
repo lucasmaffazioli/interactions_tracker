@@ -42,7 +42,7 @@ void main() {
   PointModel testPointModel = PointModel(
     id: null,
     name: 'Beleza',
-    pointType: PointTypeDataLayer.attraction,
+    pointType: PointType.attraction.toString(),
     item1: 'item1',
     item2: 'item2',
     item3: 'item3',

@@ -8,28 +8,42 @@ enum PointType {
   result,
 }
 
-class PointTypeDataLayer {
-  static final String skill = 'skill';
-  static final String attraction = 'attraction';
-  static final String result = 'result';
-}
+// class PointTypeDataLayer {
+//   static final String skill = 'skill';
+//   static final String attraction = 'attraction';
+//   static final String result = 'result';
+// }
 
 PointType getPointTypeFromString(String str) {
   PointType pointType;
   switch (str) {
-    case 'skill':
+    case 'PointType.skill':
       pointType = PointType.skill;
       break;
-    case 'attraction':
+    case 'PointType.attraction':
       pointType = PointType.attraction;
       break;
-    case 'difficulty':
+    case 'PointType.difficulty':
       pointType = PointType.difficulty;
       break;
-    case 'result':
+    case 'PointType.result':
       pointType = PointType.result;
       break;
   }
+  // switch (str) {
+  //   case 'skill':
+  //     pointType = PointType.skill;
+  //     break;
+  //   case 'attraction':
+  //     pointType = PointType.attraction;
+  //     break;
+  //   case 'difficulty':
+  //     pointType = PointType.difficulty;
+  //     break;
+  //   case 'result':
+  //     pointType = PointType.result;
+  //     break;
+  // }
 
   return pointType;
 }

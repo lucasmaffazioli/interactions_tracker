@@ -9,7 +9,7 @@ class ApproachEntity {
   final String name;
   final String description;
   final String notes;
-  final List<PointEntity> points;
+  final List<ApproachPointEntity> points;
 
   ApproachEntity({
     @required this.id,
@@ -64,24 +64,28 @@ class ApproachEntity {
       points: points,
     );
   }
+}
 
-  // : this.id = map['id'],
-  //   this.dateTime = DateTime.parse(map['dateTime']),
-  //   this.name = map['name'],
-  //   this.description = map['description'],
-  //   this.notes = map['notes'],
-  //   // this.points = map['points']
-  //   //     .map((e) => PointEntity.fromMap(e))
-  //   //     .toList(); //List[PointEntity.fromMap(map['points'])];
-  //   this.points = map['points'].map<List<PointEntity>>((e) {
-  //     print(e);
-  //     final a = PointEntity.fromMap(e);
-  //     return a;
-  //   }).toList(); //List[PointEntity.fromMap(map['points'])];
-
-  // this.points = _convertMapPoints(map['points']); //List[PointEntity.fromMap(map['points'])];
-
-  // List<PointEntity> _convertMapPoints(Map map) {
-  //   List<PointEntity> returnList;
-  // }
+class ApproachPointEntity extends PointEntity {
+  final int value;
+  ApproachPointEntity({
+    @required id,
+    @required name,
+    @required this.value,
+    @required pointType,
+    @required item1,
+    @required item2,
+    @required item3,
+    @required item4,
+    @required item5,
+  }) : super(
+          id: id,
+          name: name,
+          pointType: pointType,
+          item1: item1,
+          item2: item2,
+          item3: item3,
+          item4: item4,
+          item5: item5,
+        );
 }

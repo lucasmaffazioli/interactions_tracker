@@ -20,15 +20,15 @@ class DashBoardPageController {
     MyLineChartData lineChart = await GetGraphLinesData().call();
     print('getDashboardLineData ENNNND');
 
-    lineChart.lines.forEach((element) {
-      print('element.pointId');
-      print(element.pointId);
-      element.pointData.forEach((e) {
-        print('e.approachName');
-        print(e.approachName);
-        print(e.position);
-      });
-    });
+    // lineChart.lines.forEach((element) {
+    // print('element.pointId');
+    // print(element.pointId);
+    // element.pointData.forEach((e) {
+    // print('e.approachName');
+    // print(e.approachName);
+    // print(e.position);
+    // });
+    // });
     // print
 
     // List<WeekComplexData> weeks = await GetApproachesComplexGraphsData().call();

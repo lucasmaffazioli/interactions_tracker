@@ -113,7 +113,7 @@ class AddApproachController {
       approachPresentation.time.minute,
       approachPresentation.date.second,
     );
-    List<PointEntity> points = [];
+    List<ApproachPointEntity> points = [];
 
     // print('Saving approach');
     // print(approachPresentation.date);
@@ -125,7 +125,7 @@ class AddApproachController {
       print(element.value);
       //
       if (!element.isHeader)
-        points.add(PointEntity(
+        points.add(ApproachPointEntity(
           id: element.id,
           name: element.name,
           pointType: element.pointType,

@@ -153,12 +153,12 @@ class GetApproach {
     ApproachModel approachModel;
     //
     ApproachEntity approach;
-    List<PointEntity> points = [];
+    List<ApproachPointEntity> points = [];
     //
     if (id == null) {
       List<PointModel> allPointsModel = await pointFloorGateway.getAllPoint();
       allPointsModel.forEach((element) {
-        points.add(PointEntity(
+        points.add(ApproachPointEntity(
           id: element.id,
           name: element.name,
           pointType: getPointTypeFromString(element.pointType),
@@ -191,7 +191,7 @@ class GetApproach {
       //
       approachPointsView.forEach((element) {
         print(element.toJson());
-        points.add(PointEntity(
+        points.add(ApproachPointEntity(
           id: element.pointId,
           name: element.pointName,
           pointType: getPointTypeFromString(element.pointType),

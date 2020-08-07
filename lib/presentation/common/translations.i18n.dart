@@ -313,7 +313,7 @@ extension Localization on String {
 
   // String get i18n => localize(this, _t);
   String get i18n {
-    print('Translating ' + this);
+    // print('Translating ' + this);
     return localize(this, _t);
   }
 

@@ -107,7 +107,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
         // print('project has error is: ${snapshot.hasError} - ${snapshot.error.toString()}');
         // print('project has data is: ${snapshot.hasData.toString()}');
         if (snapshot.hasError) {
-          return Container(child: Text('Error loading data!'));
+          return Container(child: Text(snapshot.error.toString()));
         }
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Loading();
