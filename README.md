@@ -14,14 +14,10 @@ TODO:
 
 - Limitar quantidade de objetivo de approaches (0)
 - Ao editar/criar approach, exigir confirmação para sair da tela;
-- Ao alterar objetivo, dashboard não atualiza automaticamente
 - Dashboard deve atualizar com Provider ou algo assim
+	Ao alterar objetivo, dashboard não atualiza automaticamente
 - Criar forma de lockar o app com senha
 - Abordagens? Interações soa bem melhor
-- Mais categorias:
-	Boldness
-	My Appearence
-- Notas devem ter no máximo 5 pontos, para não ser tão difícil atribuir uma nota
 - Incluir combobox de tipo de interação. Warm-up, platonic, romantic
 - Resultado deve ser medido com SUCESSO. Isso pode ser resolvido dando a oportunidade ao usuario alterar o que cada ponto significa.
 

@@ -38,25 +38,3 @@ class GetAllPoints {
     return await pointFloorGateway.getAllPoint();
   }
 }
-
-class PointPresentation {
-  final int id;
-  final String name;
-  final String pointType;
-  final String item1;
-  final String item2;
-  final String item3;
-  final String item4;
-  final String item5;
-
-  PointPresentation({
-    @required this.id,
-    @required this.name,
-    @required this.pointType,
-    @required this.item1,
-    @required this.item2,
-    @required this.item3,
-    @required this.item4,
-    @required this.item5,
-  });
-}
