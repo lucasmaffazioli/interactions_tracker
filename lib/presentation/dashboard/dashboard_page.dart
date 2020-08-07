@@ -1,6 +1,5 @@
 import 'package:cold_app/domain/usecases/dashboard_usecases.dart';
 import 'package:cold_app/presentation/common/loading.dart';
-import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/dashboard/components/chart_vertical.dart';

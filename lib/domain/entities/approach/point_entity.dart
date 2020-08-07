@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/presentation/common/constants.dart';
 import 'package:flutter/foundation.dart';
 
 class PointEntity {

@@ -1,11 +1,9 @@
 import 'package:cold_app/data/models/approach/approach_model.dart';
-import 'package:cold_app/data/models/approach/dashboard.dart';
 import 'package:cold_app/data/models/approach/goals_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 import 'package:cold_app/core/extensions/date_time_extension.dart';
 
 ApproachFloorGateway approachGateway = ApproachFloorGateway();

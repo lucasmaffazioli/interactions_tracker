@@ -3,7 +3,6 @@ import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
 import 'package:cold_app/domain/usecases/approach_usecases.dart';
 import 'package:flutter/material.dart';
-import 'package:cold_app/domain/entities/approach/point_entity.dart';
 
 class AddApproachController {
   Future<ApproachPresentation> getApproach(context, approachId) async {

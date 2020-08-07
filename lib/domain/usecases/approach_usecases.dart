@@ -10,7 +10,6 @@ import 'package:cold_app/data/models/approach/point_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/data/services/storage.dart';
 import 'package:cold_app/domain/entities/approach/approach_entity.dart';
-import 'package:cold_app/domain/entities/approach/point_entity.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 
 ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
