@@ -13,7 +13,6 @@ TODO:
 	https://uxdesign.cc/designing-charts-principles-every-designer-should-know-part-2-ce1e06af56fc
 
 - Limitar quantidade de objetivo de approaches (0)
-- Ao editar/criar approach, exigir confirmação para sair da tela;
 - Dashboard deve atualizar com Provider ou algo assim
 	Ao alterar objetivo, dashboard não atualiza automaticamente
 - Criar forma de lockar o app com senha
