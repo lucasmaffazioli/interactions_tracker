@@ -1,3 +1,4 @@
+import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_approach_page/controller.dart';
@@ -11,15 +12,23 @@ import 'form_input/date_form_input.dart';
 import 'form_input/text_form_input.dart';
 import 'form_input/time_form_input.dart';
 
-class AddApproachPage extends StatelessWidget {
+class AddApproachPage extends StatefulWidget {
   final int approachId;
 
   AddApproachPage({Key key, this.approachId}) : super(key: key);
 
+  @override
+  _AddApproachPageState createState() => _AddApproachPageState();
+}
+
+class _AddApproachPageState extends State<AddApproachPage> {
   ApproachPresentation approachPresentation = ApproachPresentation();
+
   final AddApproachController controller = AddApproachController();
 
   final _formKey = GlobalKey<FormState>();
+
+  bool wasModified = false;
 
   String _requiredValidator(value) {
     if (value == null || value == '') {
@@ -28,114 +37,139 @@ class AddApproachPage extends StatelessWidget {
     return null;
   }
 
+  Future<bool> _onWillPop() async {
+    if (wasModified) {
+      await showConfirmationPopup(
+        context,
+        text: 'You have unsaved changes, do you really want to exit?'.i18n,
+        buttonConfirmText: 'Yes'.i18n,
+        buttonCancelText: 'Cancel'.i18n,
+        onConfirm: () => Navigator.of(context).pop(true),
+      ).then((value) {
+        if (value.toString() == 'Confirmed') {
+          Navigator.of(context).pop(true);
+        }
+      });
+    } else {
+      Navigator.pop(context, true);
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<ApproachPresentation> approachPresentationFuture =
-        controller.getApproach(context, approachId);
+        controller.getApproach(context, widget.approachId);
 
-    return Scaffold(
-      appBar: BaseAppBar(
-        'New Approach'.i18n,
-        appBar: AppBar(),
-        hasBackButton: true,
-      ),
-      body: FutureBuilder<ApproachPresentation>(
-          future: approachPresentationFuture,
-          builder: (context, AsyncSnapshot snapshot) {
-            // print('projectconnection state is: ${snapshot.connectionState}');
-            // print('project snapshot data is: ${snapshot.data}');
-            // print('project has data is: ${snapshot.hasData.toString()}');
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        appBar: BaseAppBar(
+          'New Approach'.i18n,
+          appBar: AppBar(),
+          hasBackButton: true,
+        ),
+        body: FutureBuilder<ApproachPresentation>(
+            future: approachPresentationFuture,
+            builder: (context, AsyncSnapshot snapshot) {
+              // print('projectconnection state is: ${snapshot.connectionState}');
+              // print('project snapshot data is: ${snapshot.data}');
+              // print('project has data is: ${snapshot.hasData.toString()}');
 
-            if (snapshot.connectionState != ConnectionState.done) {
-              print('project snapshot data is: ${snapshot.data}');
-              return Container(child: Text('Loading data....'));
-            }
-            approachPresentation = snapshot.data;
-            print('approachPresentation.toJson');
-            print(approachPresentation.points[0].item1);
-            return SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                // autovalidate: true,
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Expanded(
-                                child: DateFormInput(
-                                  title: 'Date'.i18n + ' *',
-                                  initialValue: approachPresentation.date,
-                                  validator: _requiredValidator,
-                                  onSave: ((value) {
-                                    approachPresentation.date = value;
-                                  }),
+              if (snapshot.connectionState != ConnectionState.done) {
+                print('project snapshot data is: ${snapshot.data}');
+                return Container(child: Text('Loading data....'));
+              }
+              approachPresentation = snapshot.data;
+              print('approachPresentation.toJson');
+              print(approachPresentation.points[0].item1);
+              return SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  // autovalidate: true,
+                  onChanged: () => wasModified = true,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                        child: Column(
+                          children: <Widget>[
+                            Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: <Widget>[
+                                Expanded(
+                                  child: DateFormInput(
+                                    title: 'Date'.i18n + ' *',
+                                    initialValue: approachPresentation.date,
+                                    validator: _requiredValidator,
+                                    // wasModified: _wasModified,
+                                    onSave: ((value) {
+                                      approachPresentation.date = value;
+                                    }),
+                                  ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 25,
-                              ),
-                              Expanded(
-                                child: TimeFormInput(
-                                  title: 'Time'.i18n + ' *',
-                                  initialValue: approachPresentation.time,
-                                  onSave: ((value) {
-                                    approachPresentation.time = value;
-                                  }),
+                                SizedBox(
+                                  width: 25,
                                 ),
-                              ),
-                            ],
-                          ),
-                          TextFormInput(
-                            title: 'Name'.i18n + ' *',
-                            validator: _requiredValidator,
-                            initialValue: approachPresentation.name,
-                            onSave: ((value) {
-                              approachPresentation.name = value;
-                            }),
-                          ),
-                          TextFormInput(
-                            title: 'Summary'.i18n + ' *',
-                            validator: _requiredValidator,
-                            initialValue: approachPresentation.description,
-                            onSave: ((value) {
-                              approachPresentation.description = value;
-                            }),
-                          ),
-                          TextFormInput(
-                            title: 'Notes'.i18n,
-                            maxLines: 5,
-                            minLines: 3,
-                            initialValue: approachPresentation.notes,
-                            onSave: ((value) {
-                              approachPresentation.notes = value;
-                            }),
-                          ),
-                          _Points(
-                            pointPresentation: approachPresentation.points,
-                            onSave: ((value) {
-                              // approachPresentation.description = value;
-                              print('value on call');
-                              print(value);
-                            }),
-                          ),
-                        ],
+                                Expanded(
+                                  child: TimeFormInput(
+                                    title: 'Time'.i18n + ' *',
+                                    initialValue: approachPresentation.time,
+                                    onSave: ((value) {
+                                      approachPresentation.time = value;
+                                    }),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TextFormInput(
+                              title: 'Name'.i18n + ' *',
+                              validator: _requiredValidator,
+                              initialValue: approachPresentation.name,
+                              onSave: ((value) {
+                                approachPresentation.name = value;
+                              }),
+                            ),
+                            TextFormInput(
+                              title: 'Summary'.i18n + ' *',
+                              validator: _requiredValidator,
+                              initialValue: approachPresentation.description,
+                              onSave: ((value) {
+                                approachPresentation.description = value;
+                              }),
+                            ),
+                            TextFormInput(
+                              title: 'Notes'.i18n,
+                              maxLines: 5,
+                              minLines: 3,
+                              initialValue: approachPresentation.notes,
+                              onSave: ((value) {
+                                approachPresentation.notes = value;
+                              }),
+                            ),
+                            _Points(
+                              pointPresentation: approachPresentation.points,
+                              onSave: ((value) {
+                                // approachPresentation.description = value;
+                                print('value on call');
+                                print(value);
+                              }),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    LargeButton(
-                      backgroundColor: Constants.accent,
-                      onPressed: () => _saveForm(context),
-                      name: 'Save'.i18n,
-                    ),
-                  ],
+                      LargeButton(
+                        backgroundColor: Constants.accent,
+                        onPressed: () => _saveForm(context),
+                        name: 'Save'.i18n,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 
