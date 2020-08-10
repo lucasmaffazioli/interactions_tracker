@@ -239,7 +239,7 @@ class __PointsState extends State<_Points> {
       // index++;
       if (item.isHeader) {
         listWidgets.add(TitleWithIcon(
-          item.headerTitle.i18n,
+          item.headerTitle,
           iconData: item.headerIcon,
         ));
         listWidgets.add(SizedBox(height: 10));

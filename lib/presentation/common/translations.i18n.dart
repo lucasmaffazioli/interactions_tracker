@@ -183,11 +183,15 @@ extension Localization on String {
         "pt": "Objetivos",
       } +
       {
+        "en": "Goals",
+        "pt": "Objetivos",
+      } +
+      {
         "en": "Weekly approaches",
         "pt": "Abordagens semanais",
       } +
       {
-        "en": " is not a number!",
+        "en": " is not a number",
         "pt": " não é um número",
       } +
       {
@@ -305,6 +309,10 @@ extension Localization on String {
       {
         "en": "Strong",
         "pt": "Forte",
+      } +
+      {
+        "en": "The maximum value for weekly goals is 100",
+        "pt": "O valor máximo para abordagens semanais é 100",
       } +
       {
         "en": "Date",

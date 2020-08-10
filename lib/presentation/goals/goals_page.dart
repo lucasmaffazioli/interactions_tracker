@@ -24,11 +24,11 @@ class GoalsPage extends StatelessWidget {
 
     final n = num.tryParse(value);
     if (n == null) {
-      return '$value ' + ' is not a number!'.i18n;
+      return '$value ' + ' is not a number'.i18n;
     }
 
     if (n > 100) {
-      return 'The maximum value for weekly goals is 100!'.i18n;
+      return 'The maximum value for weekly goals is 100'.i18n;
     }
     return null;
   }
