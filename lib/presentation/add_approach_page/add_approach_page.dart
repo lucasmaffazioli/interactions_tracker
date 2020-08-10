@@ -180,7 +180,8 @@ class _AddApproachPageState extends State<AddApproachPage> {
       _formKey.currentState.save();
 
       controller.saveApproach(approachPresentation);
-      Navigator.maybePop(context);
+      // Navigator.maybePop(context);
+      Navigator.pop(context);
 
       // print('approachPresentation.date');
       // print(approachPresentation.date);
