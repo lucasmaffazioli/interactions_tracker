@@ -214,15 +214,14 @@ class MyLineChartData {
       selectedLineIndex = lines.indexWhere((element) => element.pointId == pointId);
     }
 
-    lines[selectedLineIndex].pointData.add(PointData(
-          approachId: approachId,
-          approachName: approachName,
-          position: x,
-          value: pointValue,
-        ));
-
-    // for (int i; i <= lines.length; i++) {
-    // }
+    lines[selectedLineIndex].pointData.add(
+          PointData(
+            approachId: approachId,
+            approachName: approachName,
+            position: x,
+            value: pointValue,
+          ),
+        );
   }
 }
 

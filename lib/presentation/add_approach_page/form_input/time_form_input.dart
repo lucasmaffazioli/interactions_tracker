@@ -51,12 +51,13 @@ class _TimeFormInputState extends State<TimeFormInput> {
       context: context,
       initialTime: _selectedTime,
     );
-    if (picked != null && picked != _selectedTime) print(picked);
-    // setState(() {
-    _selectedTime = picked;
-    _controller.text =
-        _selectedTime.hour.toString() + ':' + _selectedTime.minute.toString().padLeft(2, '0');
-    onSave(_selectedTime);
-    // });
+    if (picked != null && picked != _selectedTime) {
+      // setState(() {
+      _selectedTime = picked;
+      _controller.text =
+          _selectedTime.hour.toString() + ':' + _selectedTime.minute.toString().padLeft(2, '0');
+      onSave(_selectedTime);
+      // });
+    }
   }
 }

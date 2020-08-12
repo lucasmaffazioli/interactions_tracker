@@ -1,3 +1,4 @@
+import 'package:cold_app/presentation/common/constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -163,7 +164,7 @@ class _LineChartSample2State extends State<LineChartSample2> {
       minX: 0,
       maxX: 30,
       minY: 0,
-      maxY: 10,
+      maxY: Constants.maxPoints.toDouble(),
       lineBarsData: lineBarsData,
     );
   }
