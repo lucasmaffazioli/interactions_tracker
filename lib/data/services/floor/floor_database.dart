@@ -75,11 +75,11 @@ void initializeDatabase(AppDatabase database) async {
       // configModel.lastRunVersion == null
       ) {
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Visual contact'.i18n} visual', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Visual contact'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Physical posture'.i18n} física', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Physical posture'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Vocal projection'.i18n} vocal', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Vocal projection'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}',' ${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
         "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Calibration'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(

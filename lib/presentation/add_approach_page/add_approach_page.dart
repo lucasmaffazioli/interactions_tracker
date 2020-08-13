@@ -134,13 +134,15 @@ class _AddApproachPageState extends State<AddApproachPage> {
                               }),
                             ),
                             _Points(
-                              pointPresentation: approachPresentation.points,
-                              onSave: ((value) {
-                                // approachPresentation.description = value;
-                                print('value on call');
-                                print(value);
-                              }),
-                            ),
+                                pointPresentation: approachPresentation.points,
+                                onSave: ((value) {
+                                  // approachPresentation.description = value;
+                                  print('value on call');
+                                  print(value);
+                                }),
+                                onAnyChange: ((value) {
+                                  wasModified = true;
+                                })),
                           ],
                         ),
                       ),
@@ -206,8 +208,10 @@ class _AddApproachPageState extends State<AddApproachPage> {
 class _Points extends StatefulWidget {
   final List<PointPresentation> pointPresentation;
   final Function onSave;
+  final Function onAnyChange;
 
-  const _Points({@required this.pointPresentation, @required this.onSave, Key key})
+  const _Points(
+      {@required this.pointPresentation, @required this.onSave, this.onAnyChange, Key key})
       : super(key: key);
 
   @override
@@ -219,9 +223,7 @@ class __PointsState extends State<_Points> {
   Widget build(BuildContext context) {
     List<Widget> listWidgets = [];
 
-    // int index = 0;
     widget.pointPresentation.forEach((item) {
-      // index++;
       if (item.isHeader) {
         listWidgets.add(TitleWithIcon(
           item.headerTitle.i18n, // Specially for the PointType.skill title
@@ -241,6 +243,7 @@ class __PointsState extends State<_Points> {
           item4: item.item4,
           item5: item.item5,
           onChanged: ((double value) {
+            widget.onAnyChange(value);
             setState(() {
               item.value = value.toInt();
             });
