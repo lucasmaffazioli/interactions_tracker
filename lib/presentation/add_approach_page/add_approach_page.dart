@@ -1,3 +1,4 @@
+import 'package:cold_app/presentation/common/on_will_pop_helper.dart';
 import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
@@ -38,23 +39,7 @@ class _AddApproachPageState extends State<AddApproachPage> {
   }
 
   Future<bool> _onWillPop() async {
-    if (wasModified) {
-      await showConfirmationPopup(
-        context,
-        text: 'You have unsaved changes, do you really want to exit?'.i18n,
-        buttonConfirmText: 'Yes'.i18n,
-        buttonCancelText: 'Cancel'.i18n,
-        onConfirm: () => Navigator.of(context).pop(true),
-      ).then((value) {
-        if (value.toString() == 'Confirmed') {
-          Navigator.of(context).pop(true);
-        }
-      });
-    } else {
-      Navigator.pop(context, true);
-    }
-
-    return true;
+    return await onWillPop(context, wasModified);
   }
 
   @override

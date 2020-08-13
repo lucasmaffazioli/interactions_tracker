@@ -315,6 +315,14 @@ extension Localization on String {
         "pt": "O valor máximo para abordagens semanais é 100",
       } +
       {
+        "en": "You have unsaved changes, do you really want to exit?",
+        "pt": "Você tem alterações não salvas, tem certeza que quer continuar?",
+      } +
+      {
+        "en": "Yes",
+        "pt": "Sim",
+      } +
+      {
         "en": "Date",
         "pt": "Data",
       };

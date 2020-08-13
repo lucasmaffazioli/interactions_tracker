@@ -126,16 +126,16 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
               ),
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Text(
-                  'Analysis'.i18n,
-                  style: Constants.textH1,
-                ),
-              ),
-            ),
-            ComplexGraph(),
+            // Center(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(12.0),
+            //     child: Text(
+            //       'Analysis'.i18n,
+            //       style: Constants.textH1,
+            //     ),
+            //   ),
+            // ),
+            // ComplexGraph(),
             SizedBox(
               height: 25,
             ),
