@@ -1,21 +1,21 @@
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/domain/entities/approach/approach_entity.dart';
-import 'package:cold_app/domain/usecases/approach_usecases.dart';
+import 'package:cold_app/domain/entities/interaction/interaction_entity.dart';
+import 'package:cold_app/domain/usecases/interaction_usecases.dart';
 import 'package:flutter/material.dart';
 
-class AddApproachController {
-  Future<ApproachPresentation> getApproach(context, approachId) async {
-    ApproachEntity approachEntity = await GetApproach().call(approachId);
+class AddInteractionController {
+  Future<InteractionPresentation> getInteraction(context, interactionId) async {
+    InteractionEntity interactionEntity = await GetInteraction().call(interactionId);
     //
     List<PointPresentation> pointPresentationList = [];
     //
     PointType lastPointType;
     //
-    print('controller.dart: approachEntity.toJson()');
-    print(approachEntity.toJson());
+    print('controller.dart: interactionEntity.toJson()');
+    print(interactionEntity.toJson());
     //
-    approachEntity.points.forEach((element) {
+    interactionEntity.points.forEach((element) {
       if (element.pointType == PointType.skill) {
         if (lastPointType != element.pointType) {
           pointPresentationList.add(PointPresentation(
@@ -51,7 +51,7 @@ class AddApproachController {
       headerTitle: 'Other'.i18n,
       headerIcon: null,
     ));
-    approachEntity.points.forEach((element) {
+    interactionEntity.points.forEach((element) {
       if (element.pointType != PointType.skill) {
         if (lastPointType != element.pointType) {
           //
@@ -75,56 +75,56 @@ class AddApproachController {
     //
     //
     //
-    ApproachPresentation approachPresentation = ApproachPresentation(
-      id: approachEntity.id,
-      date: approachEntity.dateTime.toLocal(),
-      time: TimeOfDay.fromDateTime(approachEntity.dateTime),
-      name: approachEntity.name,
-      description: approachEntity.description,
-      notes: approachEntity.notes,
+    InteractionPresentation interactionPresentation = InteractionPresentation(
+      id: interactionEntity.id,
+      date: interactionEntity.dateTime.toLocal(),
+      time: TimeOfDay.fromDateTime(interactionEntity.dateTime),
+      name: interactionEntity.name,
+      description: interactionEntity.description,
+      notes: interactionEntity.notes,
       points: pointPresentationList,
     );
 
-    // print(approachPresentation.name);
-    // approachPresentation.points.forEach((element) {
+    // print(interactionPresentation.name);
+    // interactionPresentation.points.forEach((element) {
     //   print(element.isHeader.toString());
     //   print(element.headerTitle);
     //   print(element.name);
     // });
 
-    // print(approachPresentation);
+    // print(interactionPresentation);
 
-    return approachPresentation;
+    return interactionPresentation;
   }
 
-  void saveApproach(ApproachPresentation approachPresentation) async {
+  void saveInteraction(InteractionPresentation interactionPresentation) async {
     print('save app1');
-    print(approachPresentation.date);
-    print(approachPresentation.date.toString());
-    print(approachPresentation.date.toIso8601String());
-    print(approachPresentation.date.day.toString());
+    print(interactionPresentation.date);
+    print(interactionPresentation.date.toString());
+    print(interactionPresentation.date.toIso8601String());
+    print(interactionPresentation.date.day.toString());
 
     final DateTime dateTime = DateTime(
-      approachPresentation.date.year,
-      approachPresentation.date.month,
-      approachPresentation.date.day,
-      approachPresentation.time.hour,
-      approachPresentation.time.minute,
-      approachPresentation.date.second,
+      interactionPresentation.date.year,
+      interactionPresentation.date.month,
+      interactionPresentation.date.day,
+      interactionPresentation.time.hour,
+      interactionPresentation.time.minute,
+      interactionPresentation.date.second,
     );
-    List<ApproachPointEntity> points = [];
+    List<InteractionPointEntity> points = [];
 
-    // print('Saving approach');
-    // print(approachPresentation.date);
-    // print(approachPresentation.time);
+    // print('Saving interaction');
+    // print(interactionPresentation.date);
+    // print(interactionPresentation.time);
     // print(dateTime.toString());
-    approachPresentation.points.forEach((element) {
+    interactionPresentation.points.forEach((element) {
       print('forEach presentation points');
       print(element.name);
       print(element.value);
       //
       if (!element.isHeader)
-        points.add(ApproachPointEntity(
+        points.add(InteractionPointEntity(
           id: element.id,
           name: element.name,
           pointType: element.pointType,
@@ -139,23 +139,23 @@ class AddApproachController {
     //
     //
     //
-    ApproachEntity approachEntity = ApproachEntity(
-      id: approachPresentation.id,
+    InteractionEntity interactionEntity = InteractionEntity(
+      id: interactionPresentation.id,
       dateTime: dateTime,
-      name: approachPresentation.name,
-      description: approachPresentation.description,
-      notes: approachPresentation.notes,
+      name: interactionPresentation.name,
+      description: interactionPresentation.description,
+      notes: interactionPresentation.notes,
       points: points,
     );
     //
-    await SaveApproach().call(approachEntity);
-    // if (approachEntity.id == null) await SaveApproach().call(approachEntity);
-    // if (approachEntity.id == null) await SaveApproach().call(approachEntity);
-    // if (approachEntity.id == null) await SaveApproach().call(approachEntity);
+    await SaveInteraction().call(interactionEntity);
+    // if (interactionEntity.id == null) await SaveInteraction().call(interactionEntity);
+    // if (interactionEntity.id == null) await SaveInteraction().call(interactionEntity);
+    // if (interactionEntity.id == null) await SaveInteraction().call(interactionEntity);
   }
 }
 
-class ApproachPresentation {
+class InteractionPresentation {
   int id;
   DateTime date;
   TimeOfDay time;
@@ -164,7 +164,7 @@ class ApproachPresentation {
   String notes;
   List<PointPresentation> points;
 
-  ApproachPresentation(
+  InteractionPresentation(
       {this.id, this.date, this.time, this.name, this.description, this.notes, this.points});
 }
 

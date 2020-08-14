@@ -1,39 +1,39 @@
 // import 'package:cold_app/core/enums/PointType.dart';
-// import 'package:cold_app/domain/entities/approach/approach_entity.dart';
+// import 'package:cold_app/domain/entities/interaction/interaction_entity.dart';
 // import 'package:flutter_test/flutter_test.dart';
 
-// import '../../approachTestModel.dart';
+// import '../../interactionTestModel.dart';
 
 // void main() {
-//   ApproachEntity approach = testGetApproach();
+//   InteractionEntity interaction = testGetInteraction();
 
 //   setUpAll(() {});
 
 //   test('is DateTime correct', () {
-//     expect(approach.dateTime, DateTime(2020, 06, 13, 13, 30));
+//     expect(interaction.dateTime, DateTime(2020, 06, 13, 13, 30));
 //   });
 
 //   test('is skills correct', () {
-//     expect(approach.points[3].pointType, PointType.skill);
-//     expect(approach.points[3].name, 'Calibration');
-//     expect(approach.points[3].value, 0);
+//     expect(interaction.points[3].pointType, PointType.skill);
+//     expect(interaction.points[3].name, 'Calibration');
+//     expect(interaction.points[3].value, 0);
 //   });
 
 //   test('are parms ok', () {
 //     expect(
-//       approach.dateTime,
+//       interaction.dateTime,
 //       DateTime(2020, 06, 13, 13, 30),
 //     );
 //     expect(
-//       approach.name,
+//       interaction.name,
 //       'Teste',
 //     );
 //     expect(
-//       approach.description,
+//       interaction.description,
 //       'Beautiful day',
 //     );
 //     expect(
-//       approach.notes,
+//       interaction.notes,
 //       'Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
 //     );
 //   });

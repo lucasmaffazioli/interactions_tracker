@@ -1,17 +1,17 @@
-import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/domain/usecases/approach_usecases.dart';
+import 'package:cold_app/data/models/interaction/interaction_views.dart';
+import 'package:cold_app/domain/usecases/interaction_usecases.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../core/extensions/string_extension.dart';
 
-class ApproachesController {
-  Future<int> deleteApproaches(List<int> approachesId) async {
+class InteractionsController {
+  Future<int> deleteInteractions(List<int> interactionsId) async {
     int totalDeletedItems = 0;
 
-    approachesId.forEach((element) async {
-      print('Deleting approach $element ....');
-      await DeleteApproach().call(element);
+    interactionsId.forEach((element) async {
+      print('Deleting interaction $element ....');
+      await DeleteInteraction().call(element);
       // totalDeletedItems += deletedItems;
       // if (deletedItems < 1) {
       //   print('erorrrrrr'); // TODO throw error
@@ -21,12 +21,13 @@ class ApproachesController {
     return totalDeletedItems;
   }
 
-  Stream<List<ApproachSummaryPresentation>> getAllApproachesStream(BuildContext context) async* {
-    Stream<List<ApproachSummaryView>> items = await GetAllSummaryApproachesStream().call();
-    List<ApproachSummaryPresentation> returnItems = [];
+  Stream<List<InteractionSummaryPresentation>> getAllInteractionsStream(
+      BuildContext context) async* {
+    Stream<List<InteractionSummaryView>> items = await GetAllSummaryInteractionsStream().call();
+    List<InteractionSummaryPresentation> returnItems = [];
     await Future.delayed(const Duration(milliseconds: 2000), () {});
 
-    print('getAllApproachesStream method called');
+    print('getAllInteractionsStream method called');
     await for (var value in items) {
       print('value');
       print(value);
@@ -34,7 +35,7 @@ class ApproachesController {
       value.forEach((element) {
         int _currentMonth = DateTime.parse(element.dateTime).month;
         if (_currentMonth != _lastMonth) {
-          returnItems.add(ApproachSummaryPresentation(
+          returnItems.add(InteractionSummaryPresentation(
             isMonth: true,
             month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
                 .format(DateTime.parse(element.dateTime))
@@ -42,7 +43,7 @@ class ApproachesController {
           ));
         }
 
-        returnItems.add(ApproachSummaryPresentation(
+        returnItems.add(InteractionSummaryPresentation(
           isMonth: false,
           month: DateFormat.MMMM(Localizations.localeOf(context).languageCode)
               .format(DateTime.parse(element.dateTime))
@@ -68,7 +69,7 @@ class ApproachesController {
   }
 }
 
-class ApproachSummaryPresentation {
+class InteractionSummaryPresentation {
   final bool isMonth;
   final String month;
   final String day;
@@ -81,7 +82,7 @@ class ApproachSummaryPresentation {
   final int attraction;
   final int result;
 
-  ApproachSummaryPresentation({
+  InteractionSummaryPresentation({
     @required this.isMonth,
     this.month,
     this.day,
@@ -96,14 +97,14 @@ class ApproachSummaryPresentation {
   });
 }
 
-// class MonthApproaches {
+// class MonthInteractions {
 //   final String month;
-//   final List<ApproachListItem> approachListItem;
+//   final List<InteractionListItem> interactionListItem;
 
-//   MonthApproaches(this.month, this.approachListItem);
+//   MonthInteractions(this.month, this.interactionListItem);
 // }
 
-class ApproachListItem {
+class InteractionListItem {
   final bool isMonth;
   final String title;
   final String description;
@@ -114,7 +115,7 @@ class ApproachListItem {
   final int attraction;
   final int result;
 
-  ApproachListItem({
+  InteractionListItem({
     this.isMonth = false,
     @required this.title,
     @required this.description,

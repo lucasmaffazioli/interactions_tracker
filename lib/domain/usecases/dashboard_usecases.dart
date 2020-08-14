@@ -1,31 +1,32 @@
-import 'package:cold_app/data/models/approach/approach_model.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_model.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
-import 'package:cold_app/domain/entities/approach/approach_entity.dart';
-import 'package:cold_app/domain/usecases/approach_usecases.dart';
+import 'package:cold_app/domain/entities/interaction/interaction_entity.dart';
+import 'package:cold_app/domain/usecases/interaction_usecases.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cold_app/core/extensions/date_time_extension.dart';
 
-ApproachFloorGateway approachGateway = ApproachFloorGateway();
+InteractionFloorGateway interactionGateway = InteractionFloorGateway();
 GoalsModelFloorGateway goalsGateway = GoalsModelFloorGateway();
 
-class GetApproachesSimpleGraphsData {
+class GetInteractionsSimpleGraphsData {
   Future<SimpleGraphsData> call() async {
     SimpleGraphsData simpleData = SimpleGraphsData();
     final DateTime dateTimeNow = DateTime.now();
     DateTime dateProcessing = dateTimeNow;
-    int dayApproaches;
+    int dayInteractions;
 
     int i = 0;
 
-    simpleData.monthTotalApproaches = await approachGateway.findApproachesCountByDateInterval(
-        dateTimeNow.add(Duration(days: -30)).initialDayMoment(), dateTimeNow.finalDayMoment());
-    simpleData.dayTotalApproaches = await approachGateway.findApproachesCountByDateInterval(
+    simpleData.monthTotalInteractions =
+        await interactionGateway.findInteractionsCountByDateInterval(
+            dateTimeNow.add(Duration(days: -30)).initialDayMoment(), dateTimeNow.finalDayMoment());
+    simpleData.dayTotalInteractions = await interactionGateway.findInteractionsCountByDateInterval(
         dateTimeNow.initialDayMoment(), dateTimeNow.finalDayMoment());
     final GoalsModel goal = await goalsGateway.findGoalsModel();
-    simpleData.weekGoal = goal.weeklyApproachGoal;
-    simpleData.dayGoal = goal.weeklyApproachGoal ~/ 7;
-    simpleData.monthGoal = goal.weeklyApproachGoal * 4;
+    simpleData.weekGoal = goal.weeklyInteractionGoal;
+    simpleData.dayGoal = goal.weeklyInteractionGoal ~/ 7;
+    simpleData.monthGoal = goal.weeklyInteractionGoal * 4;
 
     simpleData.currentWeekDay = dateProcessing.weekday;
 
@@ -36,56 +37,57 @@ class GetApproachesSimpleGraphsData {
       switch (dateProcessing.weekday) {
         case DateTime.sunday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.sunday = dayApproaches ?? 0;
+            simpleData.sunday = dayInteractions ?? 0;
           }
           break;
         case DateTime.monday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.monday = dayApproaches ?? 0;
+            simpleData.monday = dayInteractions ?? 0;
           }
           break;
         case DateTime.tuesday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.tuesday = dayApproaches ?? 0;
+            simpleData.tuesday = dayInteractions ?? 0;
           }
           break;
         case DateTime.wednesday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.wednesday = dayApproaches ?? 0;
+            simpleData.wednesday = dayInteractions ?? 0;
           }
           break;
         case DateTime.thursday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.thursday = dayApproaches ?? 0;
+            simpleData.thursday = dayInteractions ?? 0;
           }
           break;
         case DateTime.friday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.friday = dayApproaches ?? 0;
+            simpleData.friday = dayInteractions ?? 0;
           }
           break;
         case DateTime.saturday:
           {
-            dayApproaches = await approachGateway.findApproachesCountByDateInterval(
+            dayInteractions = await interactionGateway.findInteractionsCountByDateInterval(
                 dateProcessing.initialDayMoment(), dateProcessing.finalDayMoment());
-            simpleData.saturday = dayApproaches ?? 0;
+            simpleData.saturday = dayInteractions ?? 0;
           }
           break;
       }
-      simpleData.weekTotalApproaches += dayApproaches ?? 0;
-      if (dayApproaches > simpleData.maxApproachesDay) simpleData.maxApproachesDay = dayApproaches;
+      simpleData.weekTotalInteractions += dayInteractions ?? 0;
+      if (dayInteractions > simpleData.maxInteractionsDay)
+        simpleData.maxInteractionsDay = dayInteractions;
       //
       i++;
       dateProcessing =
@@ -99,9 +101,9 @@ class GetApproachesSimpleGraphsData {
 }
 
 class SimpleGraphsData {
-  int dayTotalApproaches;
-  int weekTotalApproaches;
-  int monthTotalApproaches;
+  int dayTotalInteractions;
+  int weekTotalInteractions;
+  int monthTotalInteractions;
   int dayGoal;
   int weekGoal;
   int monthGoal;
@@ -113,11 +115,11 @@ class SimpleGraphsData {
   int friday;
   int saturday;
   int currentWeekDay;
-  int maxApproachesDay;
+  int maxInteractionsDay;
   SimpleGraphsData({
-    this.dayTotalApproaches = 0,
-    this.weekTotalApproaches = 0,
-    this.monthTotalApproaches = 0,
+    this.dayTotalInteractions = 0,
+    this.weekTotalInteractions = 0,
+    this.monthTotalInteractions = 0,
     this.dayGoal = 0,
     this.weekGoal = 0,
     this.monthGoal = 0,
@@ -129,11 +131,11 @@ class SimpleGraphsData {
     this.friday = 0,
     this.saturday = 0,
     this.currentWeekDay = 0,
-    this.maxApproachesDay = 0,
+    this.maxInteractionsDay = 0,
   });
 }
 
-// class GetApproachesComplexGraphsData {
+// class GetInteractionsComplexGraphsData {
 //   Future<ComplexData> call() async {
 //     ComplexData complexData;
 //     DateTime dateTimeNow = DateTime.now();
@@ -161,7 +163,7 @@ class SimpleGraphsData {
 //     for (int i = 0; i < complexData.length; i++) {
 //       final week = complexData[i];
 //       complexData[i].dashboardData =
-//           await approachGateway.findDashboardDataByDateInterval(week.initialDate, week.finalDate);
+//           await interactionGateway.findDashboardDataByDateInterval(week.initialDate, week.finalDate);
 //     }
 //     print('***************  Complex dashboard data');
 
@@ -179,14 +181,14 @@ class SimpleGraphsData {
 class GetGraphLinesData {
   Future<MyLineChartData> call() async {
     MyLineChartData lineChart = MyLineChartData();
-    List<ApproachModel> approachesModel = await approachGateway.getLast30Approaches();
+    List<InteractionModel> interactionsModel = await interactionGateway.getLast30Interactions();
 
     int x = 30;
-    for (final approachModel in approachesModel) {
-      ApproachEntity approach = await GetApproach().call(approachModel.id);
+    for (final interactionModel in interactionsModel) {
+      InteractionEntity interaction = await GetInteraction().call(interactionModel.id);
 
-      for (final point in approach.points) {
-        lineChart.feedPoint(approach.id, approach.name, point.id, point.name, point.value, x);
+      for (final point in interaction.points) {
+        lineChart.feedPoint(interaction.id, interaction.name, point.id, point.name, point.value, x);
       }
       x--;
     }
@@ -201,8 +203,8 @@ class MyLineChartData {
   MyLineChartData();
 
   void feedPoint(
-    int approachId,
-    String approachName,
+    int interactionId,
+    String interactionName,
     int pointId,
     String pointName,
     int pointValue,
@@ -216,8 +218,8 @@ class MyLineChartData {
 
     lines[selectedLineIndex].pointData.add(
           PointData(
-            approachId: approachId,
-            approachName: approachName,
+            interactionId: interactionId,
+            interactionName: interactionName,
             position: x,
             value: pointValue,
           ),
@@ -234,14 +236,14 @@ class LineData {
 }
 
 class PointData {
-  final int approachId;
-  final String approachName;
+  final int interactionId;
+  final String interactionName;
   final int position;
   final int value;
 
   PointData(
-      {@required this.approachId,
-      @required this.approachName,
+      {@required this.interactionId,
+      @required this.interactionName,
       @required this.position,
       @required this.value});
 }

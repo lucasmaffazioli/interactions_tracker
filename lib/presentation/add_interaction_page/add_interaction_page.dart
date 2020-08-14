@@ -2,7 +2,7 @@ import 'package:cold_app/presentation/common/on_will_pop_helper.dart';
 import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
-import 'package:cold_app/presentation/add_approach_page/controller.dart';
+import 'package:cold_app/presentation/add_interaction_page/controller.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';
 import 'package:flutter/material.dart';
@@ -13,19 +13,19 @@ import 'form_input/date_form_input.dart';
 import 'form_input/text_form_input.dart';
 import 'form_input/time_form_input.dart';
 
-class AddApproachPage extends StatefulWidget {
-  final int approachId;
+class AddInteractionPage extends StatefulWidget {
+  final int interactionId;
 
-  AddApproachPage({Key key, this.approachId}) : super(key: key);
+  AddInteractionPage({Key key, this.interactionId}) : super(key: key);
 
   @override
-  _AddApproachPageState createState() => _AddApproachPageState();
+  _AddInteractionPageState createState() => _AddInteractionPageState();
 }
 
-class _AddApproachPageState extends State<AddApproachPage> {
-  ApproachPresentation approachPresentation = ApproachPresentation();
+class _AddInteractionPageState extends State<AddInteractionPage> {
+  InteractionPresentation interactionPresentation = InteractionPresentation();
 
-  final AddApproachController controller = AddApproachController();
+  final AddInteractionController controller = AddInteractionController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -44,19 +44,19 @@ class _AddApproachPageState extends State<AddApproachPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<ApproachPresentation> approachPresentationFuture =
-        controller.getApproach(context, widget.approachId);
+    Future<InteractionPresentation> interactionPresentationFuture =
+        controller.getInteraction(context, widget.interactionId);
 
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
         appBar: BaseAppBar(
-          'New Approach'.i18n,
+          'New Interaction'.i18n,
           appBar: AppBar(),
           hasBackButton: true,
         ),
-        body: FutureBuilder<ApproachPresentation>(
-            future: approachPresentationFuture,
+        body: FutureBuilder<InteractionPresentation>(
+            future: interactionPresentationFuture,
             builder: (context, AsyncSnapshot snapshot) {
               // print('projectconnection state is: ${snapshot.connectionState}');
               // print('project snapshot data is: ${snapshot.data}');
@@ -66,9 +66,9 @@ class _AddApproachPageState extends State<AddApproachPage> {
                 print('project snapshot data is: ${snapshot.data}');
                 return Container(child: Text('Loading data....'));
               }
-              approachPresentation = snapshot.data;
-              print('approachPresentation.toJson');
-              print(approachPresentation.points[0].item1);
+              interactionPresentation = snapshot.data;
+              print('interactionPresentation.toJson');
+              print(interactionPresentation.points[0].item1);
               return SingleChildScrollView(
                 child: Form(
                   key: _formKey,
@@ -86,11 +86,11 @@ class _AddApproachPageState extends State<AddApproachPage> {
                                 Expanded(
                                   child: DateFormInput(
                                     title: 'Date'.i18n + ' *',
-                                    initialValue: approachPresentation.date,
+                                    initialValue: interactionPresentation.date,
                                     validator: _requiredValidator,
                                     // wasModified: _wasModified,
                                     onSave: ((value) {
-                                      approachPresentation.date = value;
+                                      interactionPresentation.date = value;
                                     }),
                                   ),
                                 ),
@@ -100,9 +100,9 @@ class _AddApproachPageState extends State<AddApproachPage> {
                                 Expanded(
                                   child: TimeFormInput(
                                     title: 'Time'.i18n + ' *',
-                                    initialValue: approachPresentation.time,
+                                    initialValue: interactionPresentation.time,
                                     onSave: ((value) {
-                                      approachPresentation.time = value;
+                                      interactionPresentation.time = value;
                                     }),
                                   ),
                                 ),
@@ -111,32 +111,32 @@ class _AddApproachPageState extends State<AddApproachPage> {
                             TextFormInput(
                               title: 'Name'.i18n + ' *',
                               validator: _requiredValidator,
-                              initialValue: approachPresentation.name,
+                              initialValue: interactionPresentation.name,
                               onSave: ((value) {
-                                approachPresentation.name = value;
+                                interactionPresentation.name = value;
                               }),
                             ),
                             TextFormInput(
                               title: 'Summary'.i18n + ' *',
                               validator: _requiredValidator,
-                              initialValue: approachPresentation.description,
+                              initialValue: interactionPresentation.description,
                               onSave: ((value) {
-                                approachPresentation.description = value;
+                                interactionPresentation.description = value;
                               }),
                             ),
                             TextFormInput(
                               title: 'Notes'.i18n,
                               maxLines: 5,
                               minLines: 3,
-                              initialValue: approachPresentation.notes,
+                              initialValue: interactionPresentation.notes,
                               onSave: ((value) {
-                                approachPresentation.notes = value;
+                                interactionPresentation.notes = value;
                               }),
                             ),
                             _Points(
-                                pointPresentation: approachPresentation.points,
+                                pointPresentation: interactionPresentation.points,
                                 onSave: ((value) {
-                                  // approachPresentation.description = value;
+                                  // interactionPresentation.description = value;
                                   print('value on call');
                                   print(value);
                                 }),
@@ -166,20 +166,20 @@ class _AddApproachPageState extends State<AddApproachPage> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      controller.saveApproach(approachPresentation);
+      controller.saveInteraction(interactionPresentation);
       // Navigator.maybePop(context);
       Navigator.pop(context);
 
-      // print('approachPresentation.date');
-      // print(approachPresentation.date);
+      // print('interactionPresentation.date');
+      // print(interactionPresentation.date);
 
-      // approachPresentation.points.forEach((element) {
+      // interactionPresentation.points.forEach((element) {
       //   print(element.isHeader.toString());
       //   print(element.name);
       //   print(element.value);
       // });
-      // print(approachData.time);
-      // print(approachData.name);
+      // print(interactionData.time);
+      // print(interactionData.name);
       // If the form is valid, display a snackbar. In the real world,
       // you'd often call a server or save the information in a database.
 

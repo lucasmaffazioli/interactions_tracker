@@ -2,15 +2,15 @@ import 'package:flutter/foundation.dart';
 import '../../domain/usecases/dashboard_usecases.dart';
 
 class DashBoardPageController {
-  Future<SimpleGraphsData> getApproachesSimpleData() async {
-    // SimpleGraphsData simpleGraph = await GetApproachesSimpleGraphsData().call();
+  Future<SimpleGraphsData> getInteractionsSimpleData() async {
+    // SimpleGraphsData simpleGraph = await GetInteractionsSimpleGraphsData().call();
     // print('-------------------------simpleGraph');
-    // print(simpleGraph.monthTotalApproaches);
-    // print(simpleGraph.weekApproaches.sunday);
-    // print(simpleGraph.weekApproaches.saturday);
+    // print(simpleGraph.monthTotalInteractions);
+    // print(simpleGraph.weekInteractions.sunday);
+    // print(simpleGraph.weekInteractions.saturday);
     // print(simpleGraph.weekGoal);
     // print(simpleGraph.dayGoal);
-    return await GetApproachesSimpleGraphsData().call();
+    return await GetInteractionsSimpleGraphsData().call();
   }
 
   Future<MyLineChartData> getDashboardLineData() async {
@@ -22,15 +22,15 @@ class DashBoardPageController {
     // print('element.pointId');
     // print(element.pointId);
     // element.pointData.forEach((e) {
-    // print('e.approachName');
-    // print(e.approachName);
+    // print('e.interactionName');
+    // print(e.interactionName);
     // print(e.position);
     // });
     // });
     // print
 
-    // List<WeekComplexData> weeks = await GetApproachesComplexGraphsData().call();
-    // List<int> approachesByWeekDay = [];
+    // List<WeekComplexData> weeks = await GetInteractionsComplexGraphsData().call();
+    // List<int> interactionsByWeekDay = [];
 
     // print('foreach');
     // weeks.forEach((element) {
@@ -40,7 +40,7 @@ class DashBoardPageController {
   }
 }
 
-class TotalApproachesPresenter {
+class TotalInteractionsPresenter {
   final int sunday;
   final int monday;
   final int tuesday;
@@ -56,7 +56,7 @@ class TotalApproachesPresenter {
   final int currentWeekTotal;
   final int currentMonthTotal;
 
-  TotalApproachesPresenter({
+  TotalInteractionsPresenter({
     @required this.sunday,
     @required this.monday,
     @required this.tuesday,

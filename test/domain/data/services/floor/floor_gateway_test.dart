@@ -1,10 +1,10 @@
-import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_views.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
 import 'package:matcher/matcher.dart';
 import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/data/models/approach/approach_model.dart';
-import 'package:cold_app/data/models/approach/approach_points_model.dart';
-import 'package:cold_app/data/models/approach/point_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_points_model.dart';
+import 'package:cold_app/data/models/interaction/point_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
 import 'package:cold_app/locator.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -34,9 +34,10 @@ void main() {
 
   TestWidgetsFlutterBinding.ensureInitialized();
   PointFloorGateway pointFloorGateway = PointFloorGateway();
-  ApproachFloorGateway approachFloorGateway = ApproachFloorGateway();
-  ApproachPointsFloorGateway approachPointsFloorGateway = ApproachPointsFloorGateway();
-  ApproachSummaryViewFloorGateway approachViewsFloorGateway = ApproachSummaryViewFloorGateway();
+  InteractionFloorGateway interactionFloorGateway = InteractionFloorGateway();
+  InteractionPointsFloorGateway interactionPointsFloorGateway = InteractionPointsFloorGateway();
+  InteractionSummaryViewFloorGateway interactionViewsFloorGateway =
+      InteractionSummaryViewFloorGateway();
   GoalsModelFloorGateway goalsModelFloorGateway = GoalsModelFloorGateway();
 
   PointModel testPointModel = PointModel(
@@ -49,7 +50,7 @@ void main() {
     item4: 'item4',
     item5: 'item5',
   );
-  ApproachModel testApproachModel = ApproachModel(
+  InteractionModel testInteractionModel = InteractionModel(
       dateTime: DateTime(2020, 01, 15).toIso8601String(),
       name: 'Harry Potter',
       description: 'Nice scar, homie',
@@ -110,41 +111,41 @@ void main() {
   });
 
   ///
-  /// - Approaches
+  /// - Interactions
   ///
-  group('ApproachModel', () {
-    test('set, read, delete approach', () async {
-      await approachFloorGateway.insertApproach(testApproachModel);
+  group('InteractionModel', () {
+    test('set, read, delete interaction', () async {
+      await interactionFloorGateway.insertInteraction(testInteractionModel);
 
-      ApproachModel approach = await approachFloorGateway.getApproachById(1);
-      expect(approach.id, 1);
-      expect(approach.dateTime, testApproachModel.dateTime);
-      expect(approach.name, testApproachModel.name);
-      expect(approach.description, testApproachModel.description);
-      expect(approach.notes, testApproachModel.notes);
+      InteractionModel interaction = await interactionFloorGateway.getInteractionById(1);
+      expect(interaction.id, 1);
+      expect(interaction.dateTime, testInteractionModel.dateTime);
+      expect(interaction.name, testInteractionModel.name);
+      expect(interaction.description, testInteractionModel.description);
+      expect(interaction.notes, testInteractionModel.notes);
       //
-      await approachFloorGateway.deleteApproach(approach);
-      approach = await approachFloorGateway.getApproachById(1);
-      expect(approach, null);
+      await interactionFloorGateway.deleteInteraction(interaction);
+      interaction = await interactionFloorGateway.getInteractionById(1);
+      expect(interaction, null);
     });
 
-    test('list approaches', () async {
-      await approachFloorGateway.insertApproach(
-        ApproachModel(
+    test('list interactions', () async {
+      await interactionFloorGateway.insertInteraction(
+        InteractionModel(
             dateTime: DateTime(2020, 01, 15).toIso8601String(),
             name: 'Harry Potter',
             description: 'Nice scar, homie',
             notes: 'Did sum wizard type of shit mane'),
       );
-      await approachFloorGateway.insertApproach(
-        ApproachModel(
+      await interactionFloorGateway.insertInteraction(
+        InteractionModel(
             dateTime: DateTime(2020, 02, 15).toIso8601String(),
             name: 'Joana Dark',
             description: 'Lady o nite',
             notes: 'Shining'),
       );
       //
-      List<ApproachModel> list = await approachFloorGateway.getAllApproaches();
+      List<InteractionModel> list = await interactionFloorGateway.getAllInteractions();
       // list.forEach((element) {
       //   print(element.toJson());
       // });
@@ -156,96 +157,98 @@ void main() {
       expect(list[1].notes, 'Shining');
     });
 
-    test('Change approach', () async {
-      await approachFloorGateway.insertApproach(testApproachModel);
-      ApproachModel oldApproach = await approachFloorGateway.getApproachById(1);
-      ApproachModel modifiedApproach = ApproachModel(
+    test('Change interaction', () async {
+      await interactionFloorGateway.insertInteraction(testInteractionModel);
+      InteractionModel oldInteraction = await interactionFloorGateway.getInteractionById(1);
+      InteractionModel modifiedInteraction = InteractionModel(
           id: 1,
           dateTime: DateTime(2020, 02, 15).toIso8601String(),
           name: 'Updated name',
           description: 'Updated description',
           notes: 'Updated note');
 
-      await approachFloorGateway.updateApproach(modifiedApproach);
+      await interactionFloorGateway.updateInteraction(modifiedInteraction);
       //
-      ApproachModel updatedApproach = await approachFloorGateway.getApproachById(1);
+      InteractionModel updatedInteraction = await interactionFloorGateway.getInteractionById(1);
       //
-      expect(updatedApproach.id, oldApproach.id);
-      expect(updatedApproach.name, 'Updated name');
-      expect(updatedApproach.description, 'Updated description');
-      expect(updatedApproach.notes, 'Updated note');
+      expect(updatedInteraction.id, oldInteraction.id);
+      expect(updatedInteraction.name, 'Updated name');
+      expect(updatedInteraction.description, 'Updated description');
+      expect(updatedInteraction.notes, 'Updated note');
     });
   });
 
-  group('ApproachPointsModel', () {
+  group('InteractionPointsModel', () {
     setUp(() async {
-      // print('Setup group approach points');
+      // print('Setup group interaction points');
     });
 
     test('Throws if wrong value', () async {
-      expect(() => ApproachPointsModel(approachId: 1, pointId: 1, value: 15),
+      expect(() => InteractionPointsModel(interactionId: 1, pointId: 1, value: 15),
           throwsA(TypeMatcher<ArgumentError>()));
-      expect(() => ApproachPointsModel(approachId: 1, pointId: 1, value: -1),
+      expect(() => InteractionPointsModel(interactionId: 1, pointId: 1, value: -1),
           throwsA(TypeMatcher<ArgumentError>()));
     });
 
     test('Insert, get, delete', () async {
-      int approachId = await approachFloorGateway.insertApproach(testApproachModel);
+      int interactionId = await interactionFloorGateway.insertInteraction(testInteractionModel);
       //
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: approachId, pointId: 1, value: 5));
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: approachId, pointId: 2, value: 7));
+      interactionPointsFloorGateway.insertInteractionPoints(
+          InteractionPointsModel(interactionId: interactionId, pointId: 1, value: 5));
+      interactionPointsFloorGateway.insertInteractionPoints(
+          InteractionPointsModel(interactionId: interactionId, pointId: 2, value: 7));
       //
-      List<ApproachPointsModel> list =
-          await approachPointsFloorGateway.findApproachPointsByApproachId(approachId);
+      List<InteractionPointsModel> list =
+          await interactionPointsFloorGateway.findInteractionPointsByInteractionId(interactionId);
       list.forEach((element) {
         print(element.toJson());
       });
 
-      expect(list[0].approachId, approachId);
-      expect(list[1].approachId, approachId);
+      expect(list[0].interactionId, interactionId);
+      expect(list[1].interactionId, interactionId);
       expect(list[0].pointId, 1);
       expect(list[1].pointId, 2);
       expect(list[0].value, 5);
       expect(list[1].value, 7);
 
-      approachPointsFloorGateway.deleteApproachPointsByApproachId(approachId);
-      list = await approachPointsFloorGateway.findApproachPointsByApproachId(approachId);
+      interactionPointsFloorGateway.deleteInteractionPointsByInteractionId(interactionId);
+      list =
+          await interactionPointsFloorGateway.findInteractionPointsByInteractionId(interactionId);
       expect(list, []);
     });
   });
 
-  group('Approach Views', () {
+  group('Interaction Views', () {
     test('Get average points', () async {
-      await approachFloorGateway.insertApproach(
-        ApproachModel(
+      await interactionFloorGateway.insertInteraction(
+        InteractionModel(
             dateTime: DateTime(2020, 02, 15).toIso8601String(),
             name: 'Joana Dark',
             description: 'Lady o nite',
             notes: 'Shining'),
       );
-      await approachFloorGateway.insertApproach(
-        ApproachModel(
+      await interactionFloorGateway.insertInteraction(
+        InteractionModel(
             dateTime: DateTime(2020, 02, 15).toIso8601String(),
             name: 'Harry Potter',
             description: 'Nice wizard',
             notes: 'Shining'),
       );
 
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 1, value: 4));
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 2, value: 1));
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 7, value: 3));
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 1, pointId: 8, value: 1));
-      approachPointsFloorGateway
-          .insertApproachPoints(ApproachPointsModel(approachId: 2, pointId: 3, value: 0));
+      interactionPointsFloorGateway
+          .insertInteractionPoints(InteractionPointsModel(interactionId: 1, pointId: 1, value: 4));
+      interactionPointsFloorGateway
+          .insertInteractionPoints(InteractionPointsModel(interactionId: 1, pointId: 2, value: 1));
+      interactionPointsFloorGateway
+          .insertInteractionPoints(InteractionPointsModel(interactionId: 1, pointId: 7, value: 3));
+      interactionPointsFloorGateway
+          .insertInteractionPoints(InteractionPointsModel(interactionId: 1, pointId: 8, value: 1));
+      interactionPointsFloorGateway
+          .insertInteractionPoints(InteractionPointsModel(interactionId: 2, pointId: 3, value: 0));
       //
 
-      List<ApproachSummaryView> list = await approachViewsFloorGateway.findApproachesSummary();
+      List<InteractionSummaryView> list =
+          await interactionViewsFloorGateway.findInteractionsSummary();
       list.forEach((element) {
         print(element.toJson());
       });
@@ -271,7 +274,7 @@ void main() {
 
       print(goalsModel.toJson());
       expect(goalsModel.id, 1);
-      expect(goalsModel.weeklyApproachGoal, 10);
+      expect(goalsModel.weeklyInteractionGoal, 10);
     });
 
     test('Test change goal value', () async {
@@ -280,7 +283,7 @@ void main() {
 
       print(goalsModel.toJson());
       expect(goalsModel.id, 1);
-      expect(goalsModel.weeklyApproachGoal, 5);
+      expect(goalsModel.weeklyInteractionGoal, 5);
     });
   });
 }

@@ -60,15 +60,15 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  ApproachModelDao _approachModelDaoInstance;
+  InteractionModelDao _interactionModelDaoInstance;
 
   PointModelDao _pointModelDaoInstance;
 
-  ApproachPointsModelDao _approachPointsModelDaoInstance;
+  InteractionPointsModelDao _interactionPointsModelDaoInstance;
 
-  ApproachSummaryDao _approachSummaryDaoInstance;
+  InteractionSummaryDao _interactionSummaryDaoInstance;
 
-  ApproachPointsViewDao _approachPointsViewDaoInstance;
+  InteractionPointsViewDao _interactionPointsViewDaoInstance;
 
   GoalsModelDao _goalsModelDaoInstance;
 
@@ -92,29 +92,29 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `approach` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` TEXT, `name` TEXT, `description` TEXT, `notes` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `interaction` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dateTime` TEXT, `name` TEXT, `description` TEXT, `notes` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `approach_points` (`approachId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`approachId`) REFERENCES `approach` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, PRIMARY KEY (`approachId`, `pointId`))');
+            'CREATE TABLE IF NOT EXISTS `interaction_points` (`interactionId` INTEGER, `pointId` INTEGER, `value` INTEGER, FOREIGN KEY (`interactionId`) REFERENCES `interaction` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, FOREIGN KEY (`pointId`) REFERENCES `point` (`id`) ON UPDATE NO ACTION ON DELETE CASCADE, PRIMARY KEY (`interactionId`, `pointId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `point` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `pointType` TEXT, `item1` TEXT, `item2` TEXT, `item3` TEXT, `item4` TEXT, `item5` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyApproachGoal` INTEGER)');
+            'CREATE TABLE IF NOT EXISTS `goals` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weeklyInteractionGoal` INTEGER)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `config` (`id` INTEGER, `lastRunVersion` INTEGER, PRIMARY KEY (`id`))');
         await database.execute(
             'CREATE UNIQUE INDEX `index_point_name` ON `point` (`name`)');
         await database.execute(
-            '''CREATE VIEW IF NOT EXISTS `approach_summary_view` AS SELECT a.id, a.name, a.dateTime, a.description, 
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.difficulty') as difficulty,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.skill') as skill,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.attraction') as attraction,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.result') as result
-FROM approach a
+            '''CREATE VIEW IF NOT EXISTS `interaction_summary_view` AS SELECT a.id, a.name, a.dateTime, a.description, 
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.difficulty') as difficulty,
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.skill') as skill,
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.attraction') as attraction,
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.result') as result
+FROM interaction a
 ORDER BY a.dateTime DESC
 ''');
         await database.execute(
-            '''CREATE VIEW IF NOT EXISTS `approach_points_view` AS SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType, p.item1, p.item2, p.item3, p.item4, p.item5 
-FROM approach_points ap
+            '''CREATE VIEW IF NOT EXISTS `interaction_points_view` AS SELECT ap.interactionId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType, p.item1, p.item2, p.item3, p.item4, p.item5 
+FROM interaction_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
 ''');
@@ -126,9 +126,9 @@ ORDER BY p.pointType
   }
 
   @override
-  ApproachModelDao get approachModelDao {
-    return _approachModelDaoInstance ??=
-        _$ApproachModelDao(database, changeListener);
+  InteractionModelDao get interactionModelDao {
+    return _interactionModelDaoInstance ??=
+        _$InteractionModelDao(database, changeListener);
   }
 
   @override
@@ -137,21 +137,21 @@ ORDER BY p.pointType
   }
 
   @override
-  ApproachPointsModelDao get approachPointsModelDao {
-    return _approachPointsModelDaoInstance ??=
-        _$ApproachPointsModelDao(database, changeListener);
+  InteractionPointsModelDao get interactionPointsModelDao {
+    return _interactionPointsModelDaoInstance ??=
+        _$InteractionPointsModelDao(database, changeListener);
   }
 
   @override
-  ApproachSummaryDao get approachSummaryDao {
-    return _approachSummaryDaoInstance ??=
-        _$ApproachSummaryDao(database, changeListener);
+  InteractionSummaryDao get interactionSummaryDao {
+    return _interactionSummaryDaoInstance ??=
+        _$InteractionSummaryDao(database, changeListener);
   }
 
   @override
-  ApproachPointsViewDao get approachPointsViewDao {
-    return _approachPointsViewDaoInstance ??=
-        _$ApproachPointsViewDao(database, changeListener);
+  InteractionPointsViewDao get interactionPointsViewDao {
+    return _interactionPointsViewDaoInstance ??=
+        _$InteractionPointsViewDao(database, changeListener);
   }
 
   @override
@@ -166,13 +166,13 @@ ORDER BY p.pointType
   }
 }
 
-class _$ApproachModelDao extends ApproachModelDao {
-  _$ApproachModelDao(this.database, this.changeListener)
+class _$InteractionModelDao extends InteractionModelDao {
+  _$InteractionModelDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _approachModelInsertionAdapter = InsertionAdapter(
+        _interactionModelInsertionAdapter = InsertionAdapter(
             database,
-            'approach',
-            (ApproachModel item) => <String, dynamic>{
+            'interaction',
+            (InteractionModel item) => <String, dynamic>{
                   'id': item.id,
                   'dateTime': item.dateTime,
                   'name': item.name,
@@ -180,11 +180,11 @@ class _$ApproachModelDao extends ApproachModelDao {
                   'notes': item.notes
                 },
             changeListener),
-        _approachModelUpdateAdapter = UpdateAdapter(
+        _interactionModelUpdateAdapter = UpdateAdapter(
             database,
-            'approach',
+            'interaction',
             ['id'],
-            (ApproachModel item) => <String, dynamic>{
+            (InteractionModel item) => <String, dynamic>{
                   'id': item.id,
                   'dateTime': item.dateTime,
                   'name': item.name,
@@ -192,11 +192,11 @@ class _$ApproachModelDao extends ApproachModelDao {
                   'notes': item.notes
                 },
             changeListener),
-        _approachModelDeletionAdapter = DeletionAdapter(
+        _interactionModelDeletionAdapter = DeletionAdapter(
             database,
-            'approach',
+            'interaction',
             ['id'],
-            (ApproachModel item) => <String, dynamic>{
+            (InteractionModel item) => <String, dynamic>{
                   'id': item.id,
                   'dateTime': item.dateTime,
                   'name': item.name,
@@ -211,53 +211,54 @@ class _$ApproachModelDao extends ApproachModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _approachMapper = (Map<String, dynamic> row) => ApproachModel(
-      id: row['id'] as int,
-      dateTime: row['dateTime'] as String,
-      name: row['name'] as String,
-      description: row['description'] as String,
-      notes: row['notes'] as String);
+  static final _interactionMapper = (Map<String, dynamic> row) =>
+      InteractionModel(
+          id: row['id'] as int,
+          dateTime: row['dateTime'] as String,
+          name: row['name'] as String,
+          description: row['description'] as String,
+          notes: row['notes'] as String);
 
-  final InsertionAdapter<ApproachModel> _approachModelInsertionAdapter;
+  final InsertionAdapter<InteractionModel> _interactionModelInsertionAdapter;
 
-  final UpdateAdapter<ApproachModel> _approachModelUpdateAdapter;
+  final UpdateAdapter<InteractionModel> _interactionModelUpdateAdapter;
 
-  final DeletionAdapter<ApproachModel> _approachModelDeletionAdapter;
+  final DeletionAdapter<InteractionModel> _interactionModelDeletionAdapter;
 
   @override
-  Future<List<ApproachModel>> findAllApproachModels() async {
-    return _queryAdapter.queryList('SELECT * FROM approach',
-        mapper: _approachMapper);
+  Future<List<InteractionModel>> findAllInteractionModels() async {
+    return _queryAdapter.queryList('SELECT * FROM interaction',
+        mapper: _interactionMapper);
   }
 
   @override
-  Future<ApproachModel> findApproachModelById(int id) async {
-    return _queryAdapter.query('SELECT * FROM approach WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _approachMapper);
+  Future<InteractionModel> findInteractionModelById(int id) async {
+    return _queryAdapter.query('SELECT * FROM interaction WHERE id = ?',
+        arguments: <dynamic>[id], mapper: _interactionMapper);
   }
 
   @override
-  Future<List<ApproachModel>> findLast30Approaches() async {
+  Future<List<InteractionModel>> findLast30Interactions() async {
     return _queryAdapter.queryList(
-        'SELECT * FROM approach ORDER BY dateTime DESC LIMIT 30',
-        mapper: _approachMapper);
+        'SELECT * FROM interaction ORDER BY dateTime DESC LIMIT 30',
+        mapper: _interactionMapper);
   }
 
   @override
-  Future<void> insertApproach(ApproachModel approach) async {
-    await _approachModelInsertionAdapter.insert(
-        approach, OnConflictStrategy.abort);
+  Future<void> insertInteraction(InteractionModel interaction) async {
+    await _interactionModelInsertionAdapter.insert(
+        interaction, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateApproach(ApproachModel approach) async {
-    await _approachModelUpdateAdapter.update(
-        approach, OnConflictStrategy.abort);
+  Future<void> updateInteraction(InteractionModel interaction) async {
+    await _interactionModelUpdateAdapter.update(
+        interaction, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteApproach(ApproachModel approach) async {
-    await _approachModelDeletionAdapter.delete(approach);
+  Future<void> deleteInteraction(InteractionModel interaction) async {
+    await _interactionModelDeletionAdapter.delete(interaction);
   }
 }
 
@@ -366,24 +367,24 @@ class _$PointModelDao extends PointModelDao {
   }
 }
 
-class _$ApproachPointsModelDao extends ApproachPointsModelDao {
-  _$ApproachPointsModelDao(this.database, this.changeListener)
+class _$InteractionPointsModelDao extends InteractionPointsModelDao {
+  _$InteractionPointsModelDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _approachPointsModelInsertionAdapter = InsertionAdapter(
+        _interactionPointsModelInsertionAdapter = InsertionAdapter(
             database,
-            'approach_points',
-            (ApproachPointsModel item) => <String, dynamic>{
-                  'approachId': item.approachId,
+            'interaction_points',
+            (InteractionPointsModel item) => <String, dynamic>{
+                  'interactionId': item.interactionId,
                   'pointId': item.pointId,
                   'value': item.value
                 },
             changeListener),
-        _approachPointsModelUpdateAdapter = UpdateAdapter(
+        _interactionPointsModelUpdateAdapter = UpdateAdapter(
             database,
-            'approach_points',
-            ['approachId', 'pointId'],
-            (ApproachPointsModel item) => <String, dynamic>{
-                  'approachId': item.approachId,
+            'interaction_points',
+            ['interactionId', 'pointId'],
+            (InteractionPointsModel item) => <String, dynamic>{
+                  'interactionId': item.interactionId,
                   'pointId': item.pointId,
                   'value': item.value
                 },
@@ -395,65 +396,68 @@ class _$ApproachPointsModelDao extends ApproachPointsModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _approach_pointsMapper = (Map<String, dynamic> row) =>
-      ApproachPointsModel(
-          approachId: row['approachId'] as int,
+  static final _interaction_pointsMapper = (Map<String, dynamic> row) =>
+      InteractionPointsModel(
+          interactionId: row['interactionId'] as int,
           pointId: row['pointId'] as int,
           value: row['value'] as int);
 
-  final InsertionAdapter<ApproachPointsModel>
-      _approachPointsModelInsertionAdapter;
+  final InsertionAdapter<InteractionPointsModel>
+      _interactionPointsModelInsertionAdapter;
 
-  final UpdateAdapter<ApproachPointsModel> _approachPointsModelUpdateAdapter;
+  final UpdateAdapter<InteractionPointsModel>
+      _interactionPointsModelUpdateAdapter;
 
   @override
-  Future<ApproachPointsModel> findApproachPointByApproachAndPointId(
-      int approachId, int pointId) async {
+  Future<InteractionPointsModel> findInteractionPointByInteractionAndPointId(
+      int interactionId, int pointId) async {
     return _queryAdapter.query(
-        'SELECT * FROM approach_points WHERE approachId = ? AND pointId = ?',
-        arguments: <dynamic>[approachId, pointId],
-        mapper: _approach_pointsMapper);
+        'SELECT * FROM interaction_points WHERE interactionId = ? AND pointId = ?',
+        arguments: <dynamic>[interactionId, pointId],
+        mapper: _interaction_pointsMapper);
   }
 
   @override
-  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(
-      int approachId) async {
+  Future<List<InteractionPointsModel>> findInteractionPointsByInteractionId(
+      int interactionId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM approach_points WHERE approachId = ?',
-        arguments: <dynamic>[approachId],
-        mapper: _approach_pointsMapper);
+        'SELECT * FROM interaction_points WHERE interactionId = ?',
+        arguments: <dynamic>[interactionId],
+        mapper: _interaction_pointsMapper);
   }
 
   @override
-  Future<void> deleteApproachPointsByApproachId(int approachId) async {
+  Future<void> deleteInteractionPointsByInteractionId(int interactionId) async {
     await _queryAdapter.queryNoReturn(
-        'DELETE FROM approach_points WHERE approachId = ?',
-        arguments: <dynamic>[approachId]);
+        'DELETE FROM interaction_points WHERE interactionId = ?',
+        arguments: <dynamic>[interactionId]);
   }
 
   @override
-  Future<void> deleteApproachPointsByApproachAndPointId(
-      int approachId, int pointId) async {
+  Future<void> deleteInteractionPointsByInteractionAndPointId(
+      int interactionId, int pointId) async {
     await _queryAdapter.queryNoReturn(
-        'DELETE FROM approach_points WHERE approachId = ? AND pointId = ?',
-        arguments: <dynamic>[approachId, pointId]);
+        'DELETE FROM interaction_points WHERE interactionId = ? AND pointId = ?',
+        arguments: <dynamic>[interactionId, pointId]);
   }
 
   @override
-  Future<void> insertApproachPoints(ApproachPointsModel approachPoints) async {
-    await _approachPointsModelInsertionAdapter.insert(
-        approachPoints, OnConflictStrategy.abort);
+  Future<void> insertInteractionPoints(
+      InteractionPointsModel interactionPoints) async {
+    await _interactionPointsModelInsertionAdapter.insert(
+        interactionPoints, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> updateApproachPoints(ApproachPointsModel approachPoints) async {
-    await _approachPointsModelUpdateAdapter.update(
-        approachPoints, OnConflictStrategy.abort);
+  Future<void> updateInteractionPoints(
+      InteractionPointsModel interactionPoints) async {
+    await _interactionPointsModelUpdateAdapter.update(
+        interactionPoints, OnConflictStrategy.abort);
   }
 }
 
-class _$ApproachSummaryDao extends ApproachSummaryDao {
-  _$ApproachSummaryDao(this.database, this.changeListener)
+class _$InteractionSummaryDao extends InteractionSummaryDao {
+  _$InteractionSummaryDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database, changeListener);
 
   final sqflite.DatabaseExecutor database;
@@ -462,8 +466,8 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _approach_summary_viewMapper = (Map<String, dynamic> row) =>
-      ApproachSummaryView(
+  static final _interaction_summary_viewMapper = (Map<String, dynamic> row) =>
+      InteractionSummaryView(
           row['id'] as int,
           row['name'] as String,
           row['dateTime'] as String,
@@ -474,22 +478,23 @@ class _$ApproachSummaryDao extends ApproachSummaryDao {
           row['result'] as double);
 
   @override
-  Future<List<ApproachSummaryView>> findApproachesSummary() async {
-    return _queryAdapter.queryList('SELECT * FROM approach_summary_view',
-        mapper: _approach_summary_viewMapper);
+  Future<List<InteractionSummaryView>> findInteractionsSummary() async {
+    return _queryAdapter.queryList('SELECT * FROM interaction_summary_view',
+        mapper: _interaction_summary_viewMapper);
   }
 
   @override
-  Stream<List<ApproachSummaryView>> findApproachesSummaryStream() {
-    return _queryAdapter.queryListStream('SELECT * FROM approach_summary_view',
-        queryableName: 'approach_summary_view',
+  Stream<List<InteractionSummaryView>> findInteractionsSummaryStream() {
+    return _queryAdapter.queryListStream(
+        'SELECT * FROM interaction_summary_view',
+        queryableName: 'interaction_summary_view',
         isView: true,
-        mapper: _approach_summary_viewMapper);
+        mapper: _interaction_summary_viewMapper);
   }
 }
 
-class _$ApproachPointsViewDao extends ApproachPointsViewDao {
-  _$ApproachPointsViewDao(this.database, this.changeListener)
+class _$InteractionPointsViewDao extends InteractionPointsViewDao {
+  _$InteractionPointsViewDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database);
 
   final sqflite.DatabaseExecutor database;
@@ -498,9 +503,9 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _approach_points_viewMapper = (Map<String, dynamic> row) =>
-      ApproachPointsView(
-          approachId: row['approachId'] as int,
+  static final _interaction_points_viewMapper = (Map<String, dynamic> row) =>
+      InteractionPointsView(
+          interactionId: row['interactionId'] as int,
           pointId: row['pointId'] as int,
           pointName: row['pointName'] as String,
           pointValue: row['pointValue'] as int,
@@ -512,12 +517,12 @@ class _$ApproachPointsViewDao extends ApproachPointsViewDao {
           item5: row['item5'] as String);
 
   @override
-  Future<List<ApproachPointsView>> findApproachesPointsByApproachId(
-      int approachId) async {
+  Future<List<InteractionPointsView>> findInteractionsPointsByInteractionId(
+      int interactionId) async {
     return _queryAdapter.queryList(
-        'SELECT * FROM approach_points_view WHERE approachId = ?',
-        arguments: <dynamic>[approachId],
-        mapper: _approach_points_viewMapper);
+        'SELECT * FROM interaction_points_view WHERE interactionId = ?',
+        arguments: <dynamic>[interactionId],
+        mapper: _interaction_points_viewMapper);
   }
 }
 
@@ -530,7 +535,7 @@ class _$GoalsModelDao extends GoalsModelDao {
             ['id'],
             (GoalsModel item) => <String, dynamic>{
                   'id': item.id,
-                  'weeklyApproachGoal': item.weeklyApproachGoal
+                  'weeklyInteractionGoal': item.weeklyInteractionGoal
                 },
             changeListener);
 
@@ -541,7 +546,7 @@ class _$GoalsModelDao extends GoalsModelDao {
   final QueryAdapter _queryAdapter;
 
   static final _goalsMapper = (Map<String, dynamic> row) =>
-      GoalsModel(row['weeklyApproachGoal'] as int);
+      GoalsModel(row['weeklyInteractionGoal'] as int);
 
   final UpdateAdapter<GoalsModel> _goalsModelUpdateAdapter;
 

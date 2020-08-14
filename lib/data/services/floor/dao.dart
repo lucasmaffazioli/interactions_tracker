@@ -1,8 +1,8 @@
-import 'package:cold_app/data/models/approach/approach_model.dart';
-import 'package:cold_app/data/models/approach/approach_points_model.dart';
-import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
-import 'package:cold_app/data/models/approach/point_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_points_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_views.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
+import 'package:cold_app/data/models/interaction/point_model.dart';
 import 'package:cold_app/data/models/misc/config_model.dart';
 import 'package:floor/floor.dart';
 
@@ -28,29 +28,29 @@ abstract class PointModelDao {
 }
 
 @dao
-abstract class ApproachModelDao {
-  @Query('SELECT * FROM approach')
-  Future<List<ApproachModel>> findAllApproachModels();
+abstract class InteractionModelDao {
+  @Query('SELECT * FROM interaction')
+  Future<List<InteractionModel>> findAllInteractionModels();
 
-  @Query('SELECT * FROM approach WHERE id = :id')
-  Future<ApproachModel> findApproachModelById(int id);
+  @Query('SELECT * FROM interaction WHERE id = :id')
+  Future<InteractionModel> findInteractionModelById(int id);
 
   @insert
-  Future<void> insertApproach(ApproachModel approach);
+  Future<void> insertInteraction(InteractionModel interaction);
 
   @update
-  Future<void> updateApproach(ApproachModel approach);
+  Future<void> updateInteraction(InteractionModel interaction);
 
   @delete
-  Future<void> deleteApproach(ApproachModel approach);
+  Future<void> deleteInteraction(InteractionModel interaction);
 
-  @Query('SELECT * FROM approach ORDER BY dateTime DESC LIMIT 30')
-  Future<List<ApproachModel>> findLast30Approaches();
+  @Query('SELECT * FROM interaction ORDER BY dateTime DESC LIMIT 30')
+  Future<List<InteractionModel>> findLast30Interactions();
 
-  // @Query('DELETE FROM approach WHERE id = :id')
-  // Future<void> deleteApproachById(int id);
-  // @Query('DELETE FROM approach WHERE id = :id')
-  // Future<int> deleteApproachById(int id);
+  // @Query('DELETE FROM interaction WHERE id = :id')
+  // Future<void> deleteInteractionById(int id);
+  // @Query('DELETE FROM interaction WHERE id = :id')
+  // Future<int> deleteInteractionById(int id);
 
   ///
   ///  Aqui eu preciso mostrar a media de cada um dos pontos entre um intervalo de tempo
@@ -58,73 +58,76 @@ abstract class ApproachModelDao {
   ///
   ///
   // @Query(
-  //     // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+  //     // 'SELECT * FROM interaction_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
   //     '''
   //     SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-  //   FROM approach a
-  //   INNER JOIN approach_points ap ON a.id = ap.approachId
+  //   FROM interaction a
+  //   INNER JOIN interaction_points ap ON a.id = ap.interactionId
   //   INNER JOIN point p ON p.id = ap.pointId
   //      WHERE dateTime >= :initialDate AND dateTime <= :finalDate
   //   GROUP BY ap.pointId, pointName, pointType
   //   ORDER BY p.pointType
 
   //      ''')
-  // Future<List<ApproachesDashboardDataView>> findApproachesDashboardDataByInterval(
+  // Future<List<InteractionsDashboardDataView>> findInteractionsDashboardDataByInterval(
   //     String initalDate, String finalDate);
 }
 
 // @dao
 // abstract class MiscDao {
 //   @Query(
-//       // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+//       // 'SELECT * FROM interaction_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
 //       '''
 //       SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-//     FROM approach a
-//     INNER JOIN approach_points ap ON a.id = ap.approachId
+//     FROM interaction a
+//     INNER JOIN interaction_points ap ON a.id = ap.interactionId
 //     INNER JOIN point p ON p.id = ap.pointId
 //        WHERE dateTime >= :initialDate AND dateTime <= :finalDate
 //     GROUP BY ap.pointId, pointName, pointType
 //     ORDER BY p.pointType
 
 //        ''')
-//   Future<List<DashboardModel>> findApproachesDashboardDataByInterval(
+//   Future<List<DashboardModel>> findInteractionsDashboardDataByInterval(
 //       String initalDate, String finalDate);
 // }
 
 @dao
-abstract class ApproachPointsModelDao {
-  @Query('SELECT * FROM approach_points WHERE approachId = :approachId AND pointId = :pointId')
-  Future<ApproachPointsModel> findApproachPointByApproachAndPointId(int approachId, int pointId);
+abstract class InteractionPointsModelDao {
+  @Query(
+      'SELECT * FROM interaction_points WHERE interactionId = :interactionId AND pointId = :pointId')
+  Future<InteractionPointsModel> findInteractionPointByInteractionAndPointId(
+      int interactionId, int pointId);
 
-  @Query('SELECT * FROM approach_points WHERE approachId = :approachId')
-  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int approachId);
+  @Query('SELECT * FROM interaction_points WHERE interactionId = :interactionId')
+  Future<List<InteractionPointsModel>> findInteractionPointsByInteractionId(int interactionId);
 
   @insert
-  Future<void> insertApproachPoints(ApproachPointsModel approachPoints);
+  Future<void> insertInteractionPoints(InteractionPointsModel interactionPoints);
 
   @update
-  Future<void> updateApproachPoints(ApproachPointsModel approachPoints);
+  Future<void> updateInteractionPoints(InteractionPointsModel interactionPoints);
 
-  @Query('DELETE FROM approach_points WHERE approachId = :approachId')
-  Future<void> deleteApproachPointsByApproachId(int approachId);
+  @Query('DELETE FROM interaction_points WHERE interactionId = :interactionId')
+  Future<void> deleteInteractionPointsByInteractionId(int interactionId);
 
-  @Query('DELETE FROM approach_points WHERE approachId = :approachId AND pointId = :pointId')
-  Future<void> deleteApproachPointsByApproachAndPointId(int approachId, int pointId);
+  @Query(
+      'DELETE FROM interaction_points WHERE interactionId = :interactionId AND pointId = :pointId')
+  Future<void> deleteInteractionPointsByInteractionAndPointId(int interactionId, int pointId);
 }
 
 @dao
-abstract class ApproachSummaryDao {
-  @Query('SELECT * FROM approach_summary_view')
-  Future<List<ApproachSummaryView>> findApproachesSummary();
+abstract class InteractionSummaryDao {
+  @Query('SELECT * FROM interaction_summary_view')
+  Future<List<InteractionSummaryView>> findInteractionsSummary();
 
-  @Query('SELECT * FROM approach_summary_view')
-  Stream<List<ApproachSummaryView>> findApproachesSummaryStream();
+  @Query('SELECT * FROM interaction_summary_view')
+  Stream<List<InteractionSummaryView>> findInteractionsSummaryStream();
 }
 
 @dao
-abstract class ApproachPointsViewDao {
-  @Query('SELECT * FROM approach_points_view WHERE approachId = :approachId')
-  Future<List<ApproachPointsView>> findApproachesPointsByApproachId(int approachId);
+abstract class InteractionPointsViewDao {
+  @Query('SELECT * FROM interaction_points_view WHERE interactionId = :interactionId')
+  Future<List<InteractionPointsView>> findInteractionsPointsByInteractionId(int interactionId);
 }
 
 @dao
@@ -149,19 +152,19 @@ abstract class ConfigModelDao {
 }
 
 // @dao
-// abstract class ApproachesDashboardDataViewDao {
+// abstract class InteractionsDashboardDataViewDao {
 //   @Query(
-//       // 'SELECT * FROM approach_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
+//       // 'SELECT * FROM interaction_dashboard_view WHERE dateTime >= :initialDate AND dateTime <= :finalDate')
 //       '''
 //       SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-//     FROM approach a
-//     INNER JOIN approach_points ap ON a.id = ap.approachId
+//     FROM interaction a
+//     INNER JOIN interaction_points ap ON a.id = ap.interactionId
 //     INNER JOIN point p ON p.id = ap.pointId
 //        WHERE dateTime >= :initialDate AND dateTime <= :finalDate
 //     GROUP BY ap.pointId, pointName, pointType
 //     ORDER BY p.pointType
 
 //        ''')
-//   Future<List<ApproachesDashboardDataView>> findApproachesDashboardDataByInterval(
+//   Future<List<InteractionsDashboardDataView>> findInteractionsDashboardDataByInterval(
 //       String initalDate, String finalDate);
 // }

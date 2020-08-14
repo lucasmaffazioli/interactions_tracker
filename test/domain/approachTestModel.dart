@@ -1,9 +1,9 @@
 // import 'package:cold_app/core/enums/PointType.dart';
-// import 'package:cold_app/domain/entities/approach/approach_entity.dart';
-// import 'package:cold_app/domain/entities/approach/point_entity.dart';
+// import 'package:cold_app/domain/entities/interaction/interaction_entity.dart';
+// import 'package:cold_app/domain/entities/interaction/point_entity.dart';
 
-// ApproachEntity testGetApproach() {
-//   return ApproachEntity(
+// InteractionEntity testGetInteraction() {
+//   return InteractionEntity(
 //     id: 1,
 //     dateTime: DateTime(2020, 06, 13, 13, 30),
 //     name: 'Teste',

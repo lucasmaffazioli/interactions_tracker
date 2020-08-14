@@ -4,15 +4,15 @@ import 'package:floor/floor.dart';
 
 @DatabaseView('''
 SELECT a.id, a.name, a.dateTime, a.description, 
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.difficulty') as difficulty,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.skill') as skill,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.attraction') as attraction,
-(SELECT AVG(value) FROM approach_points INNER JOIN point ON id = pointId where approachId = a.id AND pointType = 'PointType.result') as result
-FROM approach a
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.difficulty') as difficulty,
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.skill') as skill,
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.attraction') as attraction,
+(SELECT AVG(value) FROM interaction_points INNER JOIN point ON id = pointId where interactionId = a.id AND pointType = 'PointType.result') as result
+FROM interaction a
 ORDER BY a.dateTime DESC
-''', viewName: 'approach_summary_view')
+''', viewName: 'interaction_summary_view')
 //
-class ApproachSummaryView {
+class InteractionSummaryView {
   final int id;
   final String name;
   final String dateTime;
@@ -22,7 +22,7 @@ class ApproachSummaryView {
   final double attraction;
   final double result;
 
-  ApproachSummaryView(
+  InteractionSummaryView(
     this.id,
     this.name,
     this.dateTime,
@@ -48,14 +48,14 @@ class ApproachSummaryView {
 }
 
 @DatabaseView('''
-SELECT ap.approachId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType, p.item1, p.item2, p.item3, p.item4, p.item5 
-FROM approach_points ap
+SELECT ap.interactionId, ap.pointId, p.name AS pointName, ap.value AS pointValue, p.pointType, p.item1, p.item2, p.item3, p.item4, p.item5 
+FROM interaction_points ap
 INNER JOIN point p ON p.id = ap.pointId 
 ORDER BY p.pointType
-''', viewName: 'approach_points_view')
+''', viewName: 'interaction_points_view')
 //
-class ApproachPointsView {
-  final int approachId;
+class InteractionPointsView {
+  final int interactionId;
   final int pointId;
   final String pointName;
   final int pointValue;
@@ -66,8 +66,8 @@ class ApproachPointsView {
   final String item4;
   final String item5;
 
-  ApproachPointsView({
-    this.approachId,
+  InteractionPointsView({
+    this.interactionId,
     this.pointId,
     this.pointName,
     this.pointValue,
@@ -81,7 +81,7 @@ class ApproachPointsView {
 
   String toJson() {
     return json.encode({
-      'approachId': approachId.toString(),
+      'interactionId': interactionId.toString(),
       'pointId': pointId.toString(),
       'pointName': pointName,
       'pointValue': pointValue.toString(),
@@ -97,19 +97,19 @@ class ApproachPointsView {
 
 // @DatabaseView('''
 //   SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-//     FROM approach a
-//     INNER JOIN approach_points ap ON a.id = ap.approachId
+//     FROM interaction a
+//     INNER JOIN interaction_points ap ON a.id = ap.interactionId
 //     INNER JOIN point p ON p.id = ap.pointId
 //     GROUP BY ap.pointId, pointName, pointType
 //     ORDER BY p.pointType
-//   ''', viewName: 'approach_dashboard_view')
-// class ApproachesDashboardDataView {
+//   ''', viewName: 'interaction_dashboard_view')
+// class InteractionsDashboardDataView {
 //   final int pointId;
 //   final double pointAvg;
 //   final String pointName;
 //   final String pointType;
 
-//   ApproachesDashboardDataView({
+//   InteractionsDashboardDataView({
 //     this.pointId,
 //     this.pointName,
 //     this.pointAvg,

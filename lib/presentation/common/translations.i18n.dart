@@ -3,8 +3,8 @@ import 'package:i18n_extension/i18n_extension.dart';
 extension Localization on String {
   static var _t = Translations("en") +
       {
-        "en": "Approaches",
-        "pt": "Abordagens",
+        "en": "Interactions",
+        "pt": "Interações",
       } +
       {
         "en": "Dashboard",
@@ -31,8 +31,8 @@ extension Localization on String {
         "pt": "Dashboard",
       } +
       {
-        "en": "Approaches",
-        "pt": "Abordagens",
+        "en": "Interactions",
+        "pt": "Interações",
       } +
       {
         "en": "Skills",
@@ -71,12 +71,12 @@ extension Localization on String {
         "pt": "Salvar",
       } +
       {
-        "en": "New Approach",
-        "pt": "Nova abordagem",
+        "en": "New Interaction",
+        "pt": "Nova interação",
       } +
       {
-        "en": "Approaches",
-        "pt": "Abordagens",
+        "en": "Interactions",
+        "pt": "Interações",
       } +
       {
         "en": "Required field",
@@ -187,8 +187,8 @@ extension Localization on String {
         "pt": "Objetivos",
       } +
       {
-        "en": "Weekly approaches",
-        "pt": "Abordagens semanais",
+        "en": "Weekly interactions",
+        "pt": "Interações semanais",
       } +
       {
         "en": " is not a number",
@@ -203,16 +203,16 @@ extension Localization on String {
         "pt": "%d selecionados",
       } +
       {
-        "en": "Your approaches will be shown here",
-        "pt": "Suas abordagens serão exibidas aqui",
+        "en": "Your interactions will be shown here",
+        "pt": "Suas interações serão exibidas aqui",
       } +
       {
-        "en": "Import approaches",
-        "pt": "Importar abordagens",
+        "en": "Import interactions",
+        "pt": "Importar interações",
       } +
       {
-        "en": "Export approaches",
-        "pt": "Exportar abordagens",
+        "en": "Export interactions",
+        "pt": "Exportar interações",
       } +
       {
         "en": "File successfully exported to ",
@@ -223,8 +223,8 @@ extension Localization on String {
         "pt": "Código",
       } +
       {
-        "en": "%d approach(es) imported",
-        "pt": "%d abordagem(ns) importadas",
+        "en": "%d interaction(es) imported",
+        "pt": "%d interação(ões) importadas",
       } +
       {
         "en": "First item",
@@ -312,7 +312,7 @@ extension Localization on String {
       } +
       {
         "en": "The maximum value for weekly goals is 100",
-        "pt": "O valor máximo para abordagens semanais é 100",
+        "pt": "O valor máximo para interações semanais é 100",
       } +
       {
         "en": "You have unsaved changes, do you really want to exit?",

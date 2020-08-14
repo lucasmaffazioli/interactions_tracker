@@ -1,40 +1,40 @@
 import 'package:cold_app/presentation/common/loading.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/presentation/approaches_page/controller.dart';
+import 'package:cold_app/presentation/interactions_page/controller.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 
-import '../add_approach_page/add_approach_page.dart';
+import '../add_interaction_page/add_interaction_page.dart';
 import '../common/constants.dart';
 
-class ApproachesPage extends StatefulWidget {
+class InteractionsPage extends StatefulWidget {
   final Function changeAppBar;
   final BaseAppBar defaultAppBar;
 
-  const ApproachesPage({
+  const InteractionsPage({
     @required this.changeAppBar,
     @required this.defaultAppBar,
     Key key,
   }) : super(key: key);
 
   @override
-  _ApproachesPageState createState() => _ApproachesPageState();
+  _InteractionsPageState createState() => _InteractionsPageState();
 }
 
-class _ApproachesPageState extends State<ApproachesPage> {
-  final ApproachesController controller = ApproachesController();
+class _InteractionsPageState extends State<InteractionsPage> {
+  final InteractionsController controller = InteractionsController();
   bool isSelecting = false;
-  Stream<List<ApproachSummaryPresentation>> stream;
+  Stream<List<InteractionSummaryPresentation>> stream;
   List<int> selectedItems = [];
 
-  List<ApproachSummaryPresentation> items;
+  List<InteractionSummaryPresentation> items;
 
   @override
   void initState() {
-    stream = controller.getAllApproachesStream(context);
+    stream = controller.getAllInteractionsStream(context);
 
     super.initState();
   }
@@ -79,7 +79,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
             tooltip: 'Delete items'.i18n,
             onPressed: () {
               showDeleteConfirmationPopup(context, onConfirm: () async {
-                await _deleteSelectedApproaches();
+                await _deleteSelectedInteractions();
                 _emptySelected();
                 Navigator.maybePop(context);
               });
@@ -91,17 +91,17 @@ class _ApproachesPageState extends State<ApproachesPage> {
     }
   }
 
-  _deleteSelectedApproaches() async {
-    int totalDeleted = await controller.deleteApproaches(selectedItems);
+  _deleteSelectedInteractions() async {
+    int totalDeleted = await controller.deleteInteractions(selectedItems);
     // print('Total deleted items');
     // print(totalDeleted);
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ApproachSummaryPresentation>>(
+    return StreamBuilder<List<InteractionSummaryPresentation>>(
       stream: stream,
-      builder: (context, AsyncSnapshot<List<ApproachSummaryPresentation>> snapshot) {
+      builder: (context, AsyncSnapshot<List<InteractionSummaryPresentation>> snapshot) {
         // print('projectconnection state is: ${snapshot.connectionState}');
         // print('project snapshot data is: ${snapshot.data}');
         // print('project has error is: ${snapshot.hasError} - ${snapshot.error.toString()}');
@@ -118,7 +118,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
           return Center(
               child: Padding(
             padding: EdgeInsets.only(top: 10),
-            child: Text('Your approaches will be shown here'.i18n),
+            child: Text('Your interactions will be shown here'.i18n),
           ));
         }
 
@@ -146,7 +146,7 @@ class _ApproachesPageState extends State<ApproachesPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => AddApproachPage(approachId: item.id),
+                            builder: (context) => AddInteractionPage(interactionId: item.id),
                           ),
                         );
                       }),

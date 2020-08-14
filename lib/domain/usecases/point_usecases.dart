@@ -1,7 +1,7 @@
 import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/data/models/approach/point_model.dart';
+import 'package:cold_app/data/models/interaction/point_model.dart';
 import 'package:cold_app/data/services/floor/floor_gateway.dart';
-import 'package:cold_app/domain/entities/approach/point_entity.dart';
+import 'package:cold_app/domain/entities/interaction/point_entity.dart';
 
 PointFloorGateway pointFloorGateway = PointFloorGateway();
 

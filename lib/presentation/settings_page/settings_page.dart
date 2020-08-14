@@ -1,6 +1,6 @@
 import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/goals/goals_page.dart';
 import 'package:cold_app/presentation/points/points_page.dart';
@@ -54,19 +54,19 @@ class SettingsPage extends StatelessWidget {
             },
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.fileExport),
-              title: Text('Export approaches'.i18n),
+              title: Text('Export interactions'.i18n),
             ),
           ),
           InkWell(
             onTap: () async {
               final int importedRecords = await controller.import();
               SnackBarHelper.createInformation(
-                  message: '%d approach(es) imported'.plural(importedRecords))
+                  message: '%d interaction(es) imported'.plural(importedRecords))
                 ..show(context);
             },
             child: ListTile(
               leading: FaIcon(FontAwesomeIcons.fileImport),
-              title: Text('Import approaches'.i18n),
+              title: Text('Import interactions'.i18n),
             ),
           ),
           // ListTile(

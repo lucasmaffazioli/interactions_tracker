@@ -1,17 +1,17 @@
 import 'dart:convert';
 
-import 'package:cold_app/domain/entities/approach/point_entity.dart';
+import 'package:cold_app/domain/entities/interaction/point_entity.dart';
 import 'package:flutter/foundation.dart';
 
-class ApproachEntity {
+class InteractionEntity {
   final int id;
   final DateTime dateTime;
   final String name;
   final String description;
   final String notes;
-  final List<ApproachPointEntity> points;
+  final List<InteractionPointEntity> points;
 
-  ApproachEntity({
+  InteractionEntity({
     @required this.id,
     @required this.dateTime,
     @required this.name,
@@ -45,7 +45,7 @@ class ApproachEntity {
         'points': points.map((e) => e.toMap()).toList(),
       };
 
-  factory ApproachEntity.fromMap(Map<String, dynamic> map) {
+  factory InteractionEntity.fromMap(Map<String, dynamic> map) {
     List<PointEntity> points = [];
     List pointsMap = map['points'];
 
@@ -55,7 +55,7 @@ class ApproachEntity {
       points.add(PointEntity.fromMap(e));
     });
 
-    return new ApproachEntity(
+    return new InteractionEntity(
       id: map['id'],
       dateTime: DateTime.parse(map['dateTime']),
       name: map['name'],
@@ -66,9 +66,9 @@ class ApproachEntity {
   }
 }
 
-class ApproachPointEntity extends PointEntity {
+class InteractionPointEntity extends PointEntity {
   final int value;
-  ApproachPointEntity({
+  InteractionPointEntity({
     @required id,
     @required name,
     @required this.value,

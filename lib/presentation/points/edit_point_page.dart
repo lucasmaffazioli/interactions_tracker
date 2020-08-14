@@ -2,7 +2,7 @@ import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/presentation/common/on_will_pop_helper.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/domain/usecases/point_usecases.dart';
-import 'package:cold_app/presentation/add_approach_page/form_input/text_form_input.dart';
+import 'package:cold_app/presentation/add_interaction_page/form_input/text_form_input.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';

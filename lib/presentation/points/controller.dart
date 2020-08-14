@@ -1,5 +1,5 @@
 import 'package:cold_app/core/enums/PointType.dart';
-import 'package:cold_app/domain/entities/approach/point_entity.dart';
+import 'package:cold_app/domain/entities/interaction/point_entity.dart';
 import 'package:cold_app/domain/usecases/point_usecases.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';

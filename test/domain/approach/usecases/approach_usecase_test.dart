@@ -1,28 +1,28 @@
-// import 'package:cold_app/domain/usecases/approach_usecases.dart';
+// import 'package:cold_app/domain/usecases/interaction_usecases.dart';
 // import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  // Approach approach = testGetApproach();
+  // Interaction interaction = testGetInteraction();
 
-  // test('set, read, delete approach', () async {
-  //   // SetApproach().call('unit test uid', approach);
-  //   // Approach savedApproach = await GetApproach().call('unit test uid');
-  //   // print('savedApproach');
-  //   // print(savedApproach);
-  //   // print(savedApproach.toMap());
+  // test('set, read, delete interaction', () async {
+  //   // SetInteraction().call('unit test uid', interaction);
+  //   // Interaction savedInteraction = await GetInteraction().call('unit test uid');
+  //   // print('savedInteraction');
+  //   // print(savedInteraction);
+  //   // print(savedInteraction.toMap());
   // });
-  // test('get all approaches', () {
-  //   // SetApproach().call('unit test uid', approach);
-  //   // dynamic savedApproach = GetAllApproaches().call('unit test uid');
-  //   // print(savedApproach);
+  // test('get all interactions', () {
+  //   // SetInteraction().call('unit test uid', interaction);
+  //   // dynamic savedInteraction = GetAllInteractions().call('unit test uid');
+  //   // print(savedInteraction);
   // });
 
-  // test('GetAllApproachesDashboardDataFuture', () async {
-  //   List<WeekNumber> list = await GetAllApproachesDashboardDataFuture().call();
+  // test('GetAllInteractionsDashboardDataFuture', () async {
+  //   List<WeekNumber> list = await GetAllInteractionsDashboardDataFuture().call();
 
   //   print(list);
-  //   // SetApproach().call('unit test uid', approach);
-  //   // dynamic savedApproach = GetAllApproaches().call('unit test uid');
-  //   // print(savedApproach);
+  //   // SetInteraction().call('unit test uid', interaction);
+  //   // dynamic savedInteraction = GetAllInteractions().call('unit test uid');
+  //   // print(savedInteraction);
   // });
 }

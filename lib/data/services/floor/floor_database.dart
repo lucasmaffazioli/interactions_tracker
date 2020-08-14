@@ -2,28 +2,28 @@ import 'package:cold_app/data/models/misc/config_model.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'dart:async';
 
-import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_views.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
 import 'package:cold_app/data/services/floor/dao.dart';
 import 'package:floor/floor.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
-import '../../models/approach/approach_model.dart';
-import '../../models/approach/approach_points_model.dart';
-import '../../models/approach/point_model.dart';
+import '../../models/interaction/interaction_model.dart';
+import '../../models/interaction/interaction_points_model.dart';
+import '../../models/interaction/point_model.dart';
 import 'dao.dart';
 part 'floor_database.g.dart';
 
 @Database(
     version: 1,
-    entities: [ApproachModel, ApproachPointsModel, PointModel, GoalsModel, ConfigModel],
-    views: [ApproachSummaryView, ApproachPointsView])
+    entities: [InteractionModel, InteractionPointsModel, PointModel, GoalsModel, ConfigModel],
+    views: [InteractionSummaryView, InteractionPointsView])
 abstract class AppDatabase extends FloorDatabase {
-  ApproachModelDao get approachModelDao;
+  InteractionModelDao get interactionModelDao;
   PointModelDao get pointModelDao;
-  ApproachPointsModelDao get approachPointsModelDao;
-  ApproachSummaryDao get approachSummaryDao;
-  ApproachPointsViewDao get approachPointsViewDao;
+  InteractionPointsModelDao get interactionPointsModelDao;
+  InteractionSummaryDao get interactionSummaryDao;
+  InteractionPointsViewDao get interactionPointsViewDao;
   GoalsModelDao get goalsModelDao;
   ConfigModelDao get configModelDao;
   // MiscDao get miscDao;
@@ -33,8 +33,8 @@ abstract class AppDatabase extends FloorDatabase {
 // - Some helpers
 //
 void resetDatabase(database) async {
-  // await _resetTable(database, 'approach_points');
-  // await _resetTableWithAutoIncrement(database, 'approach');
+  // await _resetTable(database, 'interaction_points');
+  // await _resetTableWithAutoIncrement(database, 'interaction');
   // await _resetTableWithAutoIncrement(database, 'point');
 }
 
@@ -96,7 +96,7 @@ void initializeDatabase(AppDatabase database) async {
         "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Attraction'.i18n}', 'PointType.attraction', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
         "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Result'.i18n}', 'PointType.result', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
-    database.database.rawQuery("INSERT INTO goals(id, weeklyApproachGoal) VALUES('1', 10);");
+    database.database.rawQuery("INSERT INTO goals(id, weeklyInteractionGoal) VALUES('1', 10);");
     print('First DB use configured');
     await database.configModelDao.insertConfigModel(ConfigModel(lastRunVersion: 1));
   }

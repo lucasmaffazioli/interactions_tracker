@@ -1,22 +1,22 @@
-import 'package:cold_app/data/models/approach/approach_points_model.dart';
-import 'package:cold_app/data/models/approach/approach_views.dart';
-import 'package:cold_app/data/models/approach/dashboard.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_points_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_views.dart';
+import 'package:cold_app/data/models/interaction/dashboard.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
 import 'package:cold_app/data/models/misc/config_model.dart';
 
 import '../../../locator.dart';
-import '../../models/approach/approach_model.dart';
-import '../../models/approach/point_model.dart';
+import '../../models/interaction/interaction_model.dart';
+import '../../models/interaction/point_model.dart';
 import 'floor_database.dart';
 import 'dao.dart';
 
 class FloorGateway {
   AppDatabase database;
   PointModelDao pointDao;
-  ApproachModelDao approachDao;
-  ApproachPointsModelDao approachPointsDao;
-  ApproachSummaryDao approachSummaryDao;
-  ApproachPointsViewDao approachPointsViewDao;
+  InteractionModelDao interactionDao;
+  InteractionPointsModelDao interactionPointsDao;
+  InteractionSummaryDao interactionSummaryDao;
+  InteractionPointsViewDao interactionPointsViewDao;
   GoalsModelDao goalsModelDao;
   ConfigModelDao configModelDao;
   // MiscDao miscDao;
@@ -25,10 +25,10 @@ class FloorGateway {
     // database = await locator.get<LocatorDatabase>().getDatabase();
     database = await locator.get<AppDatabase>();
     pointDao = database.pointModelDao;
-    approachDao = database.approachModelDao;
-    approachPointsDao = database.approachPointsModelDao;
-    approachSummaryDao = database.approachSummaryDao;
-    approachPointsViewDao = database.approachPointsViewDao;
+    interactionDao = database.interactionModelDao;
+    interactionPointsDao = database.interactionPointsModelDao;
+    interactionSummaryDao = database.interactionSummaryDao;
+    interactionPointsViewDao = database.interactionPointsViewDao;
     goalsModelDao = database.goalsModelDao;
     configModelDao = database.configModelDao;
     // miscDao = database.miscDao;
@@ -88,73 +88,73 @@ class PointFloorGateway extends FloorGateway {
   // }
 }
 
-class ApproachFloorGateway extends FloorGateway {
-  Future<int> insertApproach(ApproachModel approach) async {
+class InteractionFloorGateway extends FloorGateway {
+  Future<int> insertInteraction(InteractionModel interaction) async {
     await _setUp();
     //
-    await approachDao.insertApproach(approach);
+    await interactionDao.insertInteraction(interaction);
     //
     List<Map<String, dynamic>> a = await database.database.rawQuery('SELECT last_insert_rowid()');
 
     return a[0]["last_insert_rowid()"];
   }
 
-  void updateApproach(ApproachModel approach) async {
+  void updateInteraction(InteractionModel interaction) async {
     await _setUp();
     //
-    await approachDao.updateApproach(approach);
+    await interactionDao.updateInteraction(interaction);
   }
 
-  Future<List<ApproachModel>> getAllApproaches() async {
+  Future<List<InteractionModel>> getAllInteractions() async {
     await _setUp();
     //
-    return await approachDao.findAllApproachModels();
+    return await interactionDao.findAllInteractionModels();
   }
 
-  Future<List<ApproachModel>> getLast30Approaches() async {
+  Future<List<InteractionModel>> getLast30Interactions() async {
     await _setUp();
     //
-    return await approachDao.findLast30Approaches();
+    return await interactionDao.findLast30Interactions();
   }
 
-  Future<ApproachModel> getApproachById(int id) async {
+  Future<InteractionModel> getInteractionById(int id) async {
     await _setUp();
     //
-    ApproachModel approach = await approachDao.findApproachModelById(id);
-    return approach;
+    InteractionModel interaction = await interactionDao.findInteractionModelById(id);
+    return interaction;
   }
 
-  Future<void> deleteApproach(ApproachModel approach) async {
+  Future<void> deleteInteraction(InteractionModel interaction) async {
     await _setUp();
     //
-    return approachDao.deleteApproach(approach);
+    return interactionDao.deleteInteraction(interaction);
   }
 
-  // Future<int> findLastInsertedApproach() async {
+  // Future<int> findLastInsertedInteraction() async {
   //   await _setUp();
   //   //
   //   List<Map<String, dynamic>> a = await database.database.rawQuery('SELECT last_insert_rowid()');
 
   //   return a[0]["last_insert_rowid()"];
   // }
-  Future<dynamic> getApproachesDashboardData(initialDate, finalDate) async {
+  Future<dynamic> getInteractionsDashboardData(initialDate, finalDate) async {
     await _setUp();
-    // return approachDao.getApproachesDashboardData(initialDate, finalDate);
+    // return interactionDao.getInteractionsDashboardData(initialDate, finalDate);
   }
 
-  Future<int> findApproachesCountByDateInterval(DateTime initialDate, DateTime finalDate) async {
+  Future<int> findInteractionsCountByDateInterval(DateTime initialDate, DateTime finalDate) async {
     await _setUp();
     //
     int returnValue = 0;
 
     await database.database.rawQuery('''
-       SELECT count(*) AS approaches
-        FROM approach 
+       SELECT count(*) AS interactions
+        FROM interaction 
           WHERE dateTime >= :initialDate AND dateTime <= :finalDate
       ''', [initialDate.toIso8601String(), finalDate.toIso8601String()]).then(
       (value) => value.forEach(
         (element) {
-          returnValue = DashboardApproachesCountModel.fromMap(element).approaches;
+          returnValue = DashboardInteractionsCountModel.fromMap(element).interactions;
         },
       ),
     );
@@ -170,8 +170,8 @@ class ApproachFloorGateway extends FloorGateway {
 
     await database.database.rawQuery('''
         SELECT ap.pointId, p.name AS pointName, AVG(ap.value) AS pointAvg, p.pointType
-          FROM approach a
-          INNER JOIN approach_points ap ON a.id = ap.approachId
+          FROM interaction a
+          INNER JOIN interaction_points ap ON a.id = ap.interactionId
           INNER JOIN point p ON p.id = ap.pointId
             WHERE dateTime >= :initialDate AND dateTime <= :finalDate
           GROUP BY ap.pointId, pointName, pointType
@@ -184,57 +184,59 @@ class ApproachFloorGateway extends FloorGateway {
         },
       ),
     );
-    // return await miscDao.findApproachesDashboardDataByInterval(
+    // return await miscDao.findInteractionsDashboardDataByInterval(
     //     initialDate.toIso8601String(), finalDate.toIso8601String());
     return returnList;
   }
 }
 
-class ApproachPointsFloorGateway extends FloorGateway {
-  void insertApproachPoints(ApproachPointsModel approach) async {
+class InteractionPointsFloorGateway extends FloorGateway {
+  void insertInteractionPoints(InteractionPointsModel interaction) async {
     await _setUp();
     //
-    await approachPointsDao.insertApproachPoints(approach);
+    await interactionPointsDao.insertInteractionPoints(interaction);
   }
 
-  void updateApproachPoints(ApproachPointsModel approach) async {
+  void updateInteractionPoints(InteractionPointsModel interaction) async {
     await _setUp();
     //
-    await approachPointsDao.updateApproachPoints(approach);
+    await interactionPointsDao.updateInteractionPoints(interaction);
   }
 
-  Future<List<ApproachPointsModel>> findApproachPointsByApproachId(int approachId) async {
+  Future<List<InteractionPointsModel>> findInteractionPointsByInteractionId(
+      int interactionId) async {
     await _setUp();
     //
-    return await approachPointsDao.findApproachPointsByApproachId(approachId);
+    return await interactionPointsDao.findInteractionPointsByInteractionId(interactionId);
   }
 
-  void deleteApproachPointsByApproachId(int approachId) async {
+  void deleteInteractionPointsByInteractionId(int interactionId) async {
     await _setUp();
     //
-    approachPointsDao.deleteApproachPointsByApproachId(approachId);
+    interactionPointsDao.deleteInteractionPointsByInteractionId(interactionId);
   }
 }
 
-class ApproachSummaryViewFloorGateway extends FloorGateway {
-  Future<List<ApproachSummaryView>> findApproachesSummary() async {
+class InteractionSummaryViewFloorGateway extends FloorGateway {
+  Future<List<InteractionSummaryView>> findInteractionsSummary() async {
     await _setUp();
     //
-    return await approachSummaryDao.findApproachesSummary();
+    return await interactionSummaryDao.findInteractionsSummary();
   }
 
-  Stream<List<ApproachSummaryView>> findApproachesSummaryStream() {
+  Stream<List<InteractionSummaryView>> findInteractionsSummaryStream() {
     // _setUp();
     //
-    return locator.get<AppDatabase>().approachSummaryDao.findApproachesSummaryStream();
+    return locator.get<AppDatabase>().interactionSummaryDao.findInteractionsSummaryStream();
   }
 }
 
-class ApproachPointsViewFloorGateway extends FloorGateway {
-  Future<List<ApproachPointsView>> findApproachesPointsByApproachId(int approachId) async {
+class InteractionPointsViewFloorGateway extends FloorGateway {
+  Future<List<InteractionPointsView>> findInteractionsPointsByInteractionId(
+      int interactionId) async {
     await _setUp();
     //
-    return await approachPointsViewDao.findApproachesPointsByApproachId(approachId);
+    return await interactionPointsViewDao.findInteractionsPointsByInteractionId(interactionId);
   }
 }
 
@@ -266,12 +268,12 @@ class ConfigModelFloorGateway extends FloorGateway {
   }
 }
 
-// class ApproachesDashboardDataViewGateway extends FloorGateway {
-//   Future<List<ApproachesDashboardDataView>> findDashboardDataByDateInterval(
+// class InteractionsDashboardDataViewGateway extends FloorGateway {
+//   Future<List<InteractionsDashboardDataView>> findDashboardDataByDateInterval(
 //       DateTime initialDate, DateTime finalDate) async {
 //     await _setUp();
 //     //
-//     return await dashboardDataViewDao.findApproachesDashboardDataByInterval(
+//     return await dashboardDataViewDao.findInteractionsDashboardDataByInterval(
 //         initialDate.toIso8601String(), finalDate.toIso8601String());
 //   }
 // }

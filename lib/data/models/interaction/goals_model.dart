@@ -5,17 +5,17 @@ import 'package:floor/floor.dart';
 class GoalsModel {
   @PrimaryKey(autoGenerate: true)
   final int id = 1;
-  final int weeklyApproachGoal;
+  final int weeklyInteractionGoal;
 
-  GoalsModel(this.weeklyApproachGoal) {
-    if (weeklyApproachGoal == null || weeklyApproachGoal > 100 || weeklyApproachGoal < 1)
+  GoalsModel(this.weeklyInteractionGoal) {
+    if (weeklyInteractionGoal == null || weeklyInteractionGoal > 100 || weeklyInteractionGoal < 1)
       throw ArgumentError('Error!');
   }
 
   String toJson() {
     return json.encode({
       'id': id.toString(),
-      'weeklyApproachGoal': weeklyApproachGoal.toString(),
+      'weeklyInteractionGoal': weeklyInteractionGoal.toString(),
     });
   }
 }

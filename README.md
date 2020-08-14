@@ -5,7 +5,7 @@
 - Clean separation of DATA layer
 
 # TODO:
-- Two graphs, one simple and informative, another with the last 30 or so approaches with great detail, to actually realize the data of every approach
+- Two graphs, one simple and informative, another with the last 30 or so interactions with great detail, to actually realize the data of every interaction
 	https://stackoverflow.com/questions/46341281/optimal-display-for-overlapping-series-in-a-line-chart
 	https://uxplanet.org/data-heavy-applications-how-to-design-perfect-charts-c0c893fef6de
 	https://uxdesign.cc/designing-charts-principles-every-designer-should-know-part-2-ce1e06af56fc
@@ -13,7 +13,7 @@
 - Trazer erros do backend / data layer / domain layer
 - Criar gráficos
 - Export/import more stuff
-- Abordagens? Interações soa bem melhor
+- Interações? Interações soa bem melhor
 - Dashboard deve atualizar com Provider ou algo assim
 	Ao alterar objetivo, dashboard não atualiza automaticamente
 - Criar forma de lockar o app com senha
@@ -32,8 +32,8 @@ await Future.delayed(Duration(seconds: 1));
 
 
 
-Script para renomear de approaches para interaction
-- Approaches to Interactions
-- approaches to interactions
-- Approach to Interaction
-- approach to interaction
+Script para renomear de interactions para interaction
+- Interactions to Interactions
+- interactions to interactions
+- Interaction to Interaction
+- interaction to interaction

@@ -1,5 +1,5 @@
-import 'package:cold_app/presentation/add_approach_page/add_approach_page.dart';
-import 'package:cold_app/presentation/approaches_page/approaches_page.dart';
+import 'package:cold_app/presentation/add_interaction_page/add_interaction_page.dart';
+import 'package:cold_app/presentation/interactions_page/interactions_page.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/dashboard/dashboard_page.dart';
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     defaultBaseAppBar = BaseAppBar(
-      'Approaches'.i18n,
+      'Interactions'.i18n,
       actions: <Widget>[
         IconButton(
           icon: const FaIcon(
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
         onPressed: (() async {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddApproachPage()),
+            MaterialPageRoute(builder: (context) => AddInteractionPage()),
           ).then((value) {
             setState(() {});
           });
@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         children: <Widget>[
           DashboardPage(),
-          ApproachesPage(changeAppBar: _changeBaseAppBar, defaultAppBar: defaultBaseAppBar),
+          InteractionsPage(changeAppBar: _changeBaseAppBar, defaultAppBar: defaultBaseAppBar),
         ],
         index: _selectedIndex,
       ),
@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                 FontAwesomeIcons.list,
               ),
               title: Text(
-                'Approaches'.i18n,
+                'Interactions'.i18n,
               ),
             ),
           ],

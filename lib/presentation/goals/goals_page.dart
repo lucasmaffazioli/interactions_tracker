@@ -1,7 +1,7 @@
 import 'package:cold_app/presentation/common/translations.i18n.dart';
-import 'package:cold_app/data/models/approach/goals_model.dart';
+import 'package:cold_app/data/models/interaction/goals_model.dart';
 import 'package:cold_app/domain/usecases/goals_usecases.dart';
-import 'package:cold_app/presentation/add_approach_page/form_input/text_form_input.dart';
+import 'package:cold_app/presentation/add_interaction_page/form_input/text_form_input.dart';
 import 'package:cold_app/presentation/common/base_app_bar.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:cold_app/presentation/common/large_button.dart';
@@ -51,8 +51,8 @@ class GoalsPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
               child: TextFormInput(
                 textInputType: TextInputType.number,
-                initialValue: goalsModel.weeklyApproachGoal.toString(),
-                title: 'Weekly approaches'.i18n + ' *',
+                initialValue: goalsModel.weeklyInteractionGoal.toString(),
+                title: 'Weekly interactions'.i18n + ' *',
                 validator: _weeklyGoalsValidator,
                 onSave: ((value) {
                   SaveGoals().call(int.parse(value));

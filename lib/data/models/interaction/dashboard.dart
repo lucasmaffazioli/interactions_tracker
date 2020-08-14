@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class DashboardApproachesCountModel {
-  final int approaches;
+class DashboardInteractionsCountModel {
+  final int interactions;
 
-  DashboardApproachesCountModel.fromMap(Map map) : this.approaches = map["approaches"];
+  DashboardInteractionsCountModel.fromMap(Map map) : this.interactions = map["interactions"];
 
   String toJson() {
     return json.encode({
-      'approaches': approaches,
+      'interactions': interactions,
     });
   }
 }

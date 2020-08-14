@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:floor/floor.dart';
 
 @Entity(
-  tableName: 'approach',
+  tableName: 'interaction',
 )
-class ApproachModel {
+class InteractionModel {
   @PrimaryKey(autoGenerate: true)
   final int id;
   final String dateTime;
@@ -14,7 +14,7 @@ class ApproachModel {
   final String description;
   final String notes;
 
-  ApproachModel({
+  InteractionModel({
     this.id,
     @required this.dateTime,
     @required this.name,

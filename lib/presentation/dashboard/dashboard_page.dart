@@ -23,7 +23,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    Future<SimpleGraphsData> simpleGraphsDataFuture = controller.getApproachesSimpleData();
+    Future<SimpleGraphsData> simpleGraphsDataFuture = controller.getInteractionsSimpleData();
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -45,7 +45,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     return Column(
                       children: <Widget>[
                         ChartVertical(
-                          maxY: simpleGraphsData.maxApproachesDay.toDouble(),
+                          maxY: simpleGraphsData.maxInteractionsDay.toDouble(),
                           title: 'Week'.i18n,
                           listData: <ChartLineData>[
                             ChartLineData(
@@ -95,13 +95,13 @@ class _DashboardPageState extends State<DashboardPage> {
                         ModernPies(
                           centerPieValue: PieValue(
                               totalValue: simpleGraphsData.monthGoal,
-                              currentValue: simpleGraphsData.monthTotalApproaches),
+                              currentValue: simpleGraphsData.monthTotalInteractions),
                           leftPieValue: PieValue(
                               totalValue: simpleGraphsData.weekGoal,
-                              currentValue: simpleGraphsData.weekTotalApproaches),
+                              currentValue: simpleGraphsData.weekTotalInteractions),
                           rightPieValue: PieValue(
                               totalValue: simpleGraphsData.dayGoal,
-                              currentValue: simpleGraphsData.dayTotalApproaches),
+                              currentValue: simpleGraphsData.dayTotalInteractions),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

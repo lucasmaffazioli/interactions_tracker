@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:cold_app/data/models/approach/approach_model.dart';
+import 'package:cold_app/data/models/interaction/interaction_model.dart';
 import 'package:cold_app/presentation/common/constants.dart';
 import 'package:floor/floor.dart';
 import 'package:flutter/foundation.dart';
@@ -8,13 +8,13 @@ import 'package:flutter/foundation.dart';
 import 'point_model.dart';
 
 @Entity(
-  tableName: 'approach_points',
-  primaryKeys: ['approachId', 'pointId'],
+  tableName: 'interaction_points',
+  primaryKeys: ['interactionId', 'pointId'],
   foreignKeys: [
     ForeignKey(
-      childColumns: ['approachId'],
+      childColumns: ['interactionId'],
       parentColumns: ['id'],
-      entity: ApproachModel,
+      entity: InteractionModel,
       onDelete: ForeignKeyAction.cascade,
     ),
     ForeignKey(
@@ -25,17 +25,17 @@ import 'point_model.dart';
     )
   ],
 )
-class ApproachPointsModel {
-  final int approachId;
+class InteractionPointsModel {
+  final int interactionId;
   final int pointId;
   final int value;
 
-  ApproachPointsModel({
-    @required this.approachId,
+  InteractionPointsModel({
+    @required this.interactionId,
     @required this.pointId,
     @required this.value,
   }) {
-    if (approachId == null) throw ArgumentError('Error!');
+    if (interactionId == null) throw ArgumentError('Error!');
     if (pointId == null) throw ArgumentError('Error!');
     if (value == null) throw ArgumentError('Error!');
     if (value < Constants.minPoints || value > Constants.maxPoints) throw ArgumentError('Error!');
@@ -43,7 +43,7 @@ class ApproachPointsModel {
 
   String toJson() {
     return json.encode({
-      'approachId': approachId.toString(),
+      'interactionId': interactionId.toString(),
       'pointId': pointId.toString(),
       'value': value.toString(),
     });
