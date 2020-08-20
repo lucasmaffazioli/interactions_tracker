@@ -128,7 +128,6 @@ class ExportAllInteractionsJson {
 
 class ImportInteractionsJson {
   Future<int> call() async {
-    // List<Map<dynamic>> listMap;
     final String source = await Storage().readExternalFile('Interactions.json');
 
     final List<dynamic> listMap = json.decode(source);
