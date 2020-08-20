@@ -92,7 +92,8 @@ class _InteractionsPageState extends State<InteractionsPage> {
   }
 
   _deleteSelectedInteractions() async {
-    int totalDeleted = await controller.deleteInteractions(selectedItems);
+    await controller.deleteInteractions(selectedItems);
+
     // print('Total deleted items');
     // print(totalDeleted);
   }
@@ -102,10 +103,6 @@ class _InteractionsPageState extends State<InteractionsPage> {
     return StreamBuilder<List<InteractionSummaryPresentation>>(
       stream: stream,
       builder: (context, AsyncSnapshot<List<InteractionSummaryPresentation>> snapshot) {
-        // print('projectconnection state is: ${snapshot.connectionState}');
-        // print('project snapshot data is: ${snapshot.data}');
-        // print('project has error is: ${snapshot.hasError} - ${snapshot.error.toString()}');
-        // print('project has data is: ${snapshot.hasData.toString()}');
         if (snapshot.hasError) {
           return Container(child: Text(snapshot.error.toString()));
         }
@@ -123,8 +120,6 @@ class _InteractionsPageState extends State<InteractionsPage> {
         }
 
         items = snapshot.data ?? [];
-        // print('items');
-        // print(items);
         return ListView.builder(
           itemCount: items.length,
           itemBuilder: (context, index) {

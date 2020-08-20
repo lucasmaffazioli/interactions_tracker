@@ -223,7 +223,7 @@ extension Localization on String {
         "pt": "Código",
       } +
       {
-        "en": "%d interaction(es) imported",
+        "en": "%d interaction(s) imported",
         "pt": "%d interação(ões) importadas",
       } +
       {

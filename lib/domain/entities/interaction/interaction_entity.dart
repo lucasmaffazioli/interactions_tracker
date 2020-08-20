@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cold_app/core/enums/PointType.dart';
 import 'package:cold_app/domain/entities/interaction/point_entity.dart';
 import 'package:flutter/foundation.dart';
 
@@ -46,13 +47,13 @@ class InteractionEntity {
       };
 
   factory InteractionEntity.fromMap(Map<String, dynamic> map) {
-    List<PointEntity> points = [];
+    List<InteractionPointEntity> points = [];
     List pointsMap = map['points'];
 
     pointsMap.forEach((e) {
-      print('PointEntity.fromMap(e).toJson()');
-      print(PointEntity.fromMap(e).toJson());
-      points.add(PointEntity.fromMap(e));
+      print('InteractionPointEntity.fromMap(e).toJson()');
+      print(InteractionPointEntity.fromMap(e).toJson());
+      points.add(InteractionPointEntity.fromMap(e));
     });
 
     return new InteractionEntity(
@@ -100,4 +101,18 @@ class InteractionPointEntity extends PointEntity {
         'item4': item4,
         'item5': item5,
       };
+
+  factory InteractionPointEntity.fromMap(Map<String, dynamic> map) {
+    return new InteractionPointEntity(
+      id: map['id'],
+      name: map['name'],
+      value: map['value'],
+      pointType: getPointTypeFromCompleteString(map['pointType']),
+      item1: map['item1'],
+      item2: map['item2'],
+      item3: map['item3'],
+      item4: map['item4'],
+      item5: map['item5'],
+    );
+  }
 }

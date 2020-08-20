@@ -1,5 +1,4 @@
 import 'package:cold_app/presentation/common/on_will_pop_helper.dart';
-import 'package:cold_app/presentation/common/show_delete_confirmation.dart';
 import 'package:cold_app/presentation/common/snack_bar.dart';
 import 'package:cold_app/presentation/common/translations.i18n.dart';
 import 'package:cold_app/presentation/add_interaction_page/controller.dart';

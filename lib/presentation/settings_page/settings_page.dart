@@ -61,7 +61,7 @@ class SettingsPage extends StatelessWidget {
             onTap: () async {
               final int importedRecords = await controller.import();
               SnackBarHelper.createInformation(
-                  message: '%d interaction(es) imported'.plural(importedRecords))
+                  message: '%d interaction(s) imported'.plural(importedRecords))
                 ..show(context);
             },
             child: ListTile(
