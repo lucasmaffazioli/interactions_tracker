@@ -271,8 +271,8 @@ extension Localization on String {
         "pt": "Coragem",
       } +
       {
-        "en": "My own styling",
-        "pt": "Meu estilo de roupas",
+        "en": "My appearence",
+        "pt": "Minha aparência",
       } +
       {
         "en": "Confidence",

@@ -26,7 +26,7 @@ await Future.delayed(Duration(seconds: 1));
 
 # FEATURES
 - Two languages (pt-BR, en-US);
-- Resultado deve ser medido com SUCESSO. Isso pode ser resolvido dando a oportunidade ao usuario alterar o que cada ponto significa.
+- Resultado deve ser medido com SUCESSO. (Likert scale)
 - Backup
 
 

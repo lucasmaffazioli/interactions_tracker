@@ -87,7 +87,7 @@ void initializeDatabase(AppDatabase database) async {
     database.database.rawQuery(
         "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Boldness'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
-        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'My own styling'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
+        "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'My appearence'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
         "INSERT INTO Point(name, pointType, item1, item2, item3, item4, item5) VALUES('${'Confidence'.i18n}', 'PointType.skill', '${'Weak'.i18n}', '${'Somewhat weak'.i18n}', '${'Neither'.i18n}', '${'Somewhat strong'.i18n}', '${'Strong'.i18n}');");
     database.database.rawQuery(
