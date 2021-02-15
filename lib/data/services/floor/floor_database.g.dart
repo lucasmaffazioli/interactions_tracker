@@ -211,14 +211,6 @@ class _$InteractionModelDao extends InteractionModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _interactionMapper = (Map<String, dynamic> row) =>
-      InteractionModel(
-          id: row['id'] as int,
-          dateTime: row['dateTime'] as String,
-          name: row['name'] as String,
-          description: row['description'] as String,
-          notes: row['notes'] as String);
-
   final InsertionAdapter<InteractionModel> _interactionModelInsertionAdapter;
 
   final UpdateAdapter<InteractionModel> _interactionModelUpdateAdapter;
@@ -228,20 +220,36 @@ class _$InteractionModelDao extends InteractionModelDao {
   @override
   Future<List<InteractionModel>> findAllInteractionModels() async {
     return _queryAdapter.queryList('SELECT * FROM interaction',
-        mapper: _interactionMapper);
+        mapper: (Map<String, dynamic> row) => InteractionModel(
+            id: row['id'] as int,
+            dateTime: row['dateTime'] as String,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            notes: row['notes'] as String));
   }
 
   @override
   Future<InteractionModel> findInteractionModelById(int id) async {
     return _queryAdapter.query('SELECT * FROM interaction WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _interactionMapper);
+        arguments: <dynamic>[id],
+        mapper: (Map<String, dynamic> row) => InteractionModel(
+            id: row['id'] as int,
+            dateTime: row['dateTime'] as String,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            notes: row['notes'] as String));
   }
 
   @override
   Future<List<InteractionModel>> findLast30Interactions() async {
     return _queryAdapter.queryList(
         'SELECT * FROM interaction ORDER BY dateTime DESC LIMIT 30',
-        mapper: _interactionMapper);
+        mapper: (Map<String, dynamic> row) => InteractionModel(
+            id: row['id'] as int,
+            dateTime: row['dateTime'] as String,
+            name: row['name'] as String,
+            description: row['description'] as String,
+            notes: row['notes'] as String));
   }
 
   @override
@@ -316,16 +324,6 @@ class _$PointModelDao extends PointModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _pointMapper = (Map<String, dynamic> row) => PointModel(
-      id: row['id'] as int,
-      name: row['name'] as String,
-      pointType: row['pointType'] as String,
-      item1: row['item1'] as String,
-      item2: row['item2'] as String,
-      item3: row['item3'] as String,
-      item4: row['item4'] as String,
-      item5: row['item5'] as String);
-
   final InsertionAdapter<PointModel> _pointModelInsertionAdapter;
 
   final UpdateAdapter<PointModel> _pointModelUpdateAdapter;
@@ -336,13 +334,30 @@ class _$PointModelDao extends PointModelDao {
   Future<List<PointModel>> findAllPointModels() async {
     return _queryAdapter.queryList(
         'SELECT * FROM point ORDER BY pointType, name',
-        mapper: _pointMapper);
+        mapper: (Map<String, dynamic> row) => PointModel(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            pointType: row['pointType'] as String,
+            item1: row['item1'] as String,
+            item2: row['item2'] as String,
+            item3: row['item3'] as String,
+            item4: row['item4'] as String,
+            item5: row['item5'] as String));
   }
 
   @override
   Future<PointModel> findPointModelById(int id) async {
     return _queryAdapter.query('SELECT * FROM point WHERE id = ?',
-        arguments: <dynamic>[id], mapper: _pointMapper);
+        arguments: <dynamic>[id],
+        mapper: (Map<String, dynamic> row) => PointModel(
+            id: row['id'] as int,
+            name: row['name'] as String,
+            pointType: row['pointType'] as String,
+            item1: row['item1'] as String,
+            item2: row['item2'] as String,
+            item3: row['item3'] as String,
+            item4: row['item4'] as String,
+            item5: row['item5'] as String));
   }
 
   @override
@@ -396,12 +411,6 @@ class _$InteractionPointsModelDao extends InteractionPointsModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _interaction_pointsMapper = (Map<String, dynamic> row) =>
-      InteractionPointsModel(
-          interactionId: row['interactionId'] as int,
-          pointId: row['pointId'] as int,
-          value: row['value'] as int);
-
   final InsertionAdapter<InteractionPointsModel>
       _interactionPointsModelInsertionAdapter;
 
@@ -414,7 +423,10 @@ class _$InteractionPointsModelDao extends InteractionPointsModelDao {
     return _queryAdapter.query(
         'SELECT * FROM interaction_points WHERE interactionId = ? AND pointId = ?',
         arguments: <dynamic>[interactionId, pointId],
-        mapper: _interaction_pointsMapper);
+        mapper: (Map<String, dynamic> row) => InteractionPointsModel(
+            interactionId: row['interactionId'] as int,
+            pointId: row['pointId'] as int,
+            value: row['value'] as int));
   }
 
   @override
@@ -423,7 +435,10 @@ class _$InteractionPointsModelDao extends InteractionPointsModelDao {
     return _queryAdapter.queryList(
         'SELECT * FROM interaction_points WHERE interactionId = ?',
         arguments: <dynamic>[interactionId],
-        mapper: _interaction_pointsMapper);
+        mapper: (Map<String, dynamic> row) => InteractionPointsModel(
+            interactionId: row['interactionId'] as int,
+            pointId: row['pointId'] as int,
+            value: row['value'] as int));
   }
 
   @override
@@ -466,21 +481,18 @@ class _$InteractionSummaryDao extends InteractionSummaryDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _interaction_summary_viewMapper = (Map<String, dynamic> row) =>
-      InteractionSummaryView(
-          row['id'] as int,
-          row['name'] as String,
-          row['dateTime'] as String,
-          row['description'] as String,
-          row['difficulty'] as double,
-          row['skill'] as double,
-          row['attraction'] as double,
-          row['result'] as double);
-
   @override
   Future<List<InteractionSummaryView>> findInteractionsSummary() async {
     return _queryAdapter.queryList('SELECT * FROM interaction_summary_view',
-        mapper: _interaction_summary_viewMapper);
+        mapper: (Map<String, dynamic> row) => InteractionSummaryView(
+            row['id'] as int,
+            row['name'] as String,
+            row['dateTime'] as String,
+            row['description'] as String,
+            row['difficulty'] as double,
+            row['skill'] as double,
+            row['attraction'] as double,
+            row['result'] as double));
   }
 
   @override
@@ -489,7 +501,15 @@ class _$InteractionSummaryDao extends InteractionSummaryDao {
         'SELECT * FROM interaction_summary_view',
         queryableName: 'interaction_summary_view',
         isView: true,
-        mapper: _interaction_summary_viewMapper);
+        mapper: (Map<String, dynamic> row) => InteractionSummaryView(
+            row['id'] as int,
+            row['name'] as String,
+            row['dateTime'] as String,
+            row['description'] as String,
+            row['difficulty'] as double,
+            row['skill'] as double,
+            row['attraction'] as double,
+            row['result'] as double));
   }
 }
 
@@ -503,26 +523,23 @@ class _$InteractionPointsViewDao extends InteractionPointsViewDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _interaction_points_viewMapper = (Map<String, dynamic> row) =>
-      InteractionPointsView(
-          interactionId: row['interactionId'] as int,
-          pointId: row['pointId'] as int,
-          pointName: row['pointName'] as String,
-          pointValue: row['pointValue'] as int,
-          pointType: row['pointType'] as String,
-          item1: row['item1'] as String,
-          item2: row['item2'] as String,
-          item3: row['item3'] as String,
-          item4: row['item4'] as String,
-          item5: row['item5'] as String);
-
   @override
   Future<List<InteractionPointsView>> findInteractionsPointsByInteractionId(
       int interactionId) async {
     return _queryAdapter.queryList(
         'SELECT * FROM interaction_points_view WHERE interactionId = ?',
         arguments: <dynamic>[interactionId],
-        mapper: _interaction_points_viewMapper);
+        mapper: (Map<String, dynamic> row) => InteractionPointsView(
+            interactionId: row['interactionId'] as int,
+            pointId: row['pointId'] as int,
+            pointName: row['pointName'] as String,
+            pointValue: row['pointValue'] as int,
+            pointType: row['pointType'] as String,
+            item1: row['item1'] as String,
+            item2: row['item2'] as String,
+            item3: row['item3'] as String,
+            item4: row['item4'] as String,
+            item5: row['item5'] as String));
   }
 }
 
@@ -545,14 +562,13 @@ class _$GoalsModelDao extends GoalsModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _goalsMapper = (Map<String, dynamic> row) =>
-      GoalsModel(row['weeklyInteractionGoal'] as int);
-
   final UpdateAdapter<GoalsModel> _goalsModelUpdateAdapter;
 
   @override
   Future<GoalsModel> findGoalsModel() async {
-    return _queryAdapter.query('SELECT * FROM goals', mapper: _goalsMapper);
+    return _queryAdapter.query('SELECT * FROM goals',
+        mapper: (Map<String, dynamic> row) =>
+            GoalsModel(row['weeklyInteractionGoal'] as int));
   }
 
   @override
@@ -588,16 +604,15 @@ class _$ConfigModelDao extends ConfigModelDao {
 
   final QueryAdapter _queryAdapter;
 
-  static final _configMapper = (Map<String, dynamic> row) =>
-      ConfigModel(lastRunVersion: row['lastRunVersion'] as int);
-
   final InsertionAdapter<ConfigModel> _configModelInsertionAdapter;
 
   final UpdateAdapter<ConfigModel> _configModelUpdateAdapter;
 
   @override
   Future<ConfigModel> findConfigModel() async {
-    return _queryAdapter.query('SELECT * FROM config', mapper: _configMapper);
+    return _queryAdapter.query('SELECT * FROM config',
+        mapper: (Map<String, dynamic> row) =>
+            ConfigModel(lastRunVersion: row['lastRunVersion'] as int));
   }
 
   @override
