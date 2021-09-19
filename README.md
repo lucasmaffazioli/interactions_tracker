@@ -1,21 +1,11 @@
-# FEATURES
-- Two languages (pt-BR, en-US);
-- Resultado deve ser medido com SUCESSO. (Likert scale)
-- Backup
+# Interactions tracker
 
-# TODO:
-- Two graphs, one simple and informative, another with the last 30 or so interactions with great detail, to actually realize the data of every interaction
-	https://stackoverflow.com/questions/46341281/optimal-display-for-overlapping-series-in-a-line-chart
-	https://uxplanet.org/data-heavy-applications-how-to-design-perfect-charts-c0c893fef6de
-	https://uxdesign.cc/designing-charts-principles-every-designer-should-know-part-2-ce1e06af56fc
+This app was an idea I had to help a friend of my with social anxiety, a tool to gauge progress of putting yourself out here.
 
-- Trazer erros do backend / data layer / domain layer
-- Criar gráficos
-- Export/import more stuff
-
-## To run the code generator
-flutter packages pub run build_runner watch --delete-conflicting-outputs
-await Future.delayed(Duration(seconds: 1));
+This Flutter app sets objectives to interact with more people, allows you to track the interactions and the quality of them. The items which you can track are 100% customizable.
 
 
+https://user-images.githubusercontent.com/12513049/133938706-405c913a-1e42-47ed-93a2-2b0a22d2c30e.mp4
 
+
+Stack: Flutter, SQLite, Figma
